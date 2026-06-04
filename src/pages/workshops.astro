@@ -7,6 +7,7 @@ function isPublished(item: { published?: boolean }) {
 }
 
 const workshops = ((workshopsData as any).items || workshopsData).filter(isPublished);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Base title="Workshops — Jonas Haeg" page="workshops">
@@ -25,7 +26,7 @@ const workshops = ((workshopsData as any).items || workshopsData).filter(isPubli
         <li class="pub">
           <div class="yr">{w.year || ''}</div>
           <div>
-            <h3><a href={`/${w.id}`}>{w.title}</a></h3>
+            <h3><a href={`${base}/${w.id}`}>{w.title}</a></h3>
             <p class="venue">{metaParts.join(' · ')}.</p>
           </div>
         </li>

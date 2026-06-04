@@ -5,8 +5,9 @@ import frontPage from '../../data/front-page.json';
 import cvData from '../../data/cv.json';
 
 const bodyHtml = prepHtml(frontPage.text);
-// Portrait path is stored as "/assets/portrait.jpg" — keep the leading slash for absolute URL
-const portraitSrc = frontPage.portrait || '/assets/portrait.jpg';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Stored as "/assets/portrait.jpg" — prepend base for correct subpath resolution
+const portraitSrc = base + (frontPage.portrait || '/assets/portrait.jpg');
 const email = cvData.contact?.email || '';
 ---
 
@@ -16,7 +17,7 @@ const email = cvData.contact?.email || '';
       <img src={portraitSrc} alt="Jonas Haeg" />
       <nav class="about-links" aria-label="Quick links">
         {email && <a href={`mailto:${email}`}>Email</a>}
-        <a href="/cv">CV</a>
+        <a href={`${base}/cv`}>CV</a>
         <a href="https://philpeople.org/profiles/jonas-haeg" target="_blank" rel="noopener">PhilPeople</a>
         <a href="https://instagram.com/taudalpoi" target="_blank" rel="noopener">Art</a>
       </nav>

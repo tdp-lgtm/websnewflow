@@ -11,6 +11,7 @@ interface Props {
 
 const { title, page, wideLayout = false } = Astro.props;
 const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // e.g. '/websnewflow' or ''
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -18,15 +19,15 @@ const currentPath = Astro.url.pathname;
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
-  <link rel="stylesheet" href="/styles/style.css" />
+  <link rel="icon" type="image/svg+xml" href={`${base}/assets/favicon.svg`} />
+  <link rel="stylesheet" href={`${base}/styles/style.css`} />
   <ViewTransitions />
 </head>
 <body data-page={page}>
 
   <header>
     <div class="header-inner">
-      <a href="/" class="site-title">Jonas Haeg<b>.</b></a>
+      <a href={base || '/'} class="site-title">Jonas Haeg<b>.</b></a>
       <Nav items={navData.items} currentPath={currentPath} />
     </div>
   </header>
