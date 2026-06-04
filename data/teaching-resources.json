@@ -1,0 +1,44 @@
+{
+  "intro": "",
+  "groups": [
+    {
+      "heading": "How to Read Philosophy",
+      "items": [
+        { "title": "Guidelines on Reading Philosophy", "author": "Jim Pryor", "url": "", "note": "" },
+        { "title": "Some Suggestions for How to Approach Reading a Philosophical Article or Book", "author": "Connie Rosati", "url": "", "note": "" }
+      ]
+    },
+    {
+      "heading": "How to Write Philosophy",
+      "items": [
+        { "title": "Guidelines on Writing a Philosophy Paper", "author": "Jim Pryor", "url": "", "note": "" },
+        { "title": "How to Write a Philosophical Essay", "author": "1000-Word Philosophy", "url": "", "note": "" },
+        { "title": "A Brief Guide to Writing the Philosophy Paper", "author": "Simon Rippon", "url": "", "note": "" }
+      ]
+    },
+    {
+      "heading": "Common Terms and Phrases",
+      "items": [
+        { "title": "A Philosophical Glossary for Beginners", "author": "Jim Pryor", "url": "", "note": "" }
+      ]
+    },
+    {
+      "heading": "How to Participate in Seminars",
+      "items": [
+        { "title": "But How Do I Participate?", "author": "Olivia Bailey", "url": "", "note": "" }
+      ]
+    },
+    {
+      "heading": "How to Construct and Evaluate Arguments",
+      "items": [
+        { "title": "Strategies for Arguing against a Philosophical View", "author": "Jennifer Morton", "url": "", "note": "" }
+      ]
+    },
+    {
+      "heading": "How to Find Books, Articles, and More",
+      "items": [
+        { "title": "Stanford Encyclopedia of Philosophy (SEP)", "author": "", "url": "https://plato.stanford.edu", "note": "Arguably the best place to start when researching a philosophical issue — excellent survey articles on different philosophical topics written by experts." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+import { prepHtml } from '../lib/prepHtml';
+import researchBio from '../../data/research-bio.json';
+import pubData from '../../data/publications.json';
+
+const bio = researchBio;
+const bioHtml = prepHtml(bio.text);
+
+function isPublished(item: { published?: boolean }) {
+  return !item || item.published !== false;
+}
+
+const publications = (pubData.items || []).filter(isPublished);
+const wip = (pubData.wip || []).filter(isPublished);
+
+const pubCategories = [
+  { key: 'Article',  label: 'Articles' },
+  { key: 'Book',     label: 'Books' },
+  { key: 'Chapter',  label: 'Book chapters' },
+  { key: 'Editor',   label: 'As editor' },
+  { key: 'Review',   label: 'Reviews' },
+  { key: 'Public',   label: 'Public writing' },
+] as const;
+
+// Build WIP groups preserving insertion order
+const wipGroupOrder: string[] = [];
+const wipGroupMap: Record<string, typeof wip> = {};
+wip.forEach(p => {
+  const key = p.status || 'In preparation';
+  if (!wipGroupMap[key]) { wipGroupMap[key] = []; wipGroupOrder.push(key); }
+  wipGroupMap[key].push(p);
+});
+
+function pubYear(year: string | number | undefined) {
+  const raw = year ? String(year) : '';
+  if (raw === 'Forthcoming') return 'Forthc.';
+  if (raw === 'Online first') return 'Online';
+  return raw;
+}
+
+function volStr(p: { volume?: string; issue?: string; pages?: string }) {
+  if (p.volume || p.issue) {
+    const vi = p.volume
+      ? (p.issue ? `${p.volume}(${p.issue})` : p.volume)
+      : `(${p.issue})`;
+    return vi + (p.pages ? `: ${p.pages}` : '');
+  }
+  return p.pages || '';
+}
+---
+
+<Base title="Research — Jonas Haeg" page="research">
+  <span class="eyebrow">Research</span>
+
+  {bio.text && (
+    <div
+      class="research-bio"
+      style={bio.justify ? 'text-align:justify' : undefined}
+      set:html={bioHtml}
+    />
+  )}
+
+  {pubCategories.map(({ key, label }) => {
+    const items = publications.filter(p => (p.type || 'Article') === key);
+    if (!items.length) return null;
+    return (
+      <>
+        <span class="section-label">{label}</span>
+        <ul class="pub-list">
+          {items.map((p, i) => {
+            const absId = `abs-${key.toLowerCase()}-${i}`;
+            const vol = volStr(p);
+            const citationParts = [p.journal ? `<em>${p.journal}</em>` : '', vol].filter(Boolean);
+            const citation = citationParts.join(' ');
+            return (
+              <li class="pub">
+                <div class="yr">{pubYear(p.year)}</div>
+                <div>
+                  <h3>{p.coauthors ? `(with ${p.coauthors}) ` : ''}{p.title}</h3>
+                  {citation && <p class="venue" set:html={citation + '.'} />}
+                  {(p.abstract || p.pdf || p.doi || p.prize) && (
+                    <div class="pub-links">
+                      {p.abstract && (
+                        <button onclick={`_toggleAbstract('${absId}',this)`}>&#8801; Abstract</button>
+                      )}
+                      {p.pdf && <a href={p.pdf} target="_blank" rel="noopener">&#8595; PDF</a>}
+                      {p.doi && <a href={p.doi} target="_blank" rel="noopener">Publisher &#8599;</a>}
+                      {p.prize && <span class="award-inline">{p.prize}</span>}
+                    </div>
+                  )}
+                  {p.abstract && (
+                    <div class="pub-abstract" id={absId}>
+                      <div class="pub-abstract-inner">{p.abstract}</div>
+                    </div>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </>
+    );
+  })}
+
+  {wip.length > 0 && (
+    <div id="wip">
+      {wipGroupOrder.map((status, gi) => (
+        <>
+          <span class="section-label wip-group-label">{status}</span>
+          <ul class="pub-list">
+            {wipGroupMap[status].map((p, i) => {
+              const absId = `abs-wip-${gi}-${i}`;
+              return (
+                <li class="pub pub--wip">
+                  <div class="yr"></div>
+                  <div>
+                    <h3 class="wip-title">{p.title}.</h3>
+                    {(p.abstract || p.pdf) && (
+                      <div class="pub-links">
+                        {p.abstract && (
+                          <button onclick={`_toggleAbstract('${absId}',this)`}>&#8801; Abstract</button>
+                        )}
+                        {p.pdf && <a href={p.pdf} target="_blank" rel="noopener">&#8595; Draft PDF</a>}
+                      </div>
+                    )}
+                    {p.abstract && (
+                      <div class="pub-abstract" id={absId}>
+                        <div class="pub-abstract-inner">{p.abstract}</div>
+                      </div>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      ))}
+    </div>
+  )}
+</Base>

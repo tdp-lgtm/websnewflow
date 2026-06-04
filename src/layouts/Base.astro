@@ -1,0 +1,76 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Nav from '../components/Nav.astro';
+import navData from '../../data/nav.json';
+
+interface Props {
+  title: string;
+  page?: string;
+  wideLayout?: boolean;
+}
+
+const { title, page, wideLayout = false } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="stylesheet" href="/styles/style.css" />
+  <ViewTransitions />
+</head>
+<body data-page={page}>
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="site-title">Jonas Haeg<b>.</b></a>
+      <Nav items={navData.items} currentPath={currentPath} />
+    </div>
+  </header>
+
+  <main>
+    <div class={wideLayout ? 'container' : 'narrow'}>
+      <slot />
+    </div>
+  </main>
+
+  <footer>
+    <div class="foot-inner">
+      <div class="foot-fine">Jonas Haeg &copy; <span id="year"></span></div>
+    </div>
+  </footer>
+
+  <!-- _toggleAbstract must be global since it's called via onclick attributes in static HTML -->
+  <script is:inline>
+    function _toggleAbstract(id, btn) {
+      var el = document.getElementById(id);
+      var inner = el.firstElementChild;
+      var isOpen = el.classList.contains('open');
+      if (isOpen) {
+        el.style.gridTemplateRows = inner.scrollHeight + 'px';
+        requestAnimationFrame(function () {
+          el.style.gridTemplateRows = '0fr';
+          el.classList.remove('open');
+        });
+      } else {
+        el.style.gridTemplateRows = inner.scrollHeight + 'px';
+        el.classList.add('open');
+      }
+      btn.textContent = isOpen ? '≡ Abstract' : '≡ Hide';
+    }
+  </script>
+
+  <script>
+    function setYear() {
+      const el = document.getElementById('year');
+      if (el) el.textContent = String(new Date().getFullYear());
+    }
+    setYear();
+    document.addEventListener('astro:page-load', setYear);
+  </script>
+
+</body>
+</html>

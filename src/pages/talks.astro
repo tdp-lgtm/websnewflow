@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import talksData from '../../data/talks.json';
+
+function isPublished(item: { published?: boolean }) {
+  return !item || item.published !== false;
+}
+
+const talks = (talksData.items || (talksData as any)).filter(isPublished);
+---
+
+<Base title="Talks — Jonas Haeg" page="talks">
+  <span class="eyebrow">Talks</span>
+  <p class="talks-legend"><sup>*</sup> invited &ensp; <sup>&dagger;</sup> peer-reviewed</p>
+
+  <ul class="pub-list">
+    {talks.map((talk: any) => {
+      const pres = (talk.presentations || []).filter(isPublished);
+      return (
+        <li class="talk-item">
+          <div class="talk-row">
+            <div class="talk-yr"></div>
+            <h3>{talk.title}</h3>
+          </div>
+          <div class="talk-pres-list">
+            {pres.map((p: any) => {
+              const tag = p.type === 'Invited'
+                ? <sup class="talk-tag">*</sup>
+                : p.type === 'Peer-Review'
+                ? <sup class="talk-tag">&dagger;</sup>
+                : null;
+              const date = p.month ? `${p.month} ${p.year}` : String(p.year || '');
+              const where = [p.venue, p.institution].filter(Boolean).join(', ');
+              return (
+                <div class="talk-row">
+                  <div class="talk-yr">{date}</div>
+                  <div class="talk-row-detail">
+                    {where}{tag}
+                    {p.comment && <em class="talk-comment"> {p.comment}</em>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </li>
+      );
+    })}
+  </ul>
+</Base>

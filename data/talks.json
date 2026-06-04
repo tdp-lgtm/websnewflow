@@ -1,0 +1,117 @@
+{
+  "items": [
+    {
+      "title": "Harms We Cause Together",
+      "presentations": [
+        { "venue": "Degrees of Responsibility in Metaphysics, Ethics, and the Law, Symposium at the American Philosophical Association, Eastern Division", "type": "Invited", "year": "Scheduled" }
+      ]
+    },
+    {
+      "title": "Taking Risks in an Unjust World",
+      "presentations": [
+        { "venue": "Centre for Aesthetic, Moral and Political Philosophy", "type": "Invited", "year": "Scheduled", "institution": "Leeds University" }
+      ]
+    },
+    {
+      "title": "Reparative Achievements",
+      "presentations": [
+        { "venue": "Philosophy, Ethics, and Killing Workshop", "type": "Peer-Review", "year": "Scheduled", "institution": "Peak District" }
+      ]
+    },
+    {
+      "title": "Too Much Information: The Problem with Oversharing (with Romy Eskens)",
+      "presentations": [
+        { "venue": "Swedish Congress of Philosophy", "type": "Peer-Review", "year": "Scheduled", "institution": "Stockholm University" }
+      ]
+    },
+    {
+      "title": "What's Wrong with Victim-Blaming?",
+      "presentations": [
+        { "venue": "Joint Session of the Aristotelian Society and the Mind Association", "type": "Peer-Review", "year": "2025", "institution": "University of Glasgow" },
+        { "venue": "Philosophy, Ethics, and Killing Workshop", "type": "Peer-Review", "year": "2025", "institution": "Peak District" },
+        { "venue": "Workshop on Degradation and Dehumanization", "type": "Invited", "year": "2025", "institution": "Utrecht University" }
+      ]
+    },
+    {
+      "title": "Outrageous Advice (with Romy Eskens)",
+      "presentations": [
+        { "venue": "Society for Applied Philosophy Annual Conference", "type": "Peer-Review", "year": "2025", "institution": "Gdansk" },
+        { "venue": "Dutch Research School of Philosophy Annual Conference", "type": "Peer-Review", "year": "2024", "institution": "Eindhoven University of Technology" },
+        { "venue": "Philosophy & Public Affairs Colloquium", "type": "Invited", "year": "2024", "institution": "University of Amsterdam" },
+        { "venue": "Moral, Legal, and Political Research Seminar", "type": "Invited", "year": "2024", "institution": "King's College London" }
+      ]
+    },
+    {
+      "title": "Risks, Rights, and Proportionality",
+      "presentations": [
+        { "venue": "Higher Seminar in Practical Philosophy", "type": "Invited", "year": "2022", "institution": "Stockholm University" }
+      ]
+    },
+    {
+      "title": "The Grounds and Limits of the Necessity Condition",
+      "presentations": [
+        { "venue": "PhD Seminar in Practical Philosophy", "type": "Invited", "year": "2022", "institution": "Stockholm University" }
+      ]
+    },
+    {
+      "title": "Dangerous Parties and Undirected Duties",
+      "presentations": [
+        { "venue": "Philosophy, Ethics, and Killing Workshop", "type": "Invited", "year": "2022", "institution": "Peak District" }
+      ]
+    },
+    {
+      "title": "What Do We Owe to Aggressors?",
+      "presentations": [
+        { "venue": "Politics, Law and Philosophy Graduate Forum", "type": "Peer-Review", "year": "2022", "comment": "commentators: Cecile Fabre and Penny Oderberg" }
+      ]
+    },
+    {
+      "title": "A Duty to Accommodate Wrongdoers?",
+      "presentations": [
+        { "venue": "CEPPA Graduate Conference", "type": "Peer-Review", "year": "2022", "institution": "University of St. Andrews", "comment": "commentator: T. Pummer" }
+      ]
+    },
+    {
+      "title": "Defensive Entrapment and Manipulation",
+      "presentations": [
+        { "venue": "London Graduate Workshop on Moral and Political Philosophy", "type": "Peer-Review", "year": "2022", "institution": "Senate House" },
+        { "venue": "Zagreb Applied Ethics Conference", "type": "Peer-Review", "year": "2021", "institution": "Institute of Philosophy, Zagreb" }
+      ]
+    },
+    {
+      "title": "Law Enforcement and Proportionality",
+      "presentations": [
+        { "venue": "Brave New World Graduate Conference", "type": "Peer-Review", "year": "2021", "institution": "University of Manchester" }
+      ]
+    },
+    {
+      "title": "Punishment and The Problem of False Confessions",
+      "presentations": [
+        { "venue": "Advanced Research Seminar", "type": "Invited", "year": "2021", "institution": "King's College London" }
+      ]
+    },
+    {
+      "title": "Entrapment, Manipulation and Morally Tainted Punishment",
+      "presentations": [
+        { "venue": "Rocky Mountain Ethics Congress", "type": "Peer-Review", "year": "2021", "institution": "Boulder, Colorado", "comment": "commentator: C. Kianpour" },
+        { "venue": "Oxford Graduate Conference in Political Theory", "type": "Peer-Review", "year": "2020", "institution": "University of Oxford" }
+      ]
+    },
+    {
+      "title": "Provocation and Self-Defence",
+      "presentations": [
+        { "venue": "Graduate Reading Retreat", "type": "Peer-Review", "year": "2021", "institution": "Stockholm Centre for the Ethics of War and Peace", "comment": "commentator: K.K. Ferzan" },
+        { "venue": "Reading Ethics and Political Philosophy Conference", "type": "Peer-Review", "year": "2019", "institution": "University of Reading" },
+        { "venue": "Advanced Research Seminar", "type": "Invited", "year": "2019", "institution": "King's College London" },
+        { "venue": "Stockholm Philosophy Graduate Conference", "type": "Peer-Review", "year": "2019", "institution": "Stockholm University", "comment": "commentator: L. Hecht" },
+        { "venue": "London-Berkeley Philosophy Graduate Conference", "type": "Peer-Review", "year": "2019", "institution": "UC Berkeley", "comment": "commentator: E. Podhorcer" }
+      ]
+    },
+    {
+      "title": "Liability to Defensive Harm and The Standing Constraint",
+      "presentations": [
+        { "venue": "Warwick Graduate Conference in Political and Legal Theory", "type": "Peer-Review", "year": "2018", "institution": "University of Warwick" }
+      ]
+    }
+  ]
+}

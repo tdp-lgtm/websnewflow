@@ -1,0 +1,108 @@
+{
+  "items": [
+    {
+      "title": "Taking the Fall: Punishment, Constrained Instrumentalism, and False Confessions",
+      "type": "Article",
+      "year": "Forthcoming",
+      "journal": "Australasian Journal of Philosophy",
+      "abstract": "How can we justify the practice of punishing offenders? Constrained Instrumentalism has become an attractive alternative to traditional answers like Retributivism and Instrumentalism. This paper focuses on two versions of this view, the Forfeiture View and the Duty View, and argues that both face a False Confessions Problem: they cannot adequately explain why we should punish, or at least prefer to punish, only those guilty of a crime instead of anyone who voluntarily but falsely confesses to a crime. They fail to account for the powerful intuition that punishment should not be simply about pursuing valuable ends (like general deterrence) without violating rights but, fundamentally, should be about pursuing these ends by punishing the guilty. Finally, I suggest that Constrained Instrumentalists might avoid this objection by defending something like 'instrumental desert'",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "Necessity Over Time",
+      "type": "Article",
+      "year": "2025",
+      "journal": "Journal of Moral Philosophy",
+      "volume": "Online First",
+      "pages": "1-27",
+      "abstract": "This paper explores how the necessity condition for permissible selfdefence operates over time. It addresses two core questions. First: when, leading up to an attack, does the necessity condition begin to apply? Second: if it applies before an attack, what are the implications of disregarding it? I argue that if aggressors are fully culpable, the condition applies only at the moment of attack. For less culpable aggressors, however, it can require that defenders act earlier to avoid or reduce future harm. However, failing to comply with these earlier demands does not automatically render all subsequent defensive action impermissible. It only makes justifying it more difficult. Finally, I discuss some implications of my views for other-defence and third-party intervention.",
+      "pdf": "https://philpapers.org/archive/HAENOT.pdf",
+      "doi": "https://doi.org/10.1163/17455243-20254456",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "Provocation, Self-Defence, and Protective Duties",
+      "type": "Article",
+      "year": "2024",
+      "journal": "Philosophy and Public Affairs",
+      "volume": "52",
+      "issue": "4",
+      "pages": "465-499",
+      "abstract": "This paper explores why victims who provoke their aggressors seem to compromise their right to self-defence. First, it argues that one proposed answer – the victims are partially responsible for the threats they face – fails. It faces counterexamples that it cannot adequately address. Second, the paper develops the Protective Duty View according to which we incur protective duties towards others when we interfere with their reasonable opportunities to avoid suffering harm. Since provokers wrongfully interfere with prospective aggressors' opportunities to avoid posing a threat and thus to be defensively harmed, they incur protective duties towards the aggressors. This can require that they significantly limit or even refrain from using defensive force. The paper ends by drawing out some of the implications of the Protective Duty View for issues related to war and punishment.",
+      "pdf": "https://philpapers.org/archive/HAEPSA.pdf",
+      "doi": "https://doi.org/10.1111/papa.12274",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "Entrapment and Manipulation",
+      "type": "Article",
+      "year": "2022",
+      "journal": "Res Publica",
+      "volume": "28",
+      "issue": "1",
+      "pages": "557-583",
+      "abstract": "Why is it wrong to punish criminals who have been entrapped by the state? The paper begins by presenting some criticisms of existing answers to this question. First, they fail to put the target, or victim, of entrapment at the centre of the moral explanation. Second, they fail to account for the intuitive relation between the reasons not to entrap and the reasons not to punish. Third, they struggle to account for the existence of agent-neutral reasons not to punish entrapped offenders. Lastly, they are ill-equipped to explain why entrapment seems problematic also outside the legal context. In response, the paper develops a novel account of entrapment: the Manipulation Account. According to this, entrapment always involves a particular kind of manipulation (manipulation-by-hidden-intentions) which morally taints punishment. In short, I suggest that both the initial entrapment and the subsequent punishment involve wrongful manipulation. Lastly, the paper presents some untraditional, but ultimately welcoming, implications of the account.",
+      "pdf": "https://philpapers.org/archive/HAEEAM.pdf",
+      "doi": "https://doi.org/10.1007/s11158-022-09567-y",
+      "prize": "2022 Postgraduate Essay Prize Winner",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "The Ethics of Political Bots: Should We Allow Them for Personal Use?",
+      "type": "Article",
+      "year": "2017",
+      "journal": "Journal of Practical Ethics",
+      "volume": "5",
+      "issue": "2",
+      "pages": "85-104",
+      "abstract": "The technology to create and automate large numbers of fake social media users, or \"social bots\", is becoming increasingly more accessible to private individuals. This paper explores one potential use of the technology, namely the creation of \"political bots\": social bots aimed at influencing the political opinions of others. Despite initial worries about licensing the use of such bots by private individuals, this paper provides an, albeit limited, argument in favour of this. The argument begins by providing a prima facie case in favour of these political bots and proceeds by attempting to answer a series of potential objections. These objections are based on (1) the dangerous effectiveness of the technology; the (2) corruptive, (3) deceitful and (4) manipulating nature of political bots; (5) the worry that the technology will lead to chaos and be detrimental to trust online; and (6) practical issues involved in ensuring acceptable use of the technology. In all cases I will argue that the objections are overestimated, and that a closer look at the use of political bots helps us realise that using them is simply a new way of speaking up in modern society.",
+      "pdf": "https://philpapers.org/archive/HAETEO-3.pdf",
+      "doi": "https://www.jpe.ox.ac.uk/papers/the-ethics-of-political-bots-should-we-allow-them-for-personal-use/",
+      "prize": "2017 Oxford Uehiro Prize in Practical Ethics Runner-Up​",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "Review of Christopher Nathan, The Ethics of Undercover Policing",
+      "type": "Review",
+      "year": "2024",
+      "journal": "Criminal Law and Philosophy",
+      "volume": "18",
+      "pages": "315-323",
+      "abstract": "This paper reviews The Ethics of Undercover Policing by Christopher Nathan.",
+      "pdf": "https://philpapers.org/archive/HAEROC.pdf",
+      "doi": "https://doi.org/10.1007/s11572-023-09715-2",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "Review of Christopher Finlay, The Philosophy of Force: Violence, Domination, and the Ethics of Republican War",
+      "type": "Review",
+      "year": "Forthcoming",
+      "journal": "Journal of Applied Philosophy",
+      "published": false,
+      "cv": true
+    },
+    {
+      "title": "Grok Doesn't Degrade Women—You Do! Deepfakes, Responsibility and Language",
+      "type": "Public",
+      "year": "2026",
+      "journal": "Public Ethics Blog",
+      "doi": "https://www.publicethics.org/post/deepfakes-responsibility-and-language",
+      "published": true,
+      "cv": true
+    }
+  ],
+  "wip": [
+    { "title": "[A paper on the ethics of advising] (with Romy Eskens)", "status": "Under review", "published": true, "cv": true },
+    { "title": "[A paper on victim-blaming]", "status": "In preparation", "published": true, "cv": true },
+    { "title": "[A paper on precautionary duties in an unjust world]", "status": "In preparation", "published": true, "cv": true },
+    { "title": "[A paper on criminogenic injustice and punishment]", "status": "In preparation", "published": true, "cv": true },
+    { "title": "[A paper on asylum, deception, and deportation]", "status": "In preparation", "published": true, "cv": true },
+    { "title": "[A paper on the value of being involved in setting things right]", "status": "In preparation", "published": true, "cv": true }
+  ]
+}

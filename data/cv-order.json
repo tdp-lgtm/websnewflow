@@ -1,0 +1,15 @@
+{
+  "sections": [
+    { "section": "interests" },
+    { "section": "positions" },
+    { "section": "education" },
+    { "section": "publications" },
+    { "section": "wip" },
+    { "section": "presentations" },
+    { "section": "teaching" },
+    { "section": "awards" },
+    { "section": "events" },
+    { "section": "service" },
+    { "section": "references" }
+  ]
+}

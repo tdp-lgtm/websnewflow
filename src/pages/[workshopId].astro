@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+import { prepHtml } from '../lib/prepHtml';
+import workshopsData from '../../data/workshops.json';
+
+export async function getStaticPaths() {
+  const items = ((workshopsData as any).items || workshopsData) as any[];
+  return items.map(w => ({
+    params: { workshopId: w.id },
+    props: { workshop: w },
+  }));
+}
+
+const { workshop: w } = Astro.props;
+
+const date = [w.month, w.year].filter(Boolean).join(' ');
+const metaParts = [
+  w.institution,
+  date,
+  w.coorganisers ? `Organised with ${w.coorganisers}` : '',
+].filter(Boolean);
+const meta = metaParts.join(' · ');
+
+const descHtml = w.description ? prepHtml(w.description) : '';
+
+const speakers = (w.programme || []).filter((e: any) => e.name);
+---
+
+<Base title={`${w.title} — Jonas Haeg`} page="workshops">
+  <span class="eyebrow">Workshop</span>
+  <h2>{w.title}</h2>
+
+  <p class="section-subtitle">{meta}</p>
+
+  {descHtml && (
+    <div
+      class="workshop-description"
+      style={w.justify ? 'text-align:justify' : undefined}
+      set:html={descHtml}
+    />
+  )}
+
+  {speakers.length > 0 && (
+    <>
+      <span class="section-label ws-speakers-label">Speakers</span>
+      <ul class="pub-list ws-speaker-list">
+        {speakers.map((e: any) => {
+          // Support up to two presenters per entry (name/affiliation + name2/affiliation2)
+          // Also support newline-separated names in a single field
+          type Pair = { name: string; aff: string };
+          const pairs: Pair[] = [];
+          const addPair = (n: string | undefined, a: string | undefined) => {
+            (n || '').split('\n').forEach((nm, i) => {
+              if (nm.trim()) pairs.push({ name: nm.trim(), aff: ((a || '').split('\n')[i] || '').trim() });
+            });
+          };
+          addPair(e.name, e.affiliation);
+          addPair(e.name2, e.affiliation2);
+
+          return (
+            <li class="ws-speaker-item">
+              <h3 class="ws-speaker">
+                {pairs.map((p, pi) => (
+                  <>
+                    {pi > 0 && <> &middot; </>}
+                    {p.name}
+                    {p.aff && <span class="ws-affiliation"> {p.aff}</span>}
+                  </>
+                ))}
+              </h3>
+              {e.title && e.title !== 'TBA' && (
+                <p class="venue ws-paper-title">{e.title}</p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  )}
+
+  {w.registration && <p class="ws-registration">{w.registration}</p>}
+</Base>

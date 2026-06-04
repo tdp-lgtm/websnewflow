@@ -1,0 +1,95 @@
+{
+  "contact": {
+    "website": "jonashaeg.com",
+    "email": "jonas.haeg@philosophy.su.se",
+    "address": "Department of Philosophy, Stockholm University"
+  },
+  "aos": "Political Philosophy, Normative Ethics, Legal Philosophy",
+  "aoc": "Social Philosophy, Feminist Philosophy, Applied Ethics",
+  "employment": [
+    {
+      "year": "2027–",
+      "title": "Leverhulme Early Career Fellow",
+      "institution": "Warwick Law School, University of Warwick"
+    },
+    {
+      "year": "2025–",
+      "title": "Postdoctoral Researcher",
+      "institution": "Stockholm Centre for the Ethics of War and Peace, Department of Philosophy, Stockholm University"
+    },
+    {
+      "year": "2023–24",
+      "title": "Lecturer in Philosophy",
+      "institution": "Department of Philosophy, King's College London"
+    }
+  ],
+  "education": [
+    {
+      "year": "2018–23",
+      "degree": "PhD in Philosophy",
+      "institution": "King's College London",
+      "note": "Passed without corrections",
+      "thesis": "Imperfect Victims and the Right to Self-Defence",
+      "supervisors": "David Owens, Massimo Renzo, Sarah Fine",
+      "examiners": "Jeffrey Howard, Gerald Lang"
+    },
+    {
+      "year": "Fall 2022",
+      "degree": "Visiting Student",
+      "institution": "Department of Philosophy, Stockholm University"
+    },
+    {
+      "year": "2016–18",
+      "degree": "BPhil in Philosophy",
+      "institution": "University of Oxford",
+      "note": "Distinction",
+      "supervisors": "Jeff McMahan"
+    },
+    {
+      "year": "2013–16",
+      "degree": "BA in Philosophy",
+      "institution": "King's College London",
+      "note": "First Class Honours"
+    }
+  ],
+  "awards": [
+    { "year": "2027–29", "description": "Leverhulme Early Career Fellowship (accepted)" },
+    { "year": "2024", "description": "Nominated for a King's Education Award (Teaching Excellence Award)" },
+    { "year": "2022", "description": "Winner of the Res Publica Post Graduate Essay Prize", "amount": "£100" },
+    { "year": "2021", "description": "Funding for the KCL Graduate Conference in Politics, Philosophy, and Law from the Society for Applied Philosophy, Mind Association, and Aristotelian Society", "amount": "£4,000" },
+    { "year": "2018–23", "description": "King's PGR International Scholarship PhD funding", "amount": "£68,000 + Fees" },
+    { "year": "2017", "description": "Runner up in the Oxford Uehiro Prize in Practical Ethics", "amount": "£100" },
+    { "year": "2016–18", "description": "Aker Scholarship BPhil funding", "amount": "£41,000" },
+    { "year": "2016", "description": "Joint Winner of the Sowerby Philosophy of Medicine Essay Contest", "amount": "£350" },
+    { "year": "2015", "description": "Adrian Grey-Turner Memorial Prize for outstanding academic achievement", "amount": "£60" }
+  ],
+  "events": [
+    { "year": "2026", "title": "Early Career Workshop in Moral, Legal, and Political Philosophy", "institution": "Stockholm University", "note": "Co-organiser" },
+    { "year": "2026", "title": "Workshop on Deterrence and Deontology", "institution": "Stockholm University", "note": "Co-organiser" },
+    { "year": "2025", "title": "Workshop on the Ethics of Deception", "institution": "Stockholm University", "note": "Co-organiser" },
+    { "year": "2021", "title": "KCL Graduate Conference in Politics, Philosophy, and Law", "institution": "King's College London", "note": "Co-organiser" },
+    { "year": "2017", "title": "The 21st Oxford Graduate Philosophy Conference", "institution": "University of Oxford", "note": "Co-organiser" }
+  ],
+  "service": [
+    { "year": "2025–", "description": "Editor, Public Ethics Blog (publicethics.org)" },
+    { "year": "2024–", "description": "Web and Social Media Lead, Stockholm Centre for the Ethics of War and Peace" },
+    { "year": "2024", "description": "Judge for the Estella Newsome Memorial Prize (KCL essay prize on just war theory)" },
+    { "year": "2023–24", "description": "Library Liaison, KCL Department of Philosophy" },
+    { "year": "2023–24", "description": "Personal Tutor for 18 students at KCL (academic and welfare support)" }
+  ],
+  "reviewer": "Analysis, Ethical Theory and Moral Practice, Journal of Controversial Ideas, Journal of Moral Philosophy, Law and Philosophy, Philosophical Quarterly, Res Publica, Synthese",
+  "references": [
+    {
+      "name": "Massimo Renzo",
+      "title": "Professor of Politics, Philosophy, and Law",
+      "institution": "King's College London",
+      "email": "massimo.renzo@kcl.ac.uk"
+    },
+    {
+      "name": "Helen Frowe",
+      "title": "Professor of Practical Philosophy",
+      "institution": "Stockholm University",
+      "email": "helen.frowe@philosophy.su.se"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import { prepHtml } from '../lib/prepHtml';
+import frontPage from '../../data/front-page.json';
+import cvData from '../../data/cv.json';
+
+const bodyHtml = prepHtml(frontPage.text);
+// Portrait path is stored as "/assets/portrait.jpg" — keep the leading slash for absolute URL
+const portraitSrc = frontPage.portrait || '/assets/portrait.jpg';
+const email = cvData.contact?.email || '';
+---
+
+<Base title="Jonas Haeg" page="about">
+  <div class="about-body">
+    <div class="about-portrait">
+      <img src={portraitSrc} alt="Jonas Haeg" />
+      <nav class="about-links" aria-label="Quick links">
+        {email && <a href={`mailto:${email}`}>Email</a>}
+        <a href="/cv">CV</a>
+        <a href="https://philpeople.org/profiles/jonas-haeg" target="_blank" rel="noopener">PhilPeople</a>
+        <a href="https://instagram.com/taudalpoi" target="_blank" rel="noopener">Art</a>
+      </nav>
+    </div>
+    <div
+      id="about-text"
+      set:html={bodyHtml}
+      style={frontPage.justify ? 'text-align:justify' : undefined}
+    />
+  </div>
+</Base>

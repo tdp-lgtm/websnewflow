@@ -1,0 +1,242 @@
+---
+import Base from '../layouts/Base.astro';
+import pubData from '../../data/publications.json';
+import talksData from '../../data/talks.json';
+import teachingData from '../../data/teaching.json';
+import cvJson from '../../data/cv.json';
+import cvOrderJson from '../../data/cv-order.json';
+
+const cv = cvJson as any;
+const publications = (pubData.items || []) as any[];
+const wip = (pubData.wip || []) as any[];
+const talks = ((talksData as any).items || talksData) as any[];
+const institutions = ((teachingData as any).items || teachingData) as any[];
+const sectionOrder: string[] = (cvOrderJson.sections || []).map((s: any) => s.section || s.key || s);
+
+function isPublished(item: any) { return !item || item.published !== false; }
+function isOnCV(item: any) { return !item || item.cv !== false; }
+
+const contact = cv.contact || {};
+const contactParts = [
+  contact.website ? `<a href="https://${contact.website.replace(/^https?:\/\//, '')}" target="_blank" rel="noopener">${contact.website}</a>` : '',
+  contact.email ? `<a href="mailto:${contact.email}">${contact.email}</a>` : '',
+].filter(Boolean);
+const contactHtml = contactParts.join('<span class="cv-contact-sep">·</span>');
+const contactAddr = contact.address || '';
+
+// Publications grouped by type
+const pubGroups = [
+  { types: ['Article', undefined, null, ''], label: 'Articles' },
+  { types: ['Book'],    label: 'Books' },
+  { types: ['Chapter'], label: 'Book chapters' },
+  { types: ['Editor'],  label: 'As editor' },
+  { types: ['Review'],  label: 'Reviews' },
+  { types: ['Public'],  label: 'Public writing' },
+] as const;
+
+function cvPubItems(pubs: any[]) {
+  return pubs.filter(p => isPublished(p) && isOnCV(p));
+}
+
+function volStr(p: any) {
+  if (p.volume || p.issue) {
+    const vi = p.volume
+      ? (p.issue ? `${p.volume}(${p.issue})` : p.volume)
+      : `(${p.issue})`;
+    return vi + (p.pages ? `: ${p.pages}` : '');
+  }
+  return p.pages || '';
+}
+
+// WIP groups
+const wipGroupOrder: string[] = [];
+const wipGroupMap: Record<string, any[]> = {};
+wip.filter(p => isPublished(p) && isOnCV(p)).forEach(p => {
+  const key = p.status || 'In preparation';
+  if (!wipGroupMap[key]) { wipGroupMap[key] = []; wipGroupOrder.push(key); }
+  wipGroupMap[key].push(p);
+});
+
+// Teaching grouped by role
+const roleOrder = ['Lecturer', 'Seminar Convenor', 'Teaching Assistant', 'Supervisor'];
+const teachGroups: Record<string, any[]> = {};
+institutions.forEach((inst: any) => {
+  (inst.entries || []).forEach((e: any) => {
+    if (!teachGroups[e.role]) teachGroups[e.role] = [];
+    teachGroups[e.role].push(e);
+  });
+});
+const teachRoles = [
+  ...roleOrder.filter(r => teachGroups[r]),
+  ...Object.keys(teachGroups).filter(r => !roleOrder.includes(r)),
+];
+
+// Talks for CV: filter published + on CV
+const cvTalks = talks.filter(t => isPublished(t) && isOnCV(t) && (t.presentations || []).filter(isPublished).length);
+
+// Section rendering helpers
+function renderCVSection(items: { year?: string; detail: string; sub?: string; link?: string }[]) {
+  if (!items.length) return '<p class="empty">Nothing to show yet.</p>';
+  return items.map(item => `
+    <div class="cv-item">
+      <span class="cv-year">${item.year || ''}</span>
+      <span class="cv-detail">
+        ${item.link ? `<a href="${item.link}" target="_blank" rel="noopener">${item.detail}</a>` : item.detail}
+        ${item.sub ? `<span class="cv-detail-sub">${item.sub}</span>` : ''}
+      </span>
+    </div>`).join('');
+}
+
+const employmentHtml = renderCVSection((cv.employment || []).map((e: any) => ({
+  year: e.year, detail: e.title, sub: e.institution,
+})));
+
+const educationHtml = renderCVSection((cv.education || []).map((e: any) => {
+  const supLabel = e.supervisors && e.supervisors.split(',').filter((s: string) => s.trim()).length > 1 ? 'Supervisors' : 'Supervisor';
+  const exLabel  = e.examiners  && e.examiners.split(',').filter((s: string) => s.trim()).length > 1  ? 'Examiners'  : 'Examiner';
+  const parts = [
+    e.note,
+    e.thesis ? `Thesis: ${e.thesis}` : '',
+    e.supervisors ? `${supLabel}: ${e.supervisors}` : '',
+    e.examiners   ? `${exLabel}: ${e.examiners}` : '',
+  ].filter(Boolean);
+  return { year: e.year, detail: `${e.degree}, ${e.institution}`, sub: parts.join(' · ') || '' };
+}));
+
+const eventsHtml = renderCVSection((cv.events || []).map((e: any) => ({
+  year: e.year, detail: e.title, sub: `${e.institution}${e.note ? ' · ' + e.note : ''}`,
+})));
+
+const serviceItems = [
+  ...(cv.service || []).map((s: any) => ({ year: s.year, detail: s.description })),
+  ...(cv.reviewer ? [{ year: 'Reviewer', detail: `<em>${cv.reviewer}</em>` }] : []),
+];
+const serviceHtml = renderCVSection(serviceItems);
+
+// Build sections map
+type Section = { key: string; label: string; eyebrowClass?: string; content: string; extra?: string };
+const sectionsMap: Record<string, Section> = {
+  interests: {
+    key: 'interests', label: 'Research interests',
+    content: [
+      cv.aos ? `<div class="cv-item"><span class="cv-year cv-area-label">AOS</span><span class="cv-detail">${cv.aos}</span></div>` : '',
+      cv.aoc ? `<div class="cv-item"><span class="cv-year cv-area-label">AOC</span><span class="cv-detail">${cv.aoc}</span></div>` : '',
+    ].filter(Boolean).join('') || '',
+  },
+  positions: { key: 'positions', label: 'Positions', content: employmentHtml },
+  education: { key: 'education', label: 'Education', content: educationHtml },
+  publications: {
+    key: 'publications', label: 'Publications',
+    content: pubGroups.map(({ types, label }) => {
+      const items = cvPubItems(publications).filter(p => (types as readonly any[]).indexOf(p.type || 'Article') > -1);
+      if (!items.length) return '';
+      const rows = items.map(p => {
+        const vol = volStr(p);
+        const journalPart = p.journal ? `<span class="cv-detail-inline"><em>${p.journal}</em></span>` : '';
+        const volPart = vol ? `<span class="cv-detail-vol">${vol}.</span>` : '';
+        const prize = p.prize ? `<span class="cv-prize">${p.prize}</span>` : '';
+        return `<div class="cv-item">
+          <span class="cv-year">${p.year || ''}</span>
+          <span class="cv-detail">
+            <span class="cv-pub-title">${p.coauthors ? `(with ${p.coauthors}) ` : ''}${p.title}${/[.?!]$/.test(p.title) ? '' : '.'}</span>${journalPart ? ` ${journalPart}` : ''}${volPart ? ` ${volPart}` : ''}${prize}
+          </span>
+        </div>`;
+      }).join('');
+      return `<div class="cv-subsection-label">${label}</div>${rows}`;
+    }).join('') || '<p class="empty">Nothing to show yet.</p>',
+  },
+  wip: {
+    key: 'wip', label: 'Work in progress',
+    content: wipGroupOrder.length === 0 ? '' : wipGroupOrder.map(status => {
+      const rows = wipGroupMap[status].map(p => `<div class="cv-item">
+        <span class="cv-year"></span>
+        <span class="cv-detail">${p.title}.</span>
+      </div>`).join('');
+      return `<div class="cv-subsection-label">${status}</div>${rows}`;
+    }).join(''),
+  },
+  presentations: {
+    key: 'presentations', label: 'Selected presentations',
+    extra: `<span class="talks-legend"><sup>*</sup> invited &ensp; <sup>&#8224;</sup> peer-reviewed</span>`,
+    content: cvTalks.length === 0 ? '<p class="empty">Nothing to show yet.</p>' : `<ul class="pub-list">${cvTalks.map((talk: any) => {
+      const rows = (talk.presentations || []).filter(isPublished).map((p: any) => {
+        const tag = p.type === 'Invited' ? '<sup class="talk-tag">*</sup>'
+                  : p.type === 'Peer-Review' ? '<sup class="talk-tag">†</sup>' : '';
+        const date = p.month ? `${p.month} ${p.year}` : String(p.year || '');
+        const where = [p.venue, p.institution].filter(Boolean).join(', ');
+        const comment = p.comment ? ` <em class="talk-comment">${p.comment}</em>` : '';
+        return `<div class="talk-row"><div class="talk-yr">${date}</div><div class="talk-row-detail">${where}${tag}${comment}</div></div>`;
+      }).join('');
+      return `<li class="talk-item"><div class="talk-row"><div class="talk-yr"></div><h3>${talk.title}</h3></div><div class="talk-pres-list">${rows}</div></li>`;
+    }).join('')}</ul>`,
+  },
+  teaching: {
+    key: 'teaching', label: 'Teaching',
+    content: teachRoles.length === 0 ? '<p class="empty">Nothing to show yet.</p>' : teachRoles.map(role => {
+      const rows = teachGroups[role].map((e: any) => {
+        const note = e.note ? ` <span class="cv-detail-sub" style="display:inline">${e.note}</span>` : '';
+        return `<div class="cv-item"><span class="cv-year">${e.year || ''}</span><span class="cv-detail">${e.course}${note}</span></div>`;
+      }).join('');
+      return `<div class="cv-subsection-label">${role}</div>${rows}`;
+    }).join(''),
+  },
+  awards: {
+    key: 'awards', label: 'Honours, grants & awards',
+    content: (cv.awards || []).length === 0 ? '<p class="empty">Nothing to show yet.</p>' : (cv.awards || []).map((a: any) =>
+      `<div class="cv-item"><span class="cv-year">${a.year || ''}</span><span class="cv-detail">${a.description}${a.amount ? ` <span class="cv-award-amount">${a.amount}</span>` : ''}</span></div>`
+    ).join(''),
+  },
+  events: { key: 'events', label: 'Event organising', content: eventsHtml },
+  service: { key: 'service', label: 'Professional service', content: serviceHtml },
+  references: {
+    key: 'references', label: 'References',
+    content: (cv.references || []).length === 0 ? '' : (cv.references || []).map((r: any) =>
+      `<div class="cv-ref"><div class="cv-ref-name">${r.name}</div><div class="cv-ref-detail">${r.title}</div><div class="cv-ref-detail">${r.institution}</div>${r.email ? `<div class="cv-ref-detail"><a href="mailto:${r.email}">${r.email}</a></div>` : ''}</div>`
+    ).join(''),
+  },
+};
+
+// Order sections per cv-order.json; append any not listed at the end
+const orderedKeys = [
+  ...sectionOrder.filter(k => sectionsMap[k]),
+  ...Object.keys(sectionsMap).filter(k => !sectionOrder.includes(k)),
+];
+const orderedSections = orderedKeys.map(k => sectionsMap[k]);
+---
+
+<Base title="CV — Jonas Haeg" page="cv">
+  <span class="eyebrow">Curriculum Vitae</span>
+  <h2 style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:1rem">
+    Jonas Haeg
+    <button class="cv-download" onclick="window.print()">&#8595; Download PDF</button>
+  </h2>
+
+  <p id="cv-contact" class="cv-contact">
+    <span set:html={contactHtml} />
+    {contactAddr && <span class="cv-contact-addr">{contactAddr}</span>}
+  </p>
+
+  {orderedSections.map(sec => {
+    if (!sec) return null;
+    // Skip sections with no content (empty wip, etc.)
+    if (sec.key === 'wip' && !sec.content) return null;
+    if (sec.key === 'references' && !sec.content) return null;
+    return (
+      <div class="cv-section" data-cv-section={sec.key}>
+        {sec.extra
+          ? (
+            <div class="cv-eyebrow-row">
+              <span class="eyebrow">{sec.label}</span>
+              <span set:html={sec.extra} />
+            </div>
+          )
+          : <span class="eyebrow">{sec.label}</span>
+        }
+        {sec.key === 'references'
+          ? <div id={`cv-${sec.key}`} class="cv-references-grid" set:html={sec.content} />
+          : <div id={`cv-${sec.key}`} set:html={sec.content} />
+        }
+      </div>
+    );
+  })}
+</Base>

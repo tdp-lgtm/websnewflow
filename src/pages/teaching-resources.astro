@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import { prepHtml } from '../lib/prepHtml';
+import resourcesData from '../../data/teaching-resources.json';
+
+const data = resourcesData as any;
+const groups = data.groups || [];
+const introHtml = data.intro ? prepHtml(data.intro) : '';
+---
+
+<Base title="Resources for Students — Jonas Haeg" page="teaching">
+  <span class="eyebrow">Teaching</span>
+
+  {introHtml && <div class="resource-intro" set:html={introHtml} />}
+
+  {groups.length === 0 && !introHtml && (
+    <p style="color:var(--fg-3)">Resources coming soon.</p>
+  )}
+
+  {groups.map((g: any, gi: number) => (
+    <>
+      <h3 class={`resource-group-heading${gi === 0 ? '' : ''}`}>{g.heading}</h3>
+      <ul class="pub-list">
+        {(g.items || []).map((it: any) => (
+          <li class="pub resource-item">
+            <div class="yr"></div>
+            <div>
+              <p class="resource-item-title">
+                {it.url
+                  ? <a href={it.url} target="_blank" rel="noopener">{it.title}</a>
+                  : it.title}
+                {it.author && <span class="resource-author"> by {it.author}</span>}
+              </p>
+              {it.note && <p class="resource-author">{it.note}</p>}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </>
+  ))}
+</Base>

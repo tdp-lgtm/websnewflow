@@ -1,0 +1,634 @@
+media:
+  input: assets
+  output: /assets
+
+content:
+  # ------------------------------------------------------------
+  #  Front page
+  # ------------------------------------------------------------
+  - name: front_page
+    label: Front Page
+    type: file
+    path: data/front-page.json
+    format: json
+    fields:
+      - name: portrait
+        label: Portrait photo
+        type: image
+        options:
+          path: assets
+        description: Upload or replace the photo shown on the front page.
+      - name: text
+        label: About text
+        type: rich-text
+        options:
+          format: html
+          switcher: false
+          media: false
+        description: Use the toolbar for links, bold, italics, etc.
+      - name: justify
+        label: Justify text
+        type: boolean
+        default: true
+
+  # ------------------------------------------------------------
+  #  Research (group)
+  # ------------------------------------------------------------
+  - name: research
+    label: Research
+    type: group
+    items:
+      - name: research_bio
+        label: Research bio
+        type: file
+        path: data/research-bio.json
+        format: json
+        fields:
+          - name: text
+            label: Bio text
+            type: rich-text
+            options:
+              format: html
+              switcher: false
+              media: false
+          - name: justify
+            label: Justify text
+            type: boolean
+            default: false
+
+      - name: publications
+        label: Publications
+        type: file
+        path: data/publications.json
+        format: json
+        fields:
+          - name: items
+            label: false
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: Title
+                type: string
+                required: true
+              - name: type
+                label: Type
+                type: select
+                options:
+                  values: [Article, Book, Chapter, Editor, Review, Public]
+                default: Article
+              - name: year
+                label: Year
+                type: string
+                description: A number, "Forthcoming", "Online first", or "Commissioned".
+              - name: journal
+                label: Journal / Publisher / Venue
+                type: string
+              - name: volume
+                label: Volume
+                type: string
+              - name: issue
+                label: Issue
+                type: string
+              - name: pages
+                label: Pages
+                type: string
+              - name: coauthors
+                label: Co-authors
+                type: string
+              - name: abstract
+                label: Abstract
+                type: text
+              - name: pdf
+                label: PDF link
+                type: string
+              - name: doi
+                label: Publisher / DOI link
+                type: string
+              - name: prize
+                label: Prize / award
+                type: string
+              - name: published
+                label: Published (show on site)
+                type: boolean
+                default: true
+                description: Untick to hide this item without deleting it.
+              - name: cv
+                label: Show on CV
+                type: boolean
+                default: true
+
+          - name: wip
+            label: Work in progress
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: title
+                label: Title
+                type: string
+                required: true
+              - name: status
+                label: Status
+                type: select
+                options:
+                  values: [Under review, R&R, In preparation]
+              - name: abstract
+                label: Abstract
+                type: text
+              - name: pdf
+                label: Draft PDF link
+                type: string
+              - name: published
+                label: Published (show on site)
+                type: boolean
+                default: true
+                description: Untick to hide this item without deleting it.
+              - name: cv
+                label: Show on CV
+                type: boolean
+                default: true
+
+  # ------------------------------------------------------------
+  #  Talks
+  # ------------------------------------------------------------
+  - name: talks
+    label: Talks
+    type: file
+    path: data/talks.json
+    format: json
+    fields:
+      - name: items
+        label: false
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - name: title
+            label: Paper title
+            type: string
+            required: true
+          - name: published
+            label: Published (show on site)
+            type: boolean
+            default: true
+            description: Untick to hide this talk without deleting it.
+          - name: cv
+            label: Show on CV
+            type: boolean
+            default: true
+          - name: presentations
+            label: Presentations
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{venue}"
+            fields:
+              - name: venue
+                label: Venue / event
+                type: string
+              - name: type
+                label: Type
+                type: select
+                options:
+                  values: [Invited, Peer-Review]
+              - name: year
+                label: Year
+                type: string
+              - name: month
+                label: Month
+                type: string
+              - name: institution
+                label: Institution
+                type: string
+              - name: comment
+                label: Comment
+                type: string
+              - name: published
+                label: Published (show on site)
+                type: boolean
+                default: true
+
+  # ------------------------------------------------------------
+  #  Teaching (group)
+  # ------------------------------------------------------------
+  - name: teaching_group
+    label: Teaching
+    type: group
+    items:
+      - name: teaching
+        label: Teaching
+        type: file
+        path: data/teaching.json
+        format: json
+        fields:
+          - name: items
+            label: false
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{institution}"
+            fields:
+              - name: institution
+                label: Institution
+                type: string
+                required: true
+              - name: entries
+                label: Courses
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{course}"
+                fields:
+                  - name: course
+                    label: Course
+                    type: string
+                  - name: role
+                    label: Role
+                    type: select
+                    options:
+                      values: [Lecturer, Seminar Convenor, Teaching Assistant, Supervisor]
+                  - name: year
+                    label: Year
+                    type: string
+                  - name: levels
+                    label: Level of study
+                    type: select
+                    options:
+                      values: [Undergraduate, MA, MPhil, PhD]
+                      multiple: true
+                  - name: note
+                    label: Note
+                    type: string
+
+      - name: teaching_resources
+        label: Teaching resources
+        type: file
+        path: data/teaching-resources.json
+        format: json
+        fields:
+          - name: intro
+            label: Intro text (optional)
+            type: rich-text
+            options:
+              format: html
+              switcher: false
+              media: false
+            description: Optional paragraph shown above the resource groups.
+          - name: groups
+            label: Resource groups
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{heading}"
+            fields:
+              - name: heading
+                label: Group heading
+                type: string
+                description: e.g. "How to Write Philosophy".
+              - name: items
+                label: Resources
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{title}"
+                fields:
+                  - name: title
+                    label: Title
+                    type: string
+                  - name: author
+                    label: Author / source (optional)
+                    type: string
+                  - name: url
+                    label: Link (optional)
+                    type: string
+                  - name: note
+                    label: Note (optional)
+                    type: string
+
+  # ------------------------------------------------------------
+  #  Workshops
+  # ------------------------------------------------------------
+  - name: workshops
+    label: Workshops
+    type: file
+    path: data/workshops.json
+    format: json
+    fields:
+      - name: items
+        label: false
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - name: id
+            label: Page id
+            type: string
+            required: true
+            description: Must match the page filename, e.g. "workshop-1".
+          - name: title
+            label: Title
+            type: string
+            required: true
+          - name: published
+            label: Published (show on site)
+            type: boolean
+            default: true
+            description: Untick to hide this workshop without deleting it.
+          - name: institution
+            label: Institution / venue
+            type: string
+          - name: month
+            label: Month / dates
+            type: string
+          - name: year
+            label: Year
+            type: string
+          - name: coorganisers
+            label: Co-organisers
+            type: string
+          - name: description
+            label: Description
+            type: rich-text
+            options:
+              format: html
+              switcher: false
+              media: false
+            description: Use the toolbar for links, bold, alignment, etc.
+          - name: justify
+            label: Justify description text
+            type: boolean
+            default: false
+          - name: registration
+            label: Registration note
+            type: string
+          - name: programme
+            label: Speakers
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{name}"
+            fields:
+              - name: name
+                label: Name
+                type: string
+              - name: affiliation
+                label: Affiliation
+                type: string
+              - name: name2
+                label: Co-presenter name (optional)
+                type: string
+              - name: affiliation2
+                label: Co-presenter affiliation (optional)
+                type: string
+              - name: title
+                label: Talk title
+                type: string
+
+  # ------------------------------------------------------------
+  #  CV (group: content + section order)
+  # ------------------------------------------------------------
+  - name: cv_group
+    label: CV
+    type: group
+    items:
+      - name: cv
+        label: CV Content
+        type: file
+        path: data/cv.json
+        format: json
+        fields:
+          - name: contact
+            label: Contact (shown under your name)
+            type: object
+            fields:
+              - name: website
+                label: Website
+                type: string
+              - name: email
+                label: Email
+                type: string
+              - name: address
+                label: Address
+                type: string
+
+          - name: aos
+            label: AOS (Areas of Specialisation)
+            type: string
+          - name: aoc
+            label: AOC (Areas of Competence)
+            type: string
+
+          - name: employment
+            label: Employment
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: year
+                label: Year(s)
+                type: string
+              - name: title
+                label: Position title
+                type: string
+              - name: institution
+                label: Institution
+                type: string
+
+          - name: education
+            label: Education
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{degree}"
+            fields:
+              - name: year
+                label: Year(s)
+                type: string
+              - name: degree
+                label: Degree
+                type: string
+              - name: institution
+                label: Institution
+                type: string
+              - name: note
+                label: Note (e.g. Distinction)
+                type: string
+              - name: thesis
+                label: Thesis title
+                type: string
+              - name: supervisors
+                label: Supervisors
+                type: string
+                description: Separate multiple names with commas — the label adjusts automatically.
+              - name: examiners
+                label: Examiners
+                type: string
+
+          - name: awards
+            label: Honours, grants & awards
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{description}"
+            fields:
+              - name: year
+                label: Year
+                type: string
+              - name: description
+                label: Description
+                type: string
+              - name: amount
+                label: Monetary amount (optional)
+                type: string
+                description: Accepts symbols and text, e.g. "£4,000" or "$500".
+
+          - name: events
+            label: Event organising
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: year
+                label: Year
+                type: string
+              - name: title
+                label: Event name
+                type: string
+              - name: institution
+                label: Institution
+                type: string
+              - name: note
+                label: Note (e.g. Co-organiser)
+                type: string
+
+          - name: service
+            label: Professional service
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{description}"
+            fields:
+              - name: year
+                label: Year(s)
+                type: string
+              - name: description
+                label: Description
+                type: string
+
+          - name: reviewer
+            label: Reviewer for journals
+            type: text
+            description: Comma-separated list of journals.
+
+          - name: references
+            label: References
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{name}"
+            fields:
+              - name: name
+                label: Name
+                type: string
+              - name: title
+                label: Title / position
+                type: string
+              - name: institution
+                label: Institution
+                type: string
+              - name: email
+                label: Email
+                type: string
+
+      - name: cv_order
+        label: CV Section Order
+        type: file
+        path: data/cv-order.json
+        format: json
+        fields:
+          - name: sections
+            label: Drag rows to reorder CV sections
+            type: object
+            list:
+              collapsible:
+                collapsed: false
+                summary: "{section}"
+            fields:
+              - name: section
+                label: Section
+                type: select
+                options:
+                  values:
+                    - interests
+                    - positions
+                    - education
+                    - publications
+                    - wip
+                    - presentations
+                    - teaching
+                    - awards
+                    - events
+                    - service
+                    - references
+
+  # ------------------------------------------------------------
+  #  Navigation
+  # ------------------------------------------------------------
+  - name: nav
+    label: Navigation
+    type: file
+    path: data/nav.json
+    format: json
+    fields:
+      - name: items
+        label: Nav items (drag to reorder)
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{label}"
+        fields:
+          - name: label
+            label: Label
+            type: string
+          - name: href
+            label: Link (leave blank for dropdown)
+            type: string
+          - name: subitems
+            label: Dropdown items (optional)
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - name: label
+                label: Label
+                type: string
+              - name: href
+                label: Page link
+                type: string

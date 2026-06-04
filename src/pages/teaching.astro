@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import teachingData from '../../data/teaching.json';
+
+function isPublished(item: { published?: boolean }) {
+  return !item || item.published !== false;
+}
+
+const institutions = ((teachingData as any).items || teachingData).filter(isPublished);
+
+// Flatten all entries across institutions and group by role
+const roleOrder = ['Lecturer', 'Seminar Convenor', 'Teaching Assistant', 'Supervisor'];
+const groups: Record<string, { course: string; year?: string; levels?: string[]; note?: string; institution: string }[]> = {};
+
+institutions.forEach((inst: any) => {
+  (inst.entries || []).forEach((e: any) => {
+    if (!groups[e.role]) groups[e.role] = [];
+    groups[e.role].push({ ...e, institution: inst.institution });
+  });
+});
+
+const roles = [
+  ...roleOrder.filter(r => groups[r]),
+  ...Object.keys(groups).filter(r => !roleOrder.includes(r)),
+];
+---
+
+<Base title="Teaching — Jonas Haeg" page="teaching">
+  <span class="eyebrow">Teaching</span>
+
+  <div id="teaching">
+    {roles.map((role, i) => (
+      <>
+        <span class={`section-label${i === 0 ? ' section-label--first' : ''}`}>{role}</span>
+        <div class="talk-pres-list">
+          {groups[role].map(e => {
+            const levels = e.levels && e.levels.length
+              ? [e.levels].flat().join(', ')
+              : '';
+            return (
+              <div class="talk-row">
+                <div class="talk-yr">{e.year || ''}</div>
+                <div class="talk-row-detail">
+                  {e.course}
+                  {levels && <span class="teaching-levels">{levels}</span>}
+                  {e.note && <span class="talk-comment"> {e.note}</span>}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </>
+    ))}
+  </div>
+</Base>

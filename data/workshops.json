@@ -1,0 +1,47 @@
+{
+  "items": [
+    {
+      "id": "workshop-1",
+      "title": "Workshop on the Ethics of Deception",
+      "published": true,
+      "institution": "Gula Villan, Stockholm University",
+      "month": "26–27 November",
+      "year": 2025,
+      "coorganisers": "Helen Frowe",
+      "description": "<p>Deception is a pervasive part of public and private life. Some deceptions seem innocuous, desirable, expected, or even demanded by, say, duties of gratitude, loyalty, or friendship. We tell our children that Santa Claus exists (!), assure our partners that we love their (frankly baffling) gift, promise interviewers that this is our absolute dream job, and insist that our friend's signature dish is just terrific. We might think that certain state actors also have permissions and duties to deceive. Police officers use deception to entrap suspected criminals, manipulate suspects in interviews, and infiltrate criminal organisations. Spies deceptively obtain state secrets. And yet we also treat deception as a prima facie wrong: we teach our children not to lie, regard being deceitful as a vice and being honest as a virtue, and often feel wronged when we discover that someone has deceived or misled us. This workshop will explore a range of conceptual, theoretical and applied ethical issues connected to deception, broadly construed.</p>",
+      "justify": true,
+      "programme": [
+        { "name": "Chloe Kennedy", "affiliation": "Edinburgh", "title": "The Ethics (and Legality) of Deceptive Intimate Relationships" },
+        { "name": "Helen Frowe", "affiliation": "Stockholm", "title": "Criminalising Deceptive Relationships" },
+        { "name": "Radu Bumbăcea", "affiliation": "LMU Munich", "title": "Personas and Deception" },
+        { "name": "Shalom Chalson", "affiliation": "Singapore", "title": "Lying to Loved Ones: (Wrongful) Deception and Health Status" },
+        { "name": "Alex Barber and Sean Cordell", "affiliation": "Open University", "title": "Legislating against Political Lying" },
+        { "name": "Jörg Löschke", "affiliation": "Stuttgart", "title": "Love, Games, and Deception" },
+        { "name": "Maria Lucila Tuñón Corti", "affiliation": "MPI/Würzburg", "title": "Stealthing: Between Consent and Deception" },
+        { "name": "Pascal Mowla", "affiliation": "Oxford", "title": "Sentimentality and Generative AI: What's Wrong with \"Cheating\"?" },
+        { "name": "Luke Hunt", "affiliation": "Alabama", "title": "The Legal and Moral Right (and Duty) to Deceive" }
+      ]
+    },
+    {
+      "id": "workshop-2",
+      "title": "Workshop on Deterrence and Deontology",
+      "published": true,
+      "institution": "Stockholm University",
+      "month": "24–25 March",
+      "year": 2026,
+      "coorganisers": "Helen Frowe",
+      "description": "<p>Deterrence is invoked to justify a wide range of domestic and international policies and practices. Punishment is often justified as deterring both repeat offending and offending by others. The UK's (now-aborted) policy of deporting asylum seekers to Rwanda was largely defended as a means of deterring migrants from crossing the Channel. Recent strikes on Houthi rebels in Yemen were intended to deter both attacks on commercial vessels in the Red Sea and the expansion of the war in Gaza to other parts of the Middle East. The importance of deterring Russian aggression has underpinned the military support provided to Ukraine by its Western allies. Despite its central role in both international affairs and domestic politics, deterrence remains surprisingly under-theorised in the ethics of war and in moral and political philosophy more broadly. For example, although deterrence is often cited as a justification for war in political debates, it is largely neglected in the substantial body of work produced on the ethics of war in the last twenty years. And although there are significant bodies of work on deterrent punishment and nuclear deterrence, these seem ill-suited to evaluating the full range of domestic and international deterrent policies. This theoretical lacuna is troubling, given the importance, prevalence and often high stakes of deterrent policies. And the subject is challenging, since it engages complex deontological principles, such as the distinction between doing and allowing harm and the moral significance of using a person for the benefit of others. This workshop will bring together philosophers working on moral, legal, and political dimensions of deterrence to explore underlying theoretical issues that can help us assess the plausibility and legitimacy of deterrent justifications.</p>",
+      "justify": true,
+      "programme": [
+        { "name": "Kimberly Ferzan", "affiliation": "University of Pennsylvania", "title": "TBA" },
+        { "name": "Patrick Tomlin", "affiliation": "Warwick University", "title": "To Infinity and Beyond?: On the Logic and Limits of Deterrence" },
+        { "name": "Helen Frowe", "affiliation": "Stockholm University", "title": "The Ethics of Collective Defence Agreements" },
+        { "name": "Bashshar Haydar (American University of Beirut) and\nLars Christie", "affiliation": "\nUniversity of Inland Norway", "title": "Deterrence and Proportionality in Defensive Wars" },
+        { "name": "Anna Dvorishchina (LSE) and\nTrenton Sewell", "affiliation": "\nUniversity of Surrey", "title": "Punishment, General Deterrence, and Overdetermination" },
+        { "name": "Jeremy Davis", "affiliation": "University of Georgia", "title": "Intervening Agency, Deterrence, and Proportionality" },
+        { "name": "Jimmy Goodrich (UW-Madison) and\nJoe Bowen", "affiliation": "\nUniversity of Leeds", "title": "Innocence Regained: On the Basis of Moral Liability to General Deterrence" },
+        { "name": "Lee-Ann Chae", "affiliation": "Temple University", "title": "When Deterrence Becomes Provocation" }
+      ]
+    }
+  ]
+}

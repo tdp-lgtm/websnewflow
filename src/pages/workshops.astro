@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import workshopsData from '../../data/workshops.json';
+
+function isPublished(item: { published?: boolean }) {
+  return !item || item.published !== false;
+}
+
+const workshops = ((workshopsData as any).items || workshopsData).filter(isPublished);
+---
+
+<Base title="Workshops — Jonas Haeg" page="workshops">
+  <span class="eyebrow">Workshops</span>
+  <h2>Gatherings &amp; organised events</h2>
+
+  <ul class="pub-list">
+    {workshops.map((w: any) => {
+      const date = [w.month, w.year].filter(Boolean).join(' ');
+      const metaParts = [
+        w.institution,
+        date,
+        w.coorganisers ? `Organised with ${w.coorganisers}` : '',
+      ].filter(Boolean);
+      return (
+        <li class="pub">
+          <div class="yr">{w.year || ''}</div>
+          <div>
+            <h3><a href={`/${w.id}`}>{w.title}</a></h3>
+            <p class="venue">{metaParts.join(' · ')}.</p>
+          </div>
+        </li>
+      );
+    })}
+  </ul>
+</Base>

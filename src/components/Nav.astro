@@ -1,0 +1,85 @@
+---
+interface SubItem {
+  label: string;
+  href: string;
+}
+interface NavItem {
+  label: string;
+  href?: string;
+  subitems?: SubItem[];
+}
+interface Props {
+  items: NavItem[];
+  currentPath: string;
+}
+
+const { items, currentPath } = Astro.props;
+
+// Strip trailing slash for comparison
+const path = currentPath.replace(/\/$/, '') || '/';
+
+function isActive(href: string): boolean {
+  const clean = href.replace(/\.html$/, '');
+  return path === '/' + clean || path === '/' + clean + '/';
+}
+
+function isDropdownActive(item: NavItem): boolean {
+  const subs = item.subitems || [];
+  if (subs.some(s => isActive(s.href))) return true;
+  return subs.some(s => {
+    const clean = s.href.replace(/\.html$/, '');
+    return path.startsWith('/' + clean);
+  });
+}
+---
+
+<nav>
+  {items.map(item => {
+    if (item.subitems && item.subitems.length > 0) {
+      const active = isDropdownActive(item);
+      const dropKey = item.label.toLowerCase();
+      return (
+        <div class={`nav-dropdown${active ? ' active' : ''}`} data-dropdown-root>
+          <button class="nav-dropdown-trigger" data-dropdown={dropKey}>{item.label}</button>
+          <ul class="nav-dropdown-menu">
+            {item.subitems.map(s => {
+              const href = '/' + s.href.replace(/\.html$/, '');
+              return <li><a href={href}>{s.label}</a></li>;
+            })}
+          </ul>
+        </div>
+      );
+    }
+    const href = item.href
+      ? (item.href === 'index.html' || item.href === '' ? '/' : '/' + item.href.replace(/\.html$/, ''))
+      : '/';
+    const active = item.href ? isActive(item.href) : (path === '/');
+    return (
+      <a href={href} class={active ? 'active' : undefined}>{item.label}</a>
+    );
+  })}
+</nav>
+
+<script>
+  function initNav() {
+    // Use onclick property to avoid duplicate listeners across soft navigations
+    document.querySelectorAll<HTMLButtonElement>('.nav-dropdown-trigger').forEach(trigger => {
+      trigger.onclick = (e) => {
+        e.stopPropagation();
+        const dropdown = trigger.closest('[data-dropdown-root]');
+        if (!dropdown) return;
+        const isOpen = dropdown.classList.contains('open');
+        document.querySelectorAll('[data-dropdown-root].open').forEach(d => d.classList.remove('open'));
+        if (!isOpen) dropdown.classList.add('open');
+      };
+    });
+  }
+
+  // Close on outside click — set once, persists across navigations
+  document.addEventListener('click', () => {
+    document.querySelectorAll('[data-dropdown-root].open').forEach(d => d.classList.remove('open'));
+  });
+
+  initNav();
+  document.addEventListener('astro:page-load', initNav);
+</script>
