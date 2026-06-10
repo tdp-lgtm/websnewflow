@@ -31,6 +31,9 @@ jobs:
       # Pages CMS writes images to the root assets/ folder; this bridges them for the build.
       - run: mkdir -p public && cp -r assets public/assets
 
+      # Resize/recompress CMS-uploaded images so mobile isn't served 600 KB photos
+      - run: node scripts/optimize-images.mjs
+
       - run: npm run build
 
       # Generate the CV PDF from the built /cv page so it always matches the site

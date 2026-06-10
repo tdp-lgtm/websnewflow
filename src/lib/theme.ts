@@ -12,11 +12,13 @@ export const SCHEMES: Record<string, {
 };
 
 // Font catalogue: named options available in the CMS.
-// Fonts already bundled in style.css @import have no googleUrl — no extra load.
+// Each Google font carries its own URL; Base.astro loads only the selected
+// ones via parallel <link> tags (faster than a serial @import in the CSS).
 export const FONTS: Record<string, { stack: string; googleUrl?: string }> = {
   // ── Serif ─────────────────────────────────────────────────────────────────
   'Spectral': {
     stack: "'Spectral', Georgia, serif",
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap',
   },
   'Georgia': {
     stack: 'Georgia, serif',
@@ -31,6 +33,7 @@ export const FONTS: Record<string, { stack: string; googleUrl?: string }> = {
   // ── Sans ──────────────────────────────────────────────────────────────────
   'Hanken Grotesk': {
     stack: "'Hanken Grotesk', system-ui, sans-serif",
+    googleUrl: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap',
   },
   'System': {
     stack: 'system-ui, sans-serif',
@@ -46,6 +49,7 @@ export const FONTS: Record<string, { stack: string; googleUrl?: string }> = {
   // ── Mono ──────────────────────────────────────────────────────────────────
   'IBM Plex Mono': {
     stack: "'IBM Plex Mono', ui-monospace, monospace",
+    googleUrl: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap',
   },
   'JetBrains Mono': {
     stack: "'JetBrains Mono', ui-monospace, monospace",

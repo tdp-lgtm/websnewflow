@@ -12,7 +12,7 @@ const portraitSrc = base + (frontPage.portrait || '/assets/portrait.jpg');
 <Base title={settings.title} page="about">
   <div class="about-body">
     <div class="about-portrait">
-      <img src={portraitSrc} alt={settings.title} />
+      <img src={portraitSrc} alt={settings.title} fetchpriority="high" decoding="async" />
       <nav class="about-links" aria-label="Quick links">
         {settings.quick_links.map((link: any) => {
           const href = link.href.startsWith('/') ? `${base}${link.href}` : link.href;
