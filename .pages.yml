@@ -689,9 +689,8 @@ content:
         format: json
         fields:
           - name: sections
-            label: CV sections (drag to reorder)
+            label: CV sections (drag to reorder, delete to remove)
             type: object
-            description: "Only sections listed here appear on the CV — delete a row to remove a section entirely, or use 'Hide' to keep it in the list without showing it. custom-1/2/3 are the Custom sections defined under CV Content."
             list:
               collapsible:
                 collapsed: true
