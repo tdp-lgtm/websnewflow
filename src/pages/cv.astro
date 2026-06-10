@@ -7,6 +7,7 @@ import cvJson from '../../data/cv.json';
 import cvOrderJson from '../../data/cv-order.json';
 
 const cv = cvJson as any;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const publications = (pubData.items || []) as any[];
 const wip = (pubData.wip || []) as any[];
 const talks = ((talksData as any).items || talksData) as any[];
@@ -208,7 +209,7 @@ const orderedSections = orderedKeys.map(k => sectionsMap[k]);
   <span class="eyebrow">Curriculum Vitae</span>
   <h2 style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:1rem">
     Jonas Haeg
-    <button class="cv-download" onclick="window.print()">&#8595; Download PDF</button>
+    <a class="cv-download" href={`${base}/assets/cv.pdf`} target="_blank" rel="noopener">&#8595; Download PDF</a>
   </h2>
 
   <p id="cv-contact" class="cv-contact">

@@ -33,6 +33,10 @@ jobs:
 
       - run: npm run build
 
+      # Generate the CV PDF from the built /cv page so it always matches the site
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/generate-cv-pdf.mjs
+
       # CNAME must be in the dist root for GitHub Pages to respect the custom domain
       - run: cp CNAME dist/CNAME
 

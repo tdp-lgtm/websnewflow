@@ -10,5 +10,8 @@
   },
   "dependencies": {
     "astro": "^4.16.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
   }
 }
