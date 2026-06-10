@@ -12,37 +12,44 @@ content:
     path: data/theme.json
     format: json
     fields:
+      - name: color_scheme
+        label: Colour scheme
+        type: select
+        options:
+          values: [Reading Room, Ivory, Porcelain, Oxford, Sage, Plain, Custom]
+        default: Reading Room
+        description: "Preview every scheme with swatches and sample text at jonashaeg.com/theme. Pick 'Custom' to use the six hex fields below instead."
       - name: color_paper
-        label: Page background
+        label: "Custom: page background"
         type: string
-        description: "Hex colour for the main background. Default: #F5F1E8"
+        description: "Only used when Colour scheme is 'Custom'. Hex code, e.g. #F5F1E8. Tip: pick colours visually at htmlcolorcodes.com/color-picker."
       - name: color_ink
-        label: Body text
+        label: "Custom: body text"
         type: string
-        description: "Hex colour for headings and primary text. Default: #211C16"
+        description: "Only used when Colour scheme is 'Custom'. Default: #211C16"
       - name: color_fg2
-        label: Secondary text
+        label: "Custom: secondary text"
         type: string
-        description: "Hex colour for venue names, dates, and supporting text. Default: #574F44"
+        description: "Only used when Colour scheme is 'Custom'. Venue names, dates, supporting text. Default: #574F44"
       - name: color_fg3
-        label: Muted text
+        label: "Custom: muted text"
         type: string
-        description: "Hex colour for year labels, eyebrows, and least-prominent text. Default: #8C8474"
+        description: "Only used when Colour scheme is 'Custom'. Year labels, eyebrows. Default: #8C8474"
       - name: color_rule
-        label: Dividers
+        label: "Custom: dividers"
         type: string
-        description: "Hex colour for the thin lines separating sections. Default: #E3DBCB"
+        description: "Only used when Colour scheme is 'Custom'. Thin section lines. Default: #E3DBCB"
       - name: color_accent
-        label: Links & highlights
+        label: "Custom: links & highlights"
         type: string
-        description: "Hex colour for hyperlinks, the site-title dot, and hover accents. Default: #7B2E2E"
+        description: "Only used when Colour scheme is 'Custom'. Hyperlinks and accents. Default: #7B2E2E"
       - name: font_serif
         label: Serif font (body, abstracts, titles)
         type: select
         options:
           values: [Spectral, Georgia, Palatino, Libre Baskerville]
         default: Spectral
-        description: Used for reading text, publication titles, and abstracts.
+        description: "See each font rendered in its own typeface at jonashaeg.com/theme. Used for reading text, publication titles, and abstracts."
       - name: font_sans
         label: Sans font (nav, labels, UI)
         type: select
@@ -63,14 +70,14 @@ content:
         options:
           values: [hover, always, none]
         default: hover
-        description: "hover = underline on hover only (default); always = always underlined; none = never."
+        description: "hover = underline on hover only (default); always = always underlined; none = never. Preview at jonashaeg.com/theme."
       - name: heading_weight
         label: Heading weight
         type: select
         options:
           values: ["300", "400", "500"]
         default: "400"
-        description: "Light (300), Regular (400, default), or Medium (500)."
+        description: "Light (300), Regular (400, default), or Medium (500). Preview at jonashaeg.com/theme."
 
   # ------------------------------------------------------------
   #  Front page
@@ -633,6 +640,48 @@ content:
                 label: Email
                 type: string
 
+          - name: custom_sections
+            label: Custom sections
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            description: 'Extra CV categories of your own (e.g. "Professional training"). After creating one, add its slot (custom-1, custom-2 or custom-3) to the CV Section Order list to make it appear.'
+            fields:
+              - name: slot
+                label: Slot
+                type: select
+                options:
+                  values: [custom-1, custom-2, custom-3]
+                required: true
+                description: Use a different slot for each custom section.
+              - name: title
+                label: Section heading
+                type: string
+                required: true
+                description: e.g. "Professional training".
+              - name: items
+                label: Entries
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{detail}"
+                fields:
+                  - name: year
+                    label: Year(s)
+                    type: string
+                  - name: detail
+                    label: Main text
+                    type: string
+                  - name: sub
+                    label: Sub-line (optional)
+                    type: string
+                  - name: link
+                    label: Link (optional)
+                    type: string
+
       - name: cv_order
         label: CV Section Order
         type: file
@@ -640,11 +689,12 @@ content:
         format: json
         fields:
           - name: sections
-            label: Drag rows to reorder CV sections
+            label: CV sections (drag to reorder)
             type: object
+            description: "Only sections listed here appear on the CV — delete a row to remove a section entirely, or use 'Hide' to keep it in the list without showing it. custom-1/2/3 are the Custom sections defined under CV Content."
             list:
               collapsible:
-                collapsed: false
+                collapsed: true
                 summary: "{section}"
             fields:
               - name: section
@@ -663,6 +713,14 @@ content:
                     - events
                     - service
                     - references
+                    - custom-1
+                    - custom-2
+                    - custom-3
+              - name: hidden
+                label: Hide this section
+                type: boolean
+                default: false
+                description: Temporarily hide without removing it from the list.
 
   # ------------------------------------------------------------
   #  Navigation

@@ -376,7 +376,7 @@ h2 {
 .talk-item h3 {
   font-family: var(--serif);
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0 0 0.35rem;

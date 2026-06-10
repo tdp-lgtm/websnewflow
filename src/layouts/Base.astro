@@ -30,6 +30,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // e.g. '/websnewflow'
   {fontLinks.length > 0 && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
   {fontLinks.map(url => <link rel="stylesheet" href={url} />)}
   <Fragment set:html={`<style>${themeCss}</style>`} />
+  <slot name="head" />
   <ViewTransitions />
 </head>
 <body data-page={page}>

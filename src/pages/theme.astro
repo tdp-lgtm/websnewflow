@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+import themeData from '../../data/theme.json';
+import { SCHEMES, FONTS } from '../lib/theme';
+
+// Unlisted preview gallery for the Pages CMS "Appearance" settings.
+// Loads every catalogue font so each specimen renders in its own typeface.
+const previewFontUrls = [...new Set(
+  Object.values(FONTS).flatMap(f => f.googleUrl ? [f.googleUrl] : [])
+)];
+
+const serifFonts = ['Spectral', 'Georgia', 'Palatino', 'Libre Baskerville'];
+const sansFonts  = ['Hanken Grotesk', 'System', 'Inter', 'Source Sans 3'];
+const monoFonts  = ['IBM Plex Mono', 'JetBrains Mono', 'System Mono'];
+
+const theme = themeData as Record<string, string>;
+const currentScheme = theme.color_scheme || 'Reading Room';
+---
+
+<Base title="Theme preview — Jonas Haeg" page="theme">
+  <Fragment slot="head">
+    {previewFontUrls.map(url => <link rel="stylesheet" href={url} />)}
+  </Fragment>
+
+  <span class="eyebrow">Appearance</span>
+  <h2>Theme preview</h2>
+  <p style="color:var(--fg-2)">
+    A visual reference for the options in <strong>Pages CMS → Appearance</strong>.
+    Pick the names you like here, select them in the CMS, save, and the site rebuilds
+    with your choices (~2 min). This page isn't linked from the navigation.
+  </p>
+
+  <!-- ── Color schemes ─────────────────────────────────────────── -->
+  <div class="cv-section">
+    <span class="eyebrow">Colour scheme</span>
+    {Object.entries(SCHEMES).map(([name, s]) => (
+      <div class="tp-scheme" style={`background:${s.paper};border:1px solid ${s.rule}`}>
+        <div class="tp-scheme-head">
+          <strong style={`color:${s.ink};font-family:var(--sans)`}>
+            {name}{name === currentScheme ? ' — current' : ''}
+          </strong>
+          <span class="tp-chips">
+            {[s.paper, s.ink, s.fg2, s.fg3, s.rule, s.accent].map(c => (
+              <span class="tp-chip" style={`background:${c}`} title={c} />
+            ))}
+          </span>
+        </div>
+        <p class="tp-sample" style={`color:${s.ink}`}>
+          Body text looks like this, with <a style={`color:${s.accent}`} href="#">a hyperlink</a>,
+          <span style={`color:${s.fg2}`}> secondary text for venues and dates,</span>
+          <span style={`color:${s.fg3}`}> and muted labels.</span>
+        </p>
+      </div>
+    ))}
+    <p class="tp-note">Choosing <strong>Custom</strong> in the CMS uses the six hex-code fields instead.</p>
+  </div>
+
+  <!-- ── Fonts ─────────────────────────────────────────────────── -->
+  <div class="cv-section">
+    <span class="eyebrow">Serif font — body, abstracts, titles</span>
+    {serifFonts.map(name => (
+      <p class="tp-specimen" style={`font-family:${FONTS[name].stack}`}>
+        <span class="tp-specimen-name">{name}{name === theme.font_serif ? ' — current' : ''}</span>
+        On the Ethics of Self-Defence and Punishment — a quick brown fox jumps over the lazy dog, 1234567890.
+      </p>
+    ))}
+  </div>
+
+  <div class="cv-section">
+    <span class="eyebrow">Sans font — navigation, labels, UI</span>
+    {sansFonts.map(name => (
+      <p class="tp-specimen" style={`font-family:${FONTS[name].stack}`}>
+        <span class="tp-specimen-name">{name}{name === theme.font_sans ? ' — current' : ''}</span>
+        Research · Talks · Workshops · Teaching · CV — a quick brown fox jumps over the lazy dog.
+      </p>
+    ))}
+  </div>
+
+  <div class="cv-section">
+    <span class="eyebrow">Monospace font — year labels, eyebrows, footer</span>
+    {monoFonts.map(name => (
+      <p class="tp-specimen" style={`font-family:${FONTS[name].stack};font-size:0.85rem`}>
+        <span class="tp-specimen-name">{name}{name === theme.font_mono ? ' — current' : ''}</span>
+        2024 · FORTHCOMING · CURRICULUM VITAE · 1234567890
+      </p>
+    ))}
+  </div>
+
+  <!-- ── Link underline ────────────────────────────────────────── -->
+  <div class="cv-section">
+    <span class="eyebrow">Link underline style</span>
+    <p class="tp-specimen">
+      <span class="tp-specimen-name">hover{(theme.link_underline || 'hover') === 'hover' ? ' — current' : ''}</span>
+      Links like <a href="#" style="text-decoration:none">this one</a> are underlined only when you hover them (the site default).
+    </p>
+    <p class="tp-specimen">
+      <span class="tp-specimen-name">always{theme.link_underline === 'always' ? ' — current' : ''}</span>
+      Links like <a href="#" style="text-decoration:underline">this one</a> are always underlined.
+    </p>
+    <p class="tp-specimen">
+      <span class="tp-specimen-name">none{theme.link_underline === 'none' ? ' — current' : ''}</span>
+      Links like <a href="#" style="text-decoration:none">this one</a> are never underlined (colour only).
+    </p>
+  </div>
+
+  <!-- ── Heading weight ────────────────────────────────────────── -->
+  <div class="cv-section">
+    <span class="eyebrow">Heading weight</span>
+    {['300', '400', '500'].map(w => (
+      <p class="tp-specimen">
+        <span class="tp-specimen-name">
+          {w === '300' ? 'Light (300)' : w === '400' ? 'Regular (400)' : 'Medium (500)'}
+          {(theme.heading_weight || '400') === w ? ' — current' : ''}
+        </span>
+        <span style={`font-family:var(--serif);font-size:1.5rem;font-weight:${w}`}>Curriculum Vitae — Jonas Haeg</span>
+      </p>
+    ))}
+  </div>
+
+  <style>
+    .tp-scheme { border-radius: 4px; padding: 0.9rem 1.1rem; margin: 0.75rem 0; }
+    .tp-scheme-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .tp-chips { display: inline-flex; gap: 0.3rem; }
+    .tp-chip { width: 1.15rem; height: 1.15rem; border-radius: 50%; display: inline-block; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
+    .tp-sample { margin: 0.5rem 0 0; font-size: 0.95rem; }
+    .tp-specimen { margin: 0.9rem 0; font-size: 1.05rem; line-height: 1.5; }
+    .tp-specimen-name { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 0.2rem; }
+    .tp-note { font-size: 0.85rem; color: var(--fg-3); }
+  </style>
+</Base>

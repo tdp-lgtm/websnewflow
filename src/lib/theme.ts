@@ -1,6 +1,19 @@
+// Curated color schemes: full palettes selectable by name in the CMS.
+// 'Custom' falls through to the individual hex fields in theme.json.
+export const SCHEMES: Record<string, {
+  paper: string; ink: string; fg2: string; fg3: string; rule: string; accent: string;
+}> = {
+  'Reading Room': { paper: '#F5F1E8', ink: '#211C16', fg2: '#574F44', fg3: '#8C8474', rule: '#E3DBCB', accent: '#7B2E2E' },
+  'Ivory':        { paper: '#FAF7F0', ink: '#1F1B16', fg2: '#5A5246', fg3: '#948B7B', rule: '#E8E2D4', accent: '#8A3324' },
+  'Porcelain':    { paper: '#F4F4F2', ink: '#1C1E21', fg2: '#4D5158', fg3: '#878C94', rule: '#E0E1DD', accent: '#355070' },
+  'Oxford':       { paper: '#FAFAF8', ink: '#14161A', fg2: '#4A4F58', fg3: '#8A8F98', rule: '#E4E4E0', accent: '#1B365D' },
+  'Sage':         { paper: '#F3F4EE', ink: '#20231C', fg2: '#535848', fg3: '#8B907D', rule: '#DFE2D2', accent: '#4A5D43' },
+  'Plain':        { paper: '#FFFFFF', ink: '#111111', fg2: '#444444', fg3: '#888888', rule: '#E5E5E5', accent: '#1A56A0' },
+};
+
 // Font catalogue: named options available in the CMS.
 // Fonts already bundled in style.css @import have no googleUrl — no extra load.
-const FONTS: Record<string, { stack: string; googleUrl?: string }> = {
+export const FONTS: Record<string, { stack: string; googleUrl?: string }> = {
   // ── Serif ─────────────────────────────────────────────────────────────────
   'Spectral': {
     stack: "'Spectral', Georgia, serif",
@@ -56,12 +69,13 @@ export function getThemeCss(theme: Record<string, string>): string {
   const sans   = FONTS[theme.font_sans]?.stack   ?? FONTS['Hanken Grotesk'].stack;
   const mono   = FONTS[theme.font_mono]?.stack   ?? FONTS['IBM Plex Mono'].stack;
 
-  const paper  = theme.color_paper  || '#F5F1E8';
-  const ink    = theme.color_ink    || '#211C16';
-  const fg2    = theme.color_fg2    || '#574F44';
-  const fg3    = theme.color_fg3    || '#8C8474';
-  const rule   = theme.color_rule   || '#E3DBCB';
-  const accent = theme.color_accent || '#7B2E2E';
+  const scheme = SCHEMES[theme.color_scheme];
+  const paper  = scheme?.paper  ?? (theme.color_paper  || '#F5F1E8');
+  const ink    = scheme?.ink    ?? (theme.color_ink    || '#211C16');
+  const fg2    = scheme?.fg2    ?? (theme.color_fg2    || '#574F44');
+  const fg3    = scheme?.fg3    ?? (theme.color_fg3    || '#8C8474');
+  const rule   = scheme?.rule   ?? (theme.color_rule   || '#E3DBCB');
+  const accent = scheme?.accent ?? (theme.color_accent || '#7B2E2E');
 
   const lines = [
     ':root {',

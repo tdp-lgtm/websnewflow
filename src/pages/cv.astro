@@ -12,7 +12,12 @@ const publications = (pubData.items || []) as any[];
 const wip = (pubData.wip || []) as any[];
 const talks = ((talksData as any).items || talksData) as any[];
 const institutions = ((teachingData as any).items || teachingData) as any[];
-const sectionOrder: string[] = (cvOrderJson.sections || []).map((s: any) => s.section || s.key || s);
+// Section rows: { section, hidden? }. Only listed, non-hidden sections render —
+// removing a row from the CMS deletes the section from the CV entirely.
+const orderRows = ((cvOrderJson.sections || []) as any[])
+  .map((s: any) => (typeof s === 'string' ? { section: s } : s))
+  .filter((s: any) => s.section && s.hidden !== true);
+const sectionOrder: string[] = orderRows.map((s: any) => s.section);
 
 function isPublished(item: any) { return !item || item.published !== false; }
 function isOnCV(item: any) { return !item || item.cv !== false; }
@@ -198,12 +203,22 @@ const sectionsMap: Record<string, Section> = {
   },
 };
 
-// Order sections per cv-order.json; append any not listed at the end
-const orderedKeys = [
-  ...sectionOrder.filter(k => sectionsMap[k]),
-  ...Object.keys(sectionsMap).filter(k => !sectionOrder.includes(k)),
-];
-const orderedSections = orderedKeys.map(k => sectionsMap[k]);
+// Custom sections from the CMS (slots custom-1..3): own title + generic entries
+((cv.custom_sections || []) as any[]).forEach((cs: any) => {
+  if (!cs.slot || !cs.title) return;
+  sectionsMap[cs.slot] = {
+    key: cs.slot,
+    label: cs.title,
+    content: renderCVSection((cs.items || []).map((i: any) => ({
+      year: i.year, detail: i.detail, sub: i.sub, link: i.link,
+    }))),
+  };
+});
+
+// Render exactly the sections listed in cv-order.json, in that order
+const orderedSections = sectionOrder
+  .filter(k => sectionsMap[k])
+  .map(k => sectionsMap[k]);
 ---
 
 <Base title="CV — Jonas Haeg" page="cv">
