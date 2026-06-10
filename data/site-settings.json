@@ -4,11 +4,26 @@
   "og_image": "/assets/portrait.jpg",
   "footer_text": "Jonas Haeg",
   "quick_links": [
-    { "label": "Email",      "href": "mailto:jonas.haeg@philosophy.su.se" },
-    { "label": "CV",         "href": "/cv" },
-    { "label": "ORCID",      "href": "https://orcid.org/0000-0002-2746-3510" },
-    { "label": "PhilPeople", "href": "https://philpeople.org/profiles/jonas-haeg" },
-    { "label": "Art",        "href": "https://instagram.com/taudalpoi" }
+    {
+      "label": "Email",
+      "href": "mailto:jonas.haeg@philosophy.su.se"
+    },
+    {
+      "label": "CV",
+      "href": "/cv"
+    },
+    {
+      "label": "ORCID",
+      "href": "https://orcid.org/0000-0002-2746-3510"
+    },
+    {
+      "label": "PhilPeople",
+      "href": "https://philpeople.org/profiles/jonas-haeg"
+    },
+    {
+      "label": "Art",
+      "href": "https://instagram.com/taudalpoi"
+    }
   ],
-  "analytics_id": ""
+  "analytics_id": "328ddf93-6d27-48e8-8613-19c3f3d0d0c8"
 }
