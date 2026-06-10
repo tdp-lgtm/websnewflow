@@ -535,6 +535,7 @@ h2 {
 }
 .about-portrait img {
   width: 100%;
+  height: auto; /* the width/height HTML attributes set aspect ratio only */
   display: block;
   border-radius: 6px;
   filter: grayscale(1) contrast(1.03);
