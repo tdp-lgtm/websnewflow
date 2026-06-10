@@ -10,9 +10,10 @@ const portraitSrc = base + (frontPage.portrait || '/assets/portrait.jpg');
 ---
 
 <Base title={settings.title} page="about">
+  <link slot="head" rel="preload" as="image" href={portraitSrc} fetchpriority="high" />
   <div class="about-body">
     <div class="about-portrait">
-      <img src={portraitSrc} alt={settings.title} fetchpriority="high" decoding="async" />
+      <img src={portraitSrc} alt={settings.title} width="600" height="600" fetchpriority="high" decoding="async" />
       <nav class="about-links" aria-label="Quick links">
         {settings.quick_links.map((link: any) => {
           const href = link.href.startsWith('/') ? `${base}${link.href}` : link.href;

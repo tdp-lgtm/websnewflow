@@ -9,7 +9,7 @@ import { join, extname } from 'node:path';
 import sharp from 'sharp';
 
 const DIR = new URL('../public/assets', import.meta.url).pathname;
-const MAX_WIDTH = 1000;
+const MAX_WIDTH = 600;
 
 for (const name of await readdir(DIR)) {
   const ext = extname(name).toLowerCase();
