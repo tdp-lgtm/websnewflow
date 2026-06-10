@@ -51,10 +51,21 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // e.g. '/websnewflow'
       var inner = el.firstElementChild;
       var isOpen = el.classList.contains('open');
       if (isOpen) {
+        // Pin to current pixel height so the browser has a defined start point
         el.style.gridTemplateRows = inner.scrollHeight + 'px';
+        // Double RAF: ensures the browser paints the start state before animating
         requestAnimationFrame(function () {
-          el.style.gridTemplateRows = '0fr';
-          el.classList.remove('open');
+          requestAnimationFrame(function () {
+            el.style.gridTemplateRows = '0px';
+            el.classList.remove('open');
+            // After transition, clear inline style so CSS takes back control
+            el.addEventListener('transitionend', function cleanup(e) {
+              if (e.propertyName === 'grid-template-rows') {
+                el.style.gridTemplateRows = '';
+                el.removeEventListener('transitionend', cleanup);
+              }
+            });
+          });
         });
       } else {
         el.style.gridTemplateRows = inner.scrollHeight + 'px';
