@@ -2,24 +2,25 @@
 import Base from '../layouts/Base.astro';
 import { prepHtml } from '../lib/prepHtml';
 import frontPage from '../../data/front-page.json';
-import cvData from '../../data/cv.json';
+import settings from '../../data/site-settings.json';
 
 const bodyHtml = prepHtml(frontPage.text);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-// Stored as "/assets/portrait.jpg" — prepend base for correct subpath resolution
 const portraitSrc = base + (frontPage.portrait || '/assets/portrait.jpg');
-const email = cvData.contact?.email || '';
 ---
 
-<Base title="Jonas Haeg" page="about">
+<Base title={settings.title} page="about">
   <div class="about-body">
     <div class="about-portrait">
-      <img src={portraitSrc} alt="Jonas Haeg" />
+      <img src={portraitSrc} alt={settings.title} />
       <nav class="about-links" aria-label="Quick links">
-        {email && <a href={`mailto:${email}`}>Email</a>}
-        <a href={`${base}/cv`}>CV</a>
-        <a href="https://philpeople.org/profiles/jonas-haeg" target="_blank" rel="noopener">PhilPeople</a>
-        <a href="https://instagram.com/taudalpoi" target="_blank" rel="noopener">Art</a>
+        {settings.quick_links.map((link: any) => {
+          const href = link.href.startsWith('/') ? `${base}${link.href}` : link.href;
+          const external = !link.href.startsWith('/') && !link.href.startsWith('mailto:');
+          return (
+            <a href={href} {...(external ? { target: '_blank', rel: 'noopener' } : {})}>{link.label}</a>
+          );
+        })}
       </nav>
     </div>
     <div

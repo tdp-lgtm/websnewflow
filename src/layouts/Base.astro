@@ -3,6 +3,7 @@ import { ViewTransitions } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import navData from '../../data/nav.json';
 import themeData from '../../data/theme.json';
+import settings from '../../data/site-settings.json';
 import { getThemeCss, getThemeFontLinks } from '../lib/theme';
 
 const themeCss = getThemeCss(themeData as Record<string, string>);
@@ -10,13 +11,18 @@ const fontLinks = getThemeFontLinks(themeData as Record<string, string>);
 
 interface Props {
   title: string;
+  description?: string;
   page?: string;
   wideLayout?: boolean;
 }
 
-const { title, page, wideLayout = false } = Astro.props;
+const { title, description, page, wideLayout = false } = Astro.props;
 const currentPath = Astro.url.pathname;
-const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // e.g. '/websnewflow' or ''
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const metaDesc = description || settings.description;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageURL = new URL(settings.og_image || '/assets/portrait.jpg', Astro.site).href;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +30,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // e.g. '/websnewflow'
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
+  <meta name="description" content={metaDesc} />
+  <link rel="canonical" href={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={metaDesc} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content={ogImageURL} />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={metaDesc} />
   <link rel="icon" type="image/svg+xml" href={`${base}/assets/favicon.svg`} />
   <link rel="stylesheet" href={`${base}/styles/style.css`} />
   {fontLinks.length > 0 && <link rel="preconnect" href="https://fonts.googleapis.com" />}
@@ -37,7 +53,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // e.g. '/websnewflow'
 
   <header>
     <div class="header-inner">
-      <a href={base || '/'} class="site-title">Jonas Haeg<b>.</b></a>
+      <a href={base || '/'} class="site-title">{settings.title}<b>.</b></a>
       <Nav items={navData.items} currentPath={currentPath} />
     </div>
   </header>
@@ -50,7 +66,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // e.g. '/websnewflow'
 
   <footer>
     <div class="foot-inner">
-      <div class="foot-fine">Jonas Haeg &copy; <span id="year"></span></div>
+      <div class="foot-fine">{settings.footer_text} &copy; <span id="year"></span></div>
     </div>
   </footer>
 
@@ -93,6 +109,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // e.g. '/websnewflow'
     setYear();
     document.addEventListener('astro:page-load', setYear);
   </script>
+
+  {settings.analytics_id && (
+    <Fragment set:html={`<script defer src="https://cloud.umami.is/script.js" data-website-id="${settings.analytics_id}"></script>`} />
+  )}
 
 </body>
 </html>

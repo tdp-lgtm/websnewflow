@@ -1,0 +1,14 @@
+{
+  "title": "Jonas Haeg",
+  "description": "Postdoctoral Researcher in Philosophy at Stockholm University, working on the ethics of self-defence, punishment, and compensation.",
+  "og_image": "/assets/portrait.jpg",
+  "footer_text": "Jonas Haeg",
+  "quick_links": [
+    { "label": "Email",      "href": "mailto:jonas.haeg@philosophy.su.se" },
+    { "label": "CV",         "href": "/cv" },
+    { "label": "ORCID",      "href": "https://orcid.org/0000-0002-2746-3510" },
+    { "label": "PhilPeople", "href": "https://philpeople.org/profiles/jonas-haeg" },
+    { "label": "Art",        "href": "https://instagram.com/taudalpoi" }
+  ],
+  "analytics_id": ""
+}

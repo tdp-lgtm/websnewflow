@@ -4,6 +4,56 @@ media:
 
 content:
   # ------------------------------------------------------------
+  #  Site settings
+  # ------------------------------------------------------------
+  - name: site_settings
+    label: Site Settings
+    type: file
+    path: data/site-settings.json
+    format: json
+    fields:
+      - name: title
+        label: Your name (header & footer)
+        type: string
+        description: Shown in the top-left and footer. Default — Jonas Haeg.
+      - name: description
+        label: Default meta description
+        type: text
+        description: Used in search results and social link previews when no page-specific description applies (1–2 sentences, ~155 characters ideal).
+      - name: og_image
+        label: Social share image
+        type: image
+        options:
+          path: assets
+        description: Image shown when the site is shared on social media. Leave blank to use the portrait photo.
+      - name: footer_text
+        label: Footer name
+        type: string
+        description: Appears before the © year in the footer.
+      - name: quick_links
+        label: Front page quick links
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{label}"
+        description: The small links shown under your portrait photo on the home page. Drag to reorder.
+        fields:
+          - name: label
+            label: Label
+            type: string
+            required: true
+          - name: href
+            label: URL or email
+            type: string
+            required: true
+            description: "Use a full URL (https://…) for external links, /cv for internal pages, or mailto:you@example.com for email."
+      - name: analytics_id
+        label: Umami analytics website ID
+        type: string
+        description: "Leave blank to disable analytics. Sign up free at umami.is, add your site, and paste the Website ID here (looks like: a1b2c3d4-…). No cookie banner needed."
+
+  # ------------------------------------------------------------
   #  Appearance (theme)
   # ------------------------------------------------------------
   - name: theme

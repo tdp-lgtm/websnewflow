@@ -26,7 +26,7 @@ const descHtml = w.description ? prepHtml(w.description) : '';
 const speakers = (w.programme || []).filter((e: any) => e.name);
 ---
 
-<Base title={`${w.title} — Jonas Haeg`} page="workshops">
+<Base title={`${w.title} — Jonas Haeg`} description={`${w.title}${meta ? ` · ${meta}` : ''} — workshop organised by Jonas Haeg.`} page="workshops">
   <span class="eyebrow">Workshop</span>
   <h2>{w.title}</h2>
 
