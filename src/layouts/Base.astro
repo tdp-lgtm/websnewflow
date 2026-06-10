@@ -44,6 +44,7 @@ const ogImageURL = new URL(settings.og_image || '/assets/portrait.jpg', Astro.si
   <link rel="stylesheet" href={`${base}/styles/style.css`} />
   {fontLinks.length > 0 && <link rel="preconnect" href="https://fonts.googleapis.com" />}
   {fontLinks.length > 0 && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
+  {settings.analytics_id && <link rel="preconnect" href="https://gateway.umami.is" />}
   {fontLinks.map(url => <link rel="stylesheet" href={url} />)}
   <Fragment set:html={`<style>${themeCss}</style>`} />
   <slot name="head" />
