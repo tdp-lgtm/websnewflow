@@ -2,6 +2,11 @@
 import { ViewTransitions } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import navData from '../../data/nav.json';
+import themeData from '../../data/theme.json';
+import { getThemeCss, getThemeFontLinks } from '../lib/theme';
+
+const themeCss = getThemeCss(themeData as Record<string, string>);
+const fontLinks = getThemeFontLinks(themeData as Record<string, string>);
 
 interface Props {
   title: string;
@@ -21,6 +26,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // e.g. '/websnewflow'
   <title>{title}</title>
   <link rel="icon" type="image/svg+xml" href={`${base}/assets/favicon.svg`} />
   <link rel="stylesheet" href={`${base}/styles/style.css`} />
+  {fontLinks.length > 0 && <link rel="preconnect" href="https://fonts.googleapis.com" />}
+  {fontLinks.length > 0 && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
+  {fontLinks.map(url => <link rel="stylesheet" href={url} />)}
+  <Fragment set:html={`<style>${themeCss}</style>`} />
   <ViewTransitions />
 </head>
 <body data-page={page}>

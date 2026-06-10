@@ -4,6 +4,75 @@ media:
 
 content:
   # ------------------------------------------------------------
+  #  Appearance (theme)
+  # ------------------------------------------------------------
+  - name: theme
+    label: Appearance
+    type: file
+    path: data/theme.json
+    format: json
+    fields:
+      - name: color_paper
+        label: Page background
+        type: string
+        description: "Hex colour for the main background. Default: #F5F1E8"
+      - name: color_ink
+        label: Body text
+        type: string
+        description: "Hex colour for headings and primary text. Default: #211C16"
+      - name: color_fg2
+        label: Secondary text
+        type: string
+        description: "Hex colour for venue names, dates, and supporting text. Default: #574F44"
+      - name: color_fg3
+        label: Muted text
+        type: string
+        description: "Hex colour for year labels, eyebrows, and least-prominent text. Default: #8C8474"
+      - name: color_rule
+        label: Dividers
+        type: string
+        description: "Hex colour for the thin lines separating sections. Default: #E3DBCB"
+      - name: color_accent
+        label: Links & highlights
+        type: string
+        description: "Hex colour for hyperlinks, the site-title dot, and hover accents. Default: #7B2E2E"
+      - name: font_serif
+        label: Serif font (body, abstracts, titles)
+        type: select
+        options:
+          values: [Spectral, Georgia, Palatino, Libre Baskerville]
+        default: Spectral
+        description: Used for reading text, publication titles, and abstracts.
+      - name: font_sans
+        label: Sans font (nav, labels, UI)
+        type: select
+        options:
+          values: [Hanken Grotesk, System, Inter, Source Sans 3]
+        default: Hanken Grotesk
+        description: Used for navigation, buttons, and small UI labels.
+      - name: font_mono
+        label: Monospace font (year labels, eyebrows)
+        type: select
+        options:
+          values: [IBM Plex Mono, JetBrains Mono, System Mono]
+        default: IBM Plex Mono
+        description: Used for year columns, section eyebrows, and the footer.
+      - name: link_underline
+        label: Link underline style
+        type: select
+        options:
+          values: [hover, always, none]
+        default: hover
+        description: "hover = underline on hover only (default); always = always underlined; none = never."
+      - name: heading_weight
+        label: Heading weight
+        type: select
+        options:
+          values: ["300", "400", "500"]
+        default: "400"
+        description: "Light (300), Regular (400, default), or Medium (500)."
+
+  # ------------------------------------------------------------
   #  Front page
   # ------------------------------------------------------------
   - name: front_page

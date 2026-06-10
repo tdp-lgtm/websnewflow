@@ -1,0 +1,13 @@
+{
+  "color_paper":  "#F5F1E8",
+  "color_ink":    "#211C16",
+  "color_fg2":    "#574F44",
+  "color_fg3":    "#8C8474",
+  "color_rule":   "#E3DBCB",
+  "color_accent": "#7B2E2E",
+  "font_serif":   "Spectral",
+  "font_sans":    "Hanken Grotesk",
+  "font_mono":    "IBM Plex Mono",
+  "link_underline":  "hover",
+  "heading_weight":  "400"
+}
