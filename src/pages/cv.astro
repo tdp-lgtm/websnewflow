@@ -115,7 +115,7 @@ const serviceItems = [
 const serviceHtml = renderCVSection(serviceItems);
 
 // Build sections map
-type Section = { key: string; label: string; eyebrowClass?: string; content: string; extra?: string };
+type Section = { key: string; label: string; eyebrowClass?: string; content: string; extra?: string; id?: string };
 const sectionsMap: Record<string, Section> = {
   interests: {
     key: 'interests', label: 'Research interests',
@@ -157,7 +157,8 @@ const sectionsMap: Record<string, Section> = {
     }).join(''),
   },
   presentations: {
-    key: 'presentations', label: 'Selected presentations',
+    // id must stay 'cv-talks' — style.css scopes the smaller talk-title size to it
+    key: 'presentations', id: 'cv-talks', label: 'Selected presentations',
     extra: `<span class="talks-legend"><sup>*</sup> invited &ensp; <sup>&#8224;</sup> peer-reviewed</span>`,
     content: cvTalks.length === 0 ? '<p class="empty">Nothing to show yet.</p>' : `<ul class="pub-list">${cvTalks.map((talk: any) => {
       const rows = (talk.presentations || []).filter(isPublished).map((p: any) => {
@@ -234,8 +235,8 @@ const orderedSections = orderedKeys.map(k => sectionsMap[k]);
           : <span class="eyebrow">{sec.label}</span>
         }
         {sec.key === 'references'
-          ? <div id={`cv-${sec.key}`} class="cv-references-grid" set:html={sec.content} />
-          : <div id={`cv-${sec.key}`} set:html={sec.content} />
+          ? <div id={sec.id || `cv-${sec.key}`} class="cv-references-grid" set:html={sec.content} />
+          : <div id={sec.id || `cv-${sec.key}`} set:html={sec.content} />
         }
       </div>
     );
