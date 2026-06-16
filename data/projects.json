@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "id": "example-project",
+      "title": "Example Project",
+      "published": false,
+      "subtitle": "2024–2027 · Funded by …",
+      "description": "<p>This is an example project page. Edit or delete it in the CMS under <strong>Research → Projects</strong>. Write the project overview here — you can add links, bold text, and headings with the toolbar.</p><p>Set <strong>Published</strong> to show it on the site. Published projects appear automatically in the <em>Research</em> dropdown menu.</p>",
+      "justify": true,
+      "links": [
+        { "label": "Project website", "url": "" }
+      ]
+    }
+  ]
+}

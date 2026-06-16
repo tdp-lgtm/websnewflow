@@ -2,6 +2,7 @@
 import { ViewTransitions } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import navData from '../../data/nav.json';
+import projectsData from '../../data/projects.json';
 import themeData from '../../data/theme.json';
 import settings from '../../data/site-settings.json';
 import { getThemeCss, getThemeFontLinks } from '../lib/theme';
@@ -19,6 +20,24 @@ interface Props {
 const { title, description, page, wideLayout = false } = Astro.props;
 const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Published research projects each get a page at /research/<id>. When any
+// exist, the flat "Research" nav link becomes a dropdown (Publications +
+// each project) so new projects show up automatically without editing nav.json.
+const projects = (((projectsData as any).items) || []).filter((p: any) => p && p.published !== false);
+const navItems = (navData.items as any[]).map(item => {
+  if ((item.label || '').toLowerCase() === 'research' && projects.length > 0) {
+    return {
+      ...item,
+      href: undefined,
+      subitems: [
+        { label: 'Publications', href: 'research' },
+        ...projects.map((p: any) => ({ label: p.title, href: `research/${p.id}` })),
+      ],
+    };
+  }
+  return item;
+});
 
 const metaDesc = description || settings.description;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
@@ -55,7 +74,7 @@ const ogImageURL = new URL(settings.og_image || '/assets/portrait.jpg', Astro.si
   <header>
     <div class="header-inner">
       <a href={base || '/'} class="site-title">{settings.title}<b>.</b></a>
-      <Nav items={navData.items} currentPath={currentPath} />
+      <Nav items={navItems} currentPath={currentPath} />
     </div>
   </header>
 

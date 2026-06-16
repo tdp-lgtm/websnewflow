@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import { prepHtml } from '../../lib/prepHtml';
+import projectsData from '../../../data/projects.json';
+
+export async function getStaticPaths() {
+  const items = ((projectsData as any).items || []) as any[];
+  return items
+    .filter(p => p.published !== false)
+    .map(p => ({
+      params: { projectId: p.id },
+      props: { project: p },
+    }));
+}
+
+const { project: p } = Astro.props;
+
+const descHtml = p.description ? prepHtml(p.description) : '';
+const links = (p.links || []).filter((l: any) => l && l.url);
+const metaDesc = p.subtitle
+  ? `${p.title} — ${p.subtitle}`
+  : `${p.title} — a research project by Jonas Haeg.`;
+---
+
+<Base title={`${p.title} — Jonas Haeg`} description={metaDesc} page="research">
+  <span class="eyebrow">Research</span>
+  <h2>{p.title}</h2>
+
+  {p.subtitle && <p class="section-subtitle">{p.subtitle}</p>}
+
+  {descHtml && (
+    <div
+      class="workshop-description"
+      style={p.justify ? 'text-align:justify' : undefined}
+      set:html={descHtml}
+    />
+  )}
+
+  {links.length > 0 && (
+    <div class="pub-links project-links">
+      {links.map((l: any) => (
+        <a href={l.url} target="_blank" rel="noopener">{l.label || l.url} &#8599;</a>
+      ))}
+    </div>
+  )}
+</Base>

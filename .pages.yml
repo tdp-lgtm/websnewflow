@@ -280,6 +280,65 @@ content:
                 type: boolean
                 default: true
 
+      - name: projects
+        label: Projects
+        type: file
+        path: data/projects.json
+        format: json
+        fields:
+          - name: items
+            label: false
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - name: id
+                label: Page id (URL)
+                type: string
+                required: true
+                description: 'Lowercase letters and hyphens only — becomes the page address, e.g. "punishment" → /research/punishment.'
+              - name: title
+                label: Title
+                type: string
+                required: true
+              - name: published
+                label: Published (show on site)
+                type: boolean
+                default: true
+                description: Untick to hide. Published projects appear automatically in the Research dropdown menu.
+              - name: subtitle
+                label: Subtitle / dates (optional)
+                type: string
+                description: 'One line under the title, e.g. "2024–2027 · Funded by the Swedish Research Council".'
+              - name: description
+                label: Description
+                type: rich-text
+                options:
+                  format: html
+                  switcher: false
+                  media: false
+                description: Use the toolbar for links, bold, alignment, etc.
+              - name: justify
+                label: Justify description text
+                type: boolean
+                default: false
+              - name: links
+                label: Links / outputs (optional)
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{label}"
+                fields:
+                  - name: label
+                    label: Label
+                    type: string
+                  - name: url
+                    label: URL
+                    type: string
+
   # ------------------------------------------------------------
   #  Talks
   # ------------------------------------------------------------
