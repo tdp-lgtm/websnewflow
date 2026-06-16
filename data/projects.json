@@ -1,14 +1,16 @@
 {
   "items": [
     {
-      "id": "example-project",
-      "title": "Example Project",
-      "published": false,
-      "subtitle": "2024–2027 · Funded by …",
-      "description": "<p>This is an example project page. Edit or delete it in the CMS under <strong>Research → Projects</strong>. Write the project overview here — you can add links, bold text, and headings with the toolbar.</p><p>Set <strong>Published</strong> to show it on the site. Published projects appear automatically in the <em>Research</em> dropdown menu.</p>",
+      "id": "doingright-project",
+      "title": "Doing Right by Wrongdoers in Preventive, Punitive, and Reparative Justice",
+      "published": true,
+      "subtitle": "2027–2029 · Funded by the Leverhulme Trust",
+      "description": "<p>States prevent, punish, and repair wrongdoing in many ways, such as having police forces, court systems, and prisons. Because these institutions are costly and often coercive, it is crucial to understand what, if anything, justifies them. This project challenges common justifications that appeal exclusively to victims’ and society’s interests. It pursues an often-neglected possibility: that wrongdoing can be bad for wrongdoers themselves, who therefore have an interest in avoiding it. It develops a comprehensive account of this interest and systematically examines the transformative effects of incorporating it into the justification and design of preventive, punitive, and reparative institutions.</p>",
       "justify": true,
       "links": [
-        { "label": "Project website", "url": "" }
+        {
+          "label": "Project website"
+        }
       ]
     }
   ]
