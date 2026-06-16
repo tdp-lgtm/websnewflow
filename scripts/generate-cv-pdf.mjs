@@ -8,10 +8,10 @@
  */
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { join, extname, normalize } from 'node:path';
+import { join, extname, normalize, resolve, relative, isAbsolute } from 'node:path';
 import { chromium } from 'playwright';
 
-const DIST = new URL('../dist', import.meta.url).pathname;
+const DIST = resolve(new URL('../dist', import.meta.url).pathname);
 const OUT = join(DIST, 'assets', 'cv.pdf');
 
 const MIME = {
@@ -34,6 +34,9 @@ const server = createServer(async (req, res) => {
     join(DIST, urlPath, 'index.html'),
   ];
   for (const file of candidates) {
+    // Reject any path that resolves outside DIST (path-traversal guard)
+    const rel = relative(DIST, resolve(file));
+    if (rel.startsWith('..') || isAbsolute(rel)) continue;
     try {
       const body = await readFile(file);
       res.writeHead(200, { 'content-type': MIME[extname(file)] || 'application/octet-stream' });
