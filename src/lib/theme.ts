@@ -15,11 +15,13 @@ export const SCHEMES: Record<string, {
 // Font catalogue: named options available in the CMS.
 // Each Google font carries its own URL; Base.astro loads only the selected
 // ones via parallel <link> tags (faster than a serial @import in the CSS).
-export const FONTS: Record<string, { stack: string; googleUrl?: string }> = {
+// selfHosted fonts ship as local woff2 (public/fonts, via scripts/fetch-fonts.mjs)
+// and load through public/fonts/fonts.css — no Google request for the defaults.
+export const FONTS: Record<string, { stack: string; googleUrl?: string; selfHosted?: boolean }> = {
   // ── Serif ─────────────────────────────────────────────────────────────────
   'Spectral': {
     stack: "'Spectral', Georgia, serif",
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap',
+    selfHosted: true,
   },
   'Georgia': {
     stack: 'Georgia, serif',
@@ -34,7 +36,7 @@ export const FONTS: Record<string, { stack: string; googleUrl?: string }> = {
   // ── Sans ──────────────────────────────────────────────────────────────────
   'Hanken Grotesk': {
     stack: "'Hanken Grotesk', system-ui, sans-serif",
-    googleUrl: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap',
+    selfHosted: true,
   },
   'System': {
     stack: 'system-ui, sans-serif',
@@ -50,7 +52,7 @@ export const FONTS: Record<string, { stack: string; googleUrl?: string }> = {
   // ── Mono ──────────────────────────────────────────────────────────────────
   'IBM Plex Mono': {
     stack: "'IBM Plex Mono', ui-monospace, monospace",
-    googleUrl: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap',
+    selfHosted: true,
   },
   'JetBrains Mono': {
     stack: "'JetBrains Mono', ui-monospace, monospace",
@@ -138,5 +140,10 @@ export function getThemeCss(theme: Record<string, string>): string {
 
 export function getThemeFontLinks(theme: Record<string, string>): string[] {
   const keys = [theme.font_serif, theme.font_sans, theme.font_mono];
-  return [...new Set(keys.flatMap(k => FONTS[k]?.googleUrl ? [FONTS[k]!.googleUrl!] : []))];
+  // Self-hosted fonts load via public/fonts/fonts.css — only non-self-hosted
+  // selections need a Google stylesheet link.
+  return [...new Set(keys.flatMap(k => {
+    const f = FONTS[k];
+    return f && f.googleUrl && !f.selfHosted ? [f.googleUrl] : [];
+  }))];
 }

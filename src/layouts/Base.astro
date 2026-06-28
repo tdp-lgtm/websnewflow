@@ -11,6 +11,8 @@ import { isPublished, validSlugs } from '../lib/content';
 
 const themeCss = getThemeCss(themeData as Record<string, string>);
 const fontLinks = getThemeFontLinks(themeData as Record<string, string>);
+const sansIsDefault = ((themeData as any).font_sans || 'Hanken Grotesk') === 'Hanken Grotesk';
+const serifIsDefault = ((themeData as any).font_serif || 'Spectral') === 'Spectral';
 
 interface Props {
   title: string;
@@ -103,10 +105,16 @@ const jsonLd = {
   <link rel="manifest" href={`${base}/site.webmanifest`} />
   <link rel="sitemap" type="application/xml" href={`${base}/sitemap-index.xml`} />
 
+  <!-- Preload the above-the-fold default fonts (self-hosted, same-origin) -->
+  {sansIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/hanken-400-latin.woff2`} />}
+  {sansIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/hanken-500-latin.woff2`} />}
+  {serifIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/spectral-500-latin.woff2`} />}
+
   <link rel="stylesheet" href={`${base}/styles/style.css`} />
+  <link rel="stylesheet" href={`${base}/fonts/fonts.css`} />
   {themeCss && <Fragment set:html={`<style>${themeCss}</style>`} />}
 
-  <!-- LCP image preload (page-specific) must precede the render-blocking font CSS -->
+  <!-- LCP image preload (page-specific) must precede any remaining font CSS -->
   <slot name="head" />
 
   {fontLinks.length > 0 && <link rel="preconnect" href="https://fonts.googleapis.com" />}
