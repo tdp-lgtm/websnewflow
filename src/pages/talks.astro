@@ -1,10 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import { isPublished } from '../lib/content';
 import talksData from '../../data/talks.json';
-
-function isPublished(item: { published?: boolean }) {
-  return !item || item.published !== false;
-}
 
 const talks = (talksData.items || (talksData as any)).filter(isPublished);
 ---

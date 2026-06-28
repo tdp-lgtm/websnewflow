@@ -1,10 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import { isPublished } from '../lib/content';
 import workshopsData from '../../data/workshops.json';
-
-function isPublished(item: { published?: boolean }) {
-  return !item || item.published !== false;
-}
 
 const workshops = ((workshopsData as any).items || workshopsData).filter(isPublished);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');

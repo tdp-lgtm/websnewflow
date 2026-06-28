@@ -33,24 +33,32 @@ function isActive(href: string): boolean {
 function isDropdownActive(item: NavItem): boolean {
   const subs = item.subitems || [];
   if (subs.some(s => isActive(s.href))) return true;
+  // Match on a path-segment boundary so '/research' doesn't light up '/research-methods'
   return subs.some(s => {
     const clean = s.href.replace(/\.html$/, '');
-    return path.startsWith('/' + clean);
+    return path === '/' + clean || path.startsWith('/' + clean + '/');
   });
 }
 ---
 
-<nav>
-  {items.map(item => {
+<nav aria-label="Primary">
+  {items.map((item, i) => {
     if (item.subitems && item.subitems.length > 0) {
       const active = isDropdownActive(item);
-      const dropKey = item.label.toLowerCase();
+      const dropKey = item.label.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const menuId = `nav-menu-${dropKey}-${i}`;
       return (
         <div class={`nav-dropdown${active ? ' active' : ''}`} data-dropdown-root>
-          <button class="nav-dropdown-trigger" data-dropdown={dropKey}>{item.label}</button>
-          <ul class="nav-dropdown-menu">
+          <button
+            class="nav-dropdown-trigger"
+            data-dropdown={dropKey}
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls={menuId}
+          >{item.label}</button>
+          <ul class="nav-dropdown-menu" id={menuId}>
             {item.subitems.map(s => (
-              <li><a href={makeHref(s.href)}>{s.label}</a></li>
+              <li><a href={makeHref(s.href)} data-astro-prefetch>{s.label}</a></li>
             ))}
           </ul>
         </div>
@@ -59,29 +67,95 @@ function isDropdownActive(item: NavItem): boolean {
     const href = item.href ? makeHref(item.href) : (base || '/');
     const active = item.href ? isActive(item.href) : (path === '/');
     return (
-      <a href={href} class={active ? 'active' : undefined}>{item.label}</a>
+      <a href={href} class={active ? 'active' : undefined} data-astro-prefetch aria-current={active ? 'page' : undefined}>{item.label}</a>
     );
   })}
 </nav>
 
 <script>
   function initNav() {
-    // Use onclick property to avoid duplicate listeners across soft navigations
-    document.querySelectorAll<HTMLButtonElement>('.nav-dropdown-trigger').forEach(trigger => {
+    const triggers = document.querySelectorAll<HTMLButtonElement>('.nav-dropdown-trigger');
+
+    function closeAll(except?: Element | null) {
+      document.querySelectorAll('[data-dropdown-root].open').forEach(d => {
+        if (d === except) return;
+        d.classList.remove('open');
+        const t = d.querySelector('.nav-dropdown-trigger');
+        if (t) t.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    triggers.forEach(trigger => {
+      // Use onclick property to avoid duplicate listeners across soft navigations
       trigger.onclick = (e) => {
         e.stopPropagation();
         const dropdown = trigger.closest('[data-dropdown-root]');
         if (!dropdown) return;
-        const isOpen = dropdown.classList.contains('open');
-        document.querySelectorAll('[data-dropdown-root].open').forEach(d => d.classList.remove('open'));
-        if (!isOpen) dropdown.classList.add('open');
+        const willOpen = !dropdown.classList.contains('open');
+        closeAll(willOpen ? dropdown : null);
+        dropdown.classList.toggle('open', willOpen);
+        trigger.setAttribute('aria-expanded', String(willOpen));
+      };
+
+      trigger.onkeydown = (e) => {
+        const dropdown = trigger.closest('[data-dropdown-root]');
+        if (!dropdown) return;
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (!dropdown.classList.contains('open')) {
+            closeAll();
+            dropdown.classList.add('open');
+            trigger.setAttribute('aria-expanded', 'true');
+          }
+          const first = dropdown.querySelector<HTMLAnchorElement>('.nav-dropdown-menu a');
+          first?.focus();
+        } else if (e.key === 'Escape') {
+          closeAll();
+        }
+      };
+    });
+
+    // Within an open menu: arrow navigation + Escape returns focus to the trigger
+    document.querySelectorAll<HTMLElement>('.nav-dropdown-menu').forEach(menu => {
+      menu.onkeydown = (e) => {
+        const links = Array.from(menu.querySelectorAll<HTMLAnchorElement>('a'));
+        const idx = links.indexOf(document.activeElement as HTMLAnchorElement);
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          links[Math.min(idx + 1, links.length - 1)]?.focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (idx <= 0) {
+            const trigger = menu.closest('[data-dropdown-root]')?.querySelector<HTMLButtonElement>('.nav-dropdown-trigger');
+            trigger?.focus();
+          } else {
+            links[idx - 1]?.focus();
+          }
+        } else if (e.key === 'Escape') {
+          const root = menu.closest('[data-dropdown-root]');
+          root?.classList.remove('open');
+          const trigger = root?.querySelector<HTMLButtonElement>('.nav-dropdown-trigger');
+          trigger?.setAttribute('aria-expanded', 'false');
+          trigger?.focus();
+        }
       };
     });
   }
 
-  // Close on outside click — set once, persists across navigations
+  // Close on outside click and on Escape anywhere — set once, persists across navigations
   document.addEventListener('click', () => {
-    document.querySelectorAll('[data-dropdown-root].open').forEach(d => d.classList.remove('open'));
+    document.querySelectorAll('[data-dropdown-root].open').forEach(d => {
+      d.classList.remove('open');
+      d.querySelector('.nav-dropdown-trigger')?.setAttribute('aria-expanded', 'false');
+    });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('[data-dropdown-root].open').forEach(d => {
+        d.classList.remove('open');
+        d.querySelector('.nav-dropdown-trigger')?.setAttribute('aria-expanded', 'false');
+      });
+    }
   });
 
   initNav();

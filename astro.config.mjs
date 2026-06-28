@@ -6,9 +6,10 @@ export default defineConfig({
   integrations: [sitemap({
     filter: (page) => !page.includes('/theme'),
   })],
-  // Prefetch links as they scroll into view — makes first taps on mobile
-  // (no hover) feel as fast as desktop
-  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
+  // Only prefetch links explicitly opted in via data-astro-prefetch (the primary
+  // nav). Avoids eagerly fetching every in-content link on metered mobile data,
+  // while still making the main navigation feel instant.
+  prefetch: { prefetchAll: false, defaultStrategy: 'viewport' },
   trailingSlash: 'never',
   build: {
     format: 'directory',

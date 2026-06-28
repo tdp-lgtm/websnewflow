@@ -2,10 +2,7 @@
   "items": [
     { "label": "Research",  "href": "research" },
     { "label": "Talks",     "href": "talks" },
-    { "label": "Workshops", "subitems": [
-      { "label": "Ethics of Deception",       "href": "workshop-1" },
-      { "label": "Deterrence and Deontology", "href": "workshop-2" }
-    ]},
+    { "label": "Workshops", "href": "workshops" },
     { "label": "Teaching", "subitems": [
       { "label": "Courses",                "href": "teaching" },
       { "label": "Resources for students", "href": "teaching-resources" }

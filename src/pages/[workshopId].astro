@@ -1,14 +1,25 @@
 ---
 import Base from '../layouts/Base.astro';
 import { prepHtml } from '../lib/prepHtml';
+import { isPublished, validSlugs } from '../lib/content';
 import workshopsData from '../../data/workshops.json';
 
 export async function getStaticPaths() {
-  const items = ((workshopsData as any).items || workshopsData) as any[];
-  return items.map(w => ({
-    params: { workshopId: w.id },
-    props: { workshop: w },
-  }));
+  // Top-level static page slugs a workshop id must never shadow.
+  const RESERVED = new Set(['research', 'talks', 'teaching', 'teaching-resources', 'workshops', 'cv', 'theme', '404', 'index']);
+  const items = (((workshopsData as any).items || workshopsData) as any[]).filter(isPublished);
+  return validSlugs(items)
+    .filter(w => {
+      if (RESERVED.has(w.id)) {
+        console.warn(`[build] skipping workshop with reserved id "${w.id}" (collides with a site page)`);
+        return false;
+      }
+      return true;
+    })
+    .map(w => ({
+      params: { workshopId: w.id },
+      props: { workshop: w },
+    }));
 }
 
 const { workshop: w } = Astro.props;
@@ -26,7 +37,7 @@ const descHtml = w.description ? prepHtml(w.description) : '';
 const speakers = (w.programme || []).filter((e: any) => e.name);
 ---
 
-<Base title={`${w.title} — Jonas Haeg`} description={`${w.title}${meta ? ` · ${meta}` : ''} — workshop organised by Jonas Haeg.`} page="workshops">
+<Base title={`${w.title} — Jonas Haeg`} description={`${w.title}${meta ? ` · ${meta}` : ''} — workshop organised by Jonas Haeg.`} page="workshops" heading={w.title} ogType="article">
   <span class="eyebrow">Workshop</span>
   <h2>{w.title}</h2>
 

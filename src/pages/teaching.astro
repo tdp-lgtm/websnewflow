@@ -1,10 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import { isPublished } from '../lib/content';
 import teachingData from '../../data/teaching.json';
-
-function isPublished(item: { published?: boolean }) {
-  return !item || item.published !== false;
-}
 
 const institutions = ((teachingData as any).items || teachingData).filter(isPublished);
 

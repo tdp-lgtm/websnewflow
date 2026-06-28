@@ -298,7 +298,10 @@ content:
                 label: Page id (URL)
                 type: string
                 required: true
-                description: 'Lowercase letters and hyphens only — becomes the page address, e.g. "punishment" → /research/punishment.'
+                pattern:
+                  regex: '^[a-z0-9-]+$'
+                  message: 'Lowercase letters, numbers, and hyphens only — no spaces or capitals.'
+                description: 'Becomes the page address, e.g. "punishment" → /research/punishment. Must be unique.'
               - name: title
                 label: Title
                 type: string
@@ -521,10 +524,13 @@ content:
             summary: "{title}"
         fields:
           - name: id
-            label: Page id
+            label: Page id (URL)
             type: string
             required: true
-            description: Must match the page filename, e.g. "workshop-1".
+            pattern:
+              regex: '^[a-z0-9-]+$'
+              message: 'Lowercase letters, numbers, and hyphens only — no spaces or capitals.'
+            description: 'Becomes the page address, e.g. "ethics-of-deception" → /ethics-of-deception. Must be unique and not clash with a site section (research, talks, cv, etc.).'
           - name: title
             label: Title
             type: string

@@ -3,12 +3,13 @@
 export const SCHEMES: Record<string, {
   paper: string; ink: string; fg2: string; fg3: string; rule: string; accent: string;
 }> = {
-  'Reading Room': { paper: '#F5F1E8', ink: '#211C16', fg2: '#574F44', fg3: '#8C8474', rule: '#E3DBCB', accent: '#7B2E2E' },
-  'Ivory':        { paper: '#FAF7F0', ink: '#1F1B16', fg2: '#5A5246', fg3: '#948B7B', rule: '#E8E2D4', accent: '#8A3324' },
-  'Porcelain':    { paper: '#F4F4F2', ink: '#1C1E21', fg2: '#4D5158', fg3: '#878C94', rule: '#E0E1DD', accent: '#355070' },
-  'Oxford':       { paper: '#FAFAF8', ink: '#14161A', fg2: '#4A4F58', fg3: '#8A8F98', rule: '#E4E4E0', accent: '#1B365D' },
-  'Sage':         { paper: '#F3F4EE', ink: '#20231C', fg2: '#535848', fg3: '#8B907D', rule: '#DFE2D2', accent: '#4A5D43' },
-  'Plain':        { paper: '#FFFFFF', ink: '#111111', fg2: '#444444', fg3: '#888888', rule: '#E5E5E5', accent: '#1A56A0' },
+  // fg3 (muted text) values are tuned to clear WCAG AA 4.5:1 on each paper.
+  'Reading Room': { paper: '#F5F1E8', ink: '#211C16', fg2: '#574F44', fg3: '#736C5F', rule: '#E3DBCB', accent: '#7B2E2E' },
+  'Ivory':        { paper: '#FAF7F0', ink: '#1F1B16', fg2: '#5A5246', fg3: '#787164', rule: '#E8E2D4', accent: '#8A3324' },
+  'Porcelain':    { paper: '#F4F4F2', ink: '#1C1E21', fg2: '#4D5158', fg3: '#6C7076', rule: '#E0E1DD', accent: '#355070' },
+  'Oxford':       { paper: '#FAFAF8', ink: '#14161A', fg2: '#4A4F58', fg3: '#6E727A', rule: '#E4E4E0', accent: '#1B365D' },
+  'Sage':         { paper: '#F3F4EE', ink: '#20231C', fg2: '#535848', fg3: '#6C7061', rule: '#DFE2D2', accent: '#4A5D43' },
+  'Plain':        { paper: '#FFFFFF', ink: '#111111', fg2: '#444444', fg3: '#767676', rule: '#E5E5E5', accent: '#1A56A0' },
 };
 
 // Font catalogue: named options available in the CMS.
@@ -68,18 +69,39 @@ function adjust(hex: string, amount: number): string {
   return '#' + [r, g, b].map(v => clamp(v + amount).toString(16).padStart(2, '0')).join('');
 }
 
+// The stylesheet (public/styles/style.css :root) already hardcodes the
+// "Reading Room" palette + default fonts. When the active theme matches that
+// baseline we emit nothing, so default pages don't ship a redundant inline
+// <style> block on every response.
+const BASELINE = {
+  serif: FONTS['Spectral'].stack,
+  sans: FONTS['Hanken Grotesk'].stack,
+  mono: FONTS['IBM Plex Mono'].stack,
+  ...SCHEMES['Reading Room'],
+};
+
 export function getThemeCss(theme: Record<string, string>): string {
   const serif  = FONTS[theme.font_serif]?.stack  ?? FONTS['Spectral'].stack;
   const sans   = FONTS[theme.font_sans]?.stack   ?? FONTS['Hanken Grotesk'].stack;
   const mono   = FONTS[theme.font_mono]?.stack   ?? FONTS['IBM Plex Mono'].stack;
 
   const scheme = SCHEMES[theme.color_scheme];
-  const paper  = scheme?.paper  ?? (theme.color_paper  || '#F5F1E8');
-  const ink    = scheme?.ink    ?? (theme.color_ink    || '#211C16');
-  const fg2    = scheme?.fg2    ?? (theme.color_fg2    || '#574F44');
-  const fg3    = scheme?.fg3    ?? (theme.color_fg3    || '#8C8474');
-  const rule   = scheme?.rule   ?? (theme.color_rule   || '#E3DBCB');
-  const accent = scheme?.accent ?? (theme.color_accent || '#7B2E2E');
+  const paper  = scheme?.paper  ?? (theme.color_paper  || BASELINE.paper);
+  const ink    = scheme?.ink    ?? (theme.color_ink    || BASELINE.ink);
+  const fg2    = scheme?.fg2    ?? (theme.color_fg2    || BASELINE.fg2);
+  const fg3    = scheme?.fg3    ?? (theme.color_fg3    || BASELINE.fg3);
+  const rule   = scheme?.rule   ?? (theme.color_rule   || BASELINE.rule);
+  const accent = scheme?.accent ?? (theme.color_accent || BASELINE.accent);
+
+  const hwOverride = theme.heading_weight && theme.heading_weight !== '400';
+  const underlineOverride = theme.link_underline === 'always' || theme.link_underline === 'none';
+  const tokensMatchBaseline =
+    paper === BASELINE.paper && ink === BASELINE.ink && fg2 === BASELINE.fg2 &&
+    fg3 === BASELINE.fg3 && rule === BASELINE.rule && accent === BASELINE.accent &&
+    serif === BASELINE.serif && sans === BASELINE.sans && mono === BASELINE.mono;
+
+  // Nothing differs from the stylesheet — skip the inline block entirely.
+  if (tokensMatchBaseline && !hwOverride && !underlineOverride) return '';
 
   const lines = [
     ':root {',

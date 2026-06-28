@@ -3,9 +3,11 @@ import { ViewTransitions } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import navData from '../../data/nav.json';
 import projectsData from '../../data/projects.json';
+import workshopsData from '../../data/workshops.json';
 import themeData from '../../data/theme.json';
 import settings from '../../data/site-settings.json';
 import { getThemeCss, getThemeFontLinks } from '../lib/theme';
+import { isPublished, validSlugs } from '../lib/content';
 
 const themeCss = getThemeCss(themeData as Record<string, string>);
 const fontLinks = getThemeFontLinks(themeData as Record<string, string>);
@@ -15,33 +17,62 @@ interface Props {
   description?: string;
   page?: string;
   wideLayout?: boolean;
+  /** Accessible page heading (rendered as a visually-hidden <h1>). */
+  heading?: string;
+  /** Open Graph type: 'website' (default) or 'article' for detail pages. */
+  ogType?: string;
 }
 
-const { title, description, page, wideLayout = false } = Astro.props;
+const { title, description, page, wideLayout = false, heading, ogType = 'website' } = Astro.props;
 const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Published research projects each get a page at /research/<id>. When any
-// exist, the flat "Research" nav link becomes a dropdown (Publications +
-// each project) so new projects show up automatically without editing nav.json.
-const projects = (((projectsData as any).items) || []).filter((p: any) => p && p.published !== false);
+// Collections that drive auto-generated nav dropdowns. Keyed on the nav item's
+// href (a stable slug) — NOT its display label — so renaming the menu label in
+// the CMS can't silently break the dropdown.
+const projects = validSlugs(((projectsData as any).items || []).filter(isPublished));
+const workshops = validSlugs(((workshopsData as any).items || []).filter(isPublished));
+
+function injectDropdown(item: any, cfg: { items: any[]; slug: string; allLabel: string; href: (x: any) => string }) {
+  if (!cfg.items.length) return item; // no entries → keep the flat link
+  return {
+    ...item,
+    href: undefined,
+    subitems: [
+      { label: cfg.allLabel, href: cfg.slug },
+      ...cfg.items.map(x => ({ label: x.title, href: cfg.href(x) })),
+    ],
+  };
+}
+
 const navItems = (navData.items as any[]).map(item => {
-  if ((item.label || '').toLowerCase() === 'research' && projects.length > 0) {
-    return {
-      ...item,
-      href: undefined,
-      subitems: [
-        { label: 'Publications', href: 'research' },
-        ...projects.map((p: any) => ({ label: p.title, href: `research/${p.id}` })),
-      ],
-    };
-  }
+  const slug = (item.href || '').replace(/\.html$/, '');
+  if (slug === 'research') return injectDropdown(item, { items: projects, slug: 'research', allLabel: 'Publications', href: (p) => `research/${p.id}` });
+  if (slug === 'workshops') return injectDropdown(item, { items: workshops, slug: 'workshops', allLabel: 'All workshops', href: (w) => w.id });
   return item;
 });
 
 const metaDesc = description || settings.description;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
 const ogImageURL = new URL(settings.og_image || '/assets/portrait.jpg', Astro.site).href;
+// Known dimensions only for the default square portrait; omit for custom images.
+const ogImageDefault = !settings.og_image || settings.og_image.includes('portrait');
+const siteURL = Astro.site?.href || canonicalURL;
+const h1Text = heading || title.replace(/\s*[—–-]\s*Jonas Haeg.*$/, '').trim() || settings.title;
+const year = new Date().getFullYear();
+
+// JSON-LD: a Person + WebSite graph built from site settings (sameAs from the
+// external quick links — ORCID, PhilPeople, etc.).
+const sameAs = (settings.quick_links || [])
+  .map((l: any) => l.href)
+  .filter((h: string) => /^https?:\/\//.test(h));
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Person', name: settings.title, url: siteURL, image: ogImageURL, description: settings.description, ...(sameAs.length ? { sameAs } : {}) },
+    { '@type': 'WebSite', name: settings.title, url: siteURL },
+  ],
+};
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -51,25 +82,44 @@ const ogImageURL = new URL(settings.og_image || '/assets/portrait.jpg', Astro.si
   <title>{title}</title>
   <meta name="description" content={metaDesc} />
   <link rel="canonical" href={canonicalURL} />
+
   <meta property="og:title" content={title} />
   <meta property="og:description" content={metaDesc} />
   <meta property="og:url" content={canonicalURL} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:site_name" content={settings.title} />
+  <meta property="og:locale" content="en_GB" />
   <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:alt" content={title} />
+  {ogImageDefault && <meta property="og:image:width" content="600" />}
+  {ogImageDefault && <meta property="og:image:height" content="600" />}
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={metaDesc} />
+  <meta name="twitter:image" content={ogImageURL} />
+
   <link rel="icon" type="image/svg+xml" href={`${base}/assets/favicon.svg`} />
+  <link rel="apple-touch-icon" href={`${base}/assets/apple-touch-icon.png`} />
+  <link rel="manifest" href={`${base}/site.webmanifest`} />
+  <link rel="sitemap" type="application/xml" href={`${base}/sitemap-index.xml`} />
+
   <link rel="stylesheet" href={`${base}/styles/style.css`} />
+  {themeCss && <Fragment set:html={`<style>${themeCss}</style>`} />}
+
+  <!-- LCP image preload (page-specific) must precede the render-blocking font CSS -->
+  <slot name="head" />
+
   {fontLinks.length > 0 && <link rel="preconnect" href="https://fonts.googleapis.com" />}
   {fontLinks.length > 0 && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
   {settings.analytics_id && <link rel="preconnect" href="https://gateway.umami.is" />}
   {fontLinks.map(url => <link rel="stylesheet" href={url} />)}
-  <Fragment set:html={`<style>${themeCss}</style>`} />
-  <slot name="head" />
+
+  <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`} />
   <ViewTransitions />
 </head>
 <body data-page={page}>
+
+  <a href="#main" class="skip-link">Skip to content</a>
 
   <header>
     <div class="header-inner">
@@ -78,15 +128,16 @@ const ogImageURL = new URL(settings.og_image || '/assets/portrait.jpg', Astro.si
     </div>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <div class={wideLayout ? 'container' : 'narrow'}>
+      <h1 class="sr-only">{h1Text}</h1>
       <slot />
     </div>
   </main>
 
   <footer>
     <div class="foot-inner">
-      <div class="foot-fine">{settings.footer_text} &copy; <span id="year"></span></div>
+      <div class="foot-fine">{settings.footer_text} &copy; {year}</div>
     </div>
   </footer>
 
@@ -94,9 +145,14 @@ const ogImageURL = new URL(settings.og_image || '/assets/portrait.jpg', Astro.si
   <script is:inline>
     function _toggleAbstract(id, btn) {
       var el = document.getElementById(id);
+      if (!el) return;
       var inner = el.firstElementChild;
+      if (!inner) return;
+      // Re-entrancy guard: ignore clicks while a transition is mid-flight
+      if (el.dataset.animating === '1') return;
       var isOpen = el.classList.contains('open');
       if (isOpen) {
+        el.dataset.animating = '1';
         // Pin to current pixel height so the browser has a defined start point
         el.style.gridTemplateRows = inner.scrollHeight + 'px';
         // Double RAF: ensures the browser paints the start state before animating
@@ -104,10 +160,10 @@ const ogImageURL = new URL(settings.og_image || '/assets/portrait.jpg', Astro.si
           requestAnimationFrame(function () {
             el.style.gridTemplateRows = '0px';
             el.classList.remove('open');
-            // After transition, clear inline style so CSS takes back control
             el.addEventListener('transitionend', function cleanup(e) {
               if (e.propertyName === 'grid-template-rows') {
                 el.style.gridTemplateRows = '';
+                el.dataset.animating = '';
                 el.removeEventListener('transitionend', cleanup);
               }
             });
@@ -118,16 +174,8 @@ const ogImageURL = new URL(settings.og_image || '/assets/portrait.jpg', Astro.si
         el.classList.add('open');
       }
       btn.textContent = isOpen ? '≡ Abstract' : '≡ Hide';
+      btn.setAttribute('aria-expanded', String(!isOpen));
     }
-  </script>
-
-  <script>
-    function setYear() {
-      const el = document.getElementById('year');
-      if (el) el.textContent = String(new Date().getFullYear());
-    }
-    setYear();
-    document.addEventListener('astro:page-load', setYear);
   </script>
 
   {settings.analytics_id && (
