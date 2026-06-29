@@ -3,7 +3,6 @@ import { ViewTransitions } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import navData from '../../data/nav.json';
 import projectsData from '../../data/projects.json';
-import workshopsData from '../../data/workshops.json';
 import themeData from '../../data/theme.json';
 import settings from '../../data/site-settings.json';
 import { getThemeCss, getThemeFontLinks } from '../lib/theme';
@@ -33,7 +32,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // href (a stable slug) — NOT its display label — so renaming the menu label in
 // the CMS can't silently break the dropdown.
 const projects = validSlugs(((projectsData as any).items || []).filter(isPublished));
-const workshops = validSlugs(((workshopsData as any).items || []).filter(isPublished));
 
 function injectDropdown(item: any, cfg: { items: any[]; slug: string; allLabel: string; href: (x: any) => string }) {
   if (!cfg.items.length) return item; // no entries → keep the flat link
@@ -49,8 +47,9 @@ function injectDropdown(item: any, cfg: { items: any[]; slug: string; allLabel: 
 
 const navItems = (navData.items as any[]).map(item => {
   const slug = (item.href || '').replace(/\.html$/, '');
+  // Research projects have no listing page, so the dropdown is their only
+  // discovery path. Workshops has the /workshops hub, so it stays a plain link.
   if (slug === 'research') return injectDropdown(item, { items: projects, slug: 'research', allLabel: 'Publications', href: (p) => `research/${p.id}` });
-  if (slug === 'workshops') return injectDropdown(item, { items: workshops, slug: 'workshops', allLabel: 'All workshops', href: (w) => w.id });
   return item;
 });
 
