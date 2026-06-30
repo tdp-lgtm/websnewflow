@@ -108,7 +108,30 @@ function isDropdownActive(item: NavItem): boolean {
       });
     }
 
+    // On mobile the submenu is rendered always-expanded inside the hamburger
+    // panel, so the trigger controls nothing — make it an inert group label.
+    // On desktop it's a real disclosure button. Re-evaluated on viewport change.
+    const isMobile = window.matchMedia('(max-width: 580px)').matches;
+
     triggers.forEach(trigger => {
+      const menuId = trigger.getAttribute('aria-controls');
+
+      if (isMobile) {
+        trigger.removeAttribute('aria-haspopup');
+        trigger.removeAttribute('aria-controls');
+        trigger.removeAttribute('aria-expanded');
+        trigger.setAttribute('tabindex', '-1');
+        trigger.onclick = null;
+        trigger.onkeydown = null;
+        return;
+      }
+
+      // Desktop disclosure behavior
+      trigger.setAttribute('aria-haspopup', 'true');
+      trigger.setAttribute('aria-expanded', 'false');
+      if (menuId) trigger.setAttribute('aria-controls', menuId);
+      trigger.removeAttribute('tabindex');
+
       // Use onclick property to avoid duplicate listeners across soft navigations
       trigger.onclick = (e) => {
         e.stopPropagation();
@@ -192,4 +215,9 @@ function isDropdownActive(item: NavItem): boolean {
 
   initNav();
   document.addEventListener('astro:page-load', initNav);
+  // Re-evaluate trigger semantics when crossing the mobile/desktop breakpoint
+  window.matchMedia('(max-width: 580px)').addEventListener('change', () => {
+    closeMobileMenu();
+    initNav();
+  });
 </script>
