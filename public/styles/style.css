@@ -325,7 +325,7 @@ h2 {
 .pub h3 {
   font-family: var(--sans);
   font-size: var(--fs-lg);
-  font-weight: 700;
+  font-weight: 400;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0 0 0.25rem;
@@ -453,7 +453,7 @@ h2 {
 .talk-item h3 {
   font-family: var(--sans);
   font-size: var(--fs-lg);
-  font-weight: 700;
+  font-weight: 400;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0 0 0.35rem;
@@ -586,12 +586,12 @@ h2 {
 .resource-item-title {
   font-family: var(--sans);
   font-size: var(--fs-lg);
-  font-weight: 600;
+  font-weight: 400;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0;
 }
-.resource-item-title a { font-weight: 500; color: var(--fg-1); }
+.resource-item-title a { font-weight: 400; color: var(--fg-1); }
 .resource-item-title a:hover { color: var(--fg-1); border-bottom-color: var(--fg-3); }
 
 /* ---- About ---- */
