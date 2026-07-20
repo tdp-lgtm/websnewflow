@@ -325,7 +325,7 @@ h2 {
 .pub h3 {
   font-family: var(--sans);
   font-size: var(--fs-lg);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0 0 0.25rem;
@@ -337,7 +337,7 @@ h2 {
   margin: 0 0 0.35rem;
   line-height: 1.5;
 }
-.venue em { font-style: italic; }
+.venue em { font-style: normal; }
 
 .award-inline {
   font-family: var(--sans);
@@ -453,7 +453,7 @@ h2 {
 .talk-item h3 {
   font-family: var(--sans);
   font-size: var(--fs-lg);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0 0 0.35rem;
@@ -544,14 +544,15 @@ h2 {
 .ws-speaker {
   font-family: var(--sans);
   font-size: var(--fs-prose);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0;
 }
 .ws-affiliation { font-weight: 400; color: var(--fg-3); }
 .ws-paper-title {
-  font-style: italic;
+  font-style: normal;
+  color: var(--fg-2);
   margin: 0.15rem 0 0;
 }
 .ws-registration {
@@ -760,11 +761,11 @@ footer {
 }
 .foot-fine { font-family: var(--sans); font-size: var(--fs-2xs); color: var(--fg-3); letter-spacing: 0.02em; }
 
-/* Courses page: course name styled like pub/talk title */
+/* Courses page: course name — same size as titles but regular weight */
 #teaching .talk-row-detail {
   font-family: var(--sans);
   font-size: var(--fs-lg);
-  font-weight: 600;
+  font-weight: 400;
   color: var(--fg-1);
 }
 #teaching .teaching-levels,
