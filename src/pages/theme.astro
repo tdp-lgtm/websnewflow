@@ -11,7 +11,6 @@ const previewFontUrls = [...new Set(
 
 const serifFonts = ['Spectral', 'Georgia', 'Palatino', 'Libre Baskerville'];
 const sansFonts  = ['Hanken Grotesk', 'System', 'Inter', 'Source Sans 3'];
-const monoFonts  = ['IBM Plex Mono', 'JetBrains Mono', 'System Mono'];
 
 const theme = themeData as Record<string, string>;
 const currentScheme = theme.color_scheme || 'Reading Room';
@@ -76,16 +75,6 @@ const currentScheme = theme.color_scheme || 'Reading Room';
     ))}
   </div>
 
-  <div class="cv-section">
-    <span class="eyebrow">Monospace font — year labels, eyebrows, footer</span>
-    {monoFonts.map(name => (
-      <p class="tp-specimen" style={`font-family:${FONTS[name].stack};font-size:0.85rem`}>
-        <span class="tp-specimen-name">{name}{name === theme.font_mono ? ' — current' : ''}</span>
-        2024 · FORTHCOMING · CURRICULUM VITAE · 1234567890
-      </p>
-    ))}
-  </div>
-
   <!-- ── Link underline ────────────────────────────────────────── -->
   <div class="cv-section">
     <span class="eyebrow">Link underline style</span>
@@ -124,7 +113,7 @@ const currentScheme = theme.color_scheme || 'Reading Room';
     .tp-chip { width: 1.15rem; height: 1.15rem; border-radius: 50%; display: inline-block; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
     .tp-sample { margin: 0.5rem 0 0; font-size: 0.95rem; }
     .tp-specimen { margin: 0.9rem 0; font-size: 1.05rem; line-height: 1.5; }
-    .tp-specimen-name { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 0.2rem; }
+    .tp-specimen-name { display: block; font-family: var(--sans); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em; color: var(--fg-3); margin-bottom: 0.2rem; }
     .tp-note { font-size: 0.85rem; color: var(--fg-3); }
   </style>
 </Base>

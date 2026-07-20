@@ -17,7 +17,6 @@ mkdirSync(OUT, { recursive: true });
 const FAMILIES = [
   { name: 'Spectral', slug: 'spectral', url: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap' },
   { name: 'Hanken Grotesk', slug: 'hanken', url: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap' },
-  { name: 'IBM Plex Mono', slug: 'ibmplexmono', url: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap' },
 ];
 
 function curl(url, binary = false) {

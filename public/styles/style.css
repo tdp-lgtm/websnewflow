@@ -24,7 +24,6 @@
 
   --serif: 'Spectral', Georgia, serif;
   --sans:  'Hanken Grotesk', system-ui, sans-serif;
-  --mono:  'IBM Plex Mono', ui-monospace, monospace;
 
   --max-w:  800px;
   --nav-h:  56px;
@@ -32,8 +31,7 @@
   --dur:    200ms;
 
   /* Type scale — a single token set; every font-size maps to one of these */
-  --fs-3xs:   0.72rem;   /* mono labels, eyebrows, footer, legends */
-  --fs-2xs:   0.78rem;   /* fine print: quick-links, awards, prizes, levels */
+  --fs-2xs:   0.78rem;   /* fine print: labels, quick-links, awards, footer */
   --fs-xs:    0.8125rem; /* year columns, inline action links, small buttons */
   --fs-sm:    0.875rem;  /* secondary detail, sub-lines, contact, subtitles */
   --fs-md:    0.9375rem; /* venues, abstracts, list detail text */
@@ -117,8 +115,7 @@ header {
   top: 0;
   z-index: 40;
   height: var(--nav-h);
-  background: color-mix(in srgb, var(--paper) 92%, transparent);
-  backdrop-filter: blur(6px);
+  background: var(--paper);
   border-bottom: 1px solid var(--rule);
 }
 
@@ -272,11 +269,10 @@ nav > a.active { color: var(--accent); border-bottom-color: var(--accent); }
 /* ---- Page eyebrow ---- */
 .page-eyebrow,
 .eyebrow {
-  font-family: var(--mono);
-  font-size: var(--fs-3xs);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
+  font-family: var(--sans);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--fg-2);
   display: block;
   margin-bottom: 0.5rem;
@@ -296,11 +292,10 @@ h2 {
 
 /* ---- Subsection labels ---- */
 .section-label {
-  font-family: var(--mono);
-  font-size: var(--fs-3xs);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
+  font-family: var(--sans);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--fg-2);
   display: block;
   margin: 2.5rem 0 0.25rem;
@@ -320,7 +315,8 @@ h2 {
 }
 
 .yr {
-  font-family: var(--mono);
+  font-family: var(--sans);
+  font-variant-numeric: tabular-nums;
   font-size: var(--fs-xs);
   color: var(--fg-3);
   line-height: 1.35;
@@ -344,8 +340,9 @@ h2 {
 .venue em { font-style: italic; }
 
 .award-inline {
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: var(--fs-2xs);
+  font-style: italic;
   color: var(--fg-3);
   letter-spacing: 0.01em;
 }
@@ -441,8 +438,8 @@ h2 {
 
 /* ---- Talks ---- */
 .talks-legend {
-  font-family: var(--mono);
-  font-size: var(--fs-3xs);
+  font-family: var(--sans);
+  font-size: var(--fs-2xs);
   color: var(--fg-3);
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -474,7 +471,8 @@ h2 {
 }
 
 .talk-yr {
-  font-family: var(--mono);
+  font-family: var(--sans);
+  font-variant-numeric: tabular-nums;
   font-size: var(--fs-xs);
   color: var(--fg-3);
   line-height: 1.5;
@@ -573,13 +571,12 @@ h2 {
 .resource-intro { margin-bottom: 2rem; color: var(--fg-2); }
 .resource-note { color: var(--fg-3); font-style: italic; font-size: var(--fs-xs); }
 .resource-author { font-family: var(--sans); font-size: var(--fs-sm); color: var(--fg-2); }
-/* Resource group heading: like section-label (mono uppercase accent) */
+/* Resource group heading: matches .section-label */
 .resource-group-heading {
-  font-family: var(--mono);
-  font-size: var(--fs-3xs);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
+  font-family: var(--sans);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--fg-2);
   margin: 2.5rem 0 0.25rem;
 }
@@ -630,10 +627,10 @@ h2 {
   margin-top: 0.85rem;
 }
 .about-links a {
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: var(--fs-2xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.03em;
   color: var(--fg-3);
   border-bottom: none;
 }
@@ -666,7 +663,7 @@ h2 {
   padding: 0.4rem 0;
   align-items: baseline;
 }
-.cv-year { font-family: var(--mono); font-size: var(--fs-xs); color: var(--fg-3); line-height: 1.5; }
+.cv-year { font-family: var(--sans); font-variant-numeric: tabular-nums; font-size: var(--fs-xs); color: var(--fg-3); line-height: 1.5; }
 .cv-area-label { color: var(--fg-2); font-size: var(--fs-2xs); letter-spacing: 0.04em; }
 .cv-detail { font-family: var(--serif); font-size: var(--fs-base); font-weight: 500; color: var(--fg-1); line-height: 1.4; }
 .cv-detail-sub { display: block; font-family: var(--sans); font-size: var(--fs-sm); font-weight: 400; color: var(--fg-2); margin-top: 3px; line-height: 1.5; }
@@ -677,7 +674,7 @@ h2 {
 /* vol/issue/pages: smaller, sans, muted */
 .cv-detail-vol { font-family: var(--sans); font-size: var(--fs-sm); font-weight: 400; color: var(--fg-2); }
 .cv-contact-addr { display: block; margin-top: 0.15rem; }
-.cv-prize { display: block; font-family: var(--mono); font-size: var(--fs-2xs); color: var(--fg-3); margin-top: 2px; }
+.cv-prize { display: block; font-family: var(--sans); font-style: italic; font-size: var(--fs-2xs); color: var(--fg-3); margin-top: 2px; }
 /* CV talks should match the size of other CV sections, not the larger Talks page */
 #cv-talks .talk-item h3 { font-size: var(--fs-base); }
 #cv-talks .talk-item { padding: 0.3rem 0; }
@@ -685,10 +682,10 @@ h2 {
 #cv-talks .talk-pres-list { padding-left: 0; }
 #cv-talks .talk-pres-list .talk-row-detail { padding-left: 1.25rem; }
 .cv-subsection-label {
-  font-family: var(--mono);
-  font-size: var(--fs-3xs);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-family: var(--sans);
+  font-size: var(--fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--fg-3);
   margin: 1.25rem 0 0;
   padding-bottom: 0;
@@ -723,7 +720,8 @@ h2 {
 .cv-contact a:hover { color: var(--accent); }
 .cv-contact-sep { color: var(--fg-3); margin: 0 0.6rem; }
 .cv-award-amount {
-  font-family: var(--mono);
+  font-family: var(--sans);
+  font-variant-numeric: tabular-nums;
   font-size: var(--fs-2xs);
   color: var(--fg-3);
 }
@@ -756,7 +754,7 @@ footer {
   justify-content: space-between;
   align-items: center;
 }
-.foot-fine { font-family: var(--mono); font-size: var(--fs-3xs); color: var(--fg-3); letter-spacing: 0.05em; }
+.foot-fine { font-family: var(--sans); font-size: var(--fs-2xs); color: var(--fg-3); letter-spacing: 0.02em; }
 
 /* Courses page: course name styled like pub/talk title */
 #teaching .talk-row-detail {
@@ -849,11 +847,10 @@ h1, h2, h3,
   .nav-dropdown { display: block; }
   .nav-dropdown-trigger {
     color: var(--fg-3);
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: var(--fs-2xs);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-weight: 500;
+    letter-spacing: 0.02em;
+    font-weight: 600;
     cursor: default;
     padding-bottom: 0.2rem;
   }

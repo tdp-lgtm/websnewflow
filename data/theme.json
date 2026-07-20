@@ -8,7 +8,6 @@
   "color_accent": "#7B2E2E",
   "font_serif":   "Spectral",
   "font_sans":    "Hanken Grotesk",
-  "font_mono":    "IBM Plex Mono",
   "link_underline":  "hover",
   "heading_weight":  "400"
 }

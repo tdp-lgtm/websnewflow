@@ -49,18 +49,6 @@ export const FONTS: Record<string, { stack: string; googleUrl?: string; selfHost
     stack: "'Source Sans 3', system-ui, sans-serif",
     googleUrl: 'https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap',
   },
-  // ── Mono ──────────────────────────────────────────────────────────────────
-  'IBM Plex Mono': {
-    stack: "'IBM Plex Mono', ui-monospace, monospace",
-    selfHosted: true,
-  },
-  'JetBrains Mono': {
-    stack: "'JetBrains Mono', ui-monospace, monospace",
-    googleUrl: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap',
-  },
-  'System Mono': {
-    stack: 'ui-monospace, Menlo, monospace',
-  },
 };
 
 function adjust(hex: string, amount: number): string {
@@ -78,14 +66,12 @@ function adjust(hex: string, amount: number): string {
 const BASELINE = {
   serif: FONTS['Spectral'].stack,
   sans: FONTS['Hanken Grotesk'].stack,
-  mono: FONTS['IBM Plex Mono'].stack,
   ...SCHEMES['Reading Room'],
 };
 
 export function getThemeCss(theme: Record<string, string>): string {
   const serif  = FONTS[theme.font_serif]?.stack  ?? FONTS['Spectral'].stack;
   const sans   = FONTS[theme.font_sans]?.stack   ?? FONTS['Hanken Grotesk'].stack;
-  const mono   = FONTS[theme.font_mono]?.stack   ?? FONTS['IBM Plex Mono'].stack;
 
   const scheme = SCHEMES[theme.color_scheme];
   const paper  = scheme?.paper  ?? (theme.color_paper  || BASELINE.paper);
@@ -100,7 +86,7 @@ export function getThemeCss(theme: Record<string, string>): string {
   const tokensMatchBaseline =
     paper === BASELINE.paper && ink === BASELINE.ink && fg2 === BASELINE.fg2 &&
     fg3 === BASELINE.fg3 && rule === BASELINE.rule && accent === BASELINE.accent &&
-    serif === BASELINE.serif && sans === BASELINE.sans && mono === BASELINE.mono;
+    serif === BASELINE.serif && sans === BASELINE.sans;
 
   // Nothing differs from the stylesheet — skip the inline block entirely.
   if (tokensMatchBaseline && !hwOverride && !underlineOverride) return '';
@@ -120,7 +106,6 @@ export function getThemeCss(theme: Record<string, string>): string {
     `  --accent-deep: ${adjust(accent, -25)};`,
     `  --serif: ${serif};`,
     `  --sans: ${sans};`,
-    `  --mono: ${mono};`,
     '}',
   ];
 
@@ -139,7 +124,7 @@ export function getThemeCss(theme: Record<string, string>): string {
 }
 
 export function getThemeFontLinks(theme: Record<string, string>): string[] {
-  const keys = [theme.font_serif, theme.font_sans, theme.font_mono];
+  const keys = [theme.font_serif, theme.font_sans];
   // Self-hosted fonts load via public/fonts/fonts.css — only non-self-hosted
   // selections need a Google stylesheet link.
   return [...new Set(keys.flatMap(k => {

@@ -107,13 +107,6 @@ content:
           values: [Hanken Grotesk, System, Inter, Source Sans 3]
         default: Hanken Grotesk
         description: Used for navigation, buttons, and small UI labels.
-      - name: font_mono
-        label: Monospace font (year labels, eyebrows)
-        type: select
-        options:
-          values: [IBM Plex Mono, JetBrains Mono, System Mono]
-        default: IBM Plex Mono
-        description: Used for year columns, section eyebrows, and the footer.
       - name: link_underline
         label: Link underline style
         type: select
