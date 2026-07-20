@@ -131,9 +131,9 @@ header {
 }
 
 .site-title {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: var(--fs-xl);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--fg-1);
   letter-spacing: -0.01em;
   border-bottom: none;
@@ -279,9 +279,9 @@ nav > a.active { color: var(--accent); border-bottom-color: var(--accent); }
 }
 
 h2 {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: var(--fs-2xl);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.2;
   color: var(--fg-1);
@@ -323,9 +323,9 @@ h2 {
 }
 
 .pub h3 {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: var(--fs-lg);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0 0 0.25rem;
@@ -417,7 +417,7 @@ h2 {
 #wip { margin-top: 2.5rem; }
 
 .pub h3.wip-title {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: var(--fs-sm);
   font-weight: 400;
   color: var(--fg-2);
@@ -451,9 +451,9 @@ h2 {
 }
 
 .talk-item h3 {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: var(--fs-lg);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0 0 0.35rem;
@@ -513,9 +513,9 @@ h2 {
 #teaching .page-section.page-section--first { padding-top: 0; margin-top: 0; }
 
 .section-title {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: var(--fs-xl);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--fg-1);
   margin-bottom: 0;
 }
@@ -542,9 +542,9 @@ h2 {
   padding: 0.55rem 0;
 }
 .ws-speaker {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: var(--fs-prose);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0;
@@ -581,11 +581,11 @@ h2 {
   margin: 2.5rem 0 0.25rem;
 }
 .resource-group-heading:first-child { margin-top: 0; }
-/* Resource item title: like pub h3 (serif) */
+/* Resource item title: like pub h3 */
 .resource-item-title {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: var(--fs-lg);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--fg-1);
   line-height: 1.35;
   margin: 0;
@@ -675,8 +675,12 @@ h2 {
 .cv-detail-vol { font-family: var(--sans); font-size: var(--fs-sm); font-weight: 400; color: var(--fg-2); }
 .cv-contact-addr { display: block; margin-top: 0.15rem; }
 .cv-prize { display: block; font-family: var(--sans); font-style: italic; font-size: var(--fs-2xs); color: var(--fg-3); margin-top: 2px; }
+/* The CV alone keeps the serif, typeset-document voice — the rest of the
+   site is sans. Scoped by the body's data-page attribute. */
+body[data-page="cv"] h2 { font-family: var(--serif); font-weight: 500; }
+
 /* CV talks should match the size of other CV sections, not the larger Talks page */
-#cv-talks .talk-item h3 { font-size: var(--fs-base); }
+#cv-talks .talk-item h3 { font-family: var(--serif); font-weight: 500; font-size: var(--fs-base); }
 #cv-talks .talk-item { padding: 0.3rem 0; }
 /* Keep presentation dates aligned with section years; indent only the venue text */
 #cv-talks .talk-pres-list { padding-left: 0; }
@@ -758,9 +762,9 @@ footer {
 
 /* Courses page: course name styled like pub/talk title */
 #teaching .talk-row-detail {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: var(--fs-lg);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--fg-1);
 }
 #teaching .teaching-levels,

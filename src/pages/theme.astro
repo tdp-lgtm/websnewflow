@@ -56,7 +56,7 @@ const currentScheme = theme.color_scheme || 'Reading Room';
 
   <!-- ── Fonts ─────────────────────────────────────────────────── -->
   <div class="cv-section">
-    <span class="eyebrow">Serif font — body, abstracts, titles</span>
+    <span class="eyebrow">Serif font — CV page only</span>
     {serifFonts.map(name => (
       <p class="tp-specimen" style={`font-family:${FONTS[name].stack}`}>
         <span class="tp-specimen-name">{name}{name === theme.font_serif ? ' — current' : ''}</span>
@@ -66,7 +66,7 @@ const currentScheme = theme.color_scheme || 'Reading Room';
   </div>
 
   <div class="cv-section">
-    <span class="eyebrow">Sans font — navigation, labels, UI</span>
+    <span class="eyebrow">Sans font — all site text</span>
     {sansFonts.map(name => (
       <p class="tp-specimen" style={`font-family:${FONTS[name].stack}`}>
         <span class="tp-specimen-name">{name}{name === theme.font_sans ? ' — current' : ''}</span>

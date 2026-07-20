@@ -94,19 +94,19 @@ content:
         type: string
         description: "Only used when Colour scheme is 'Custom'. Hyperlinks and accents. Default: #7B2E2E"
       - name: font_serif
-        label: Serif font (body, abstracts, titles)
+        label: Serif font (CV page only)
         type: select
         options:
           values: [Spectral, Georgia, Palatino, Libre Baskerville]
         default: Spectral
-        description: "See each font rendered in its own typeface at jonashaeg.com/theme. Used for reading text, publication titles, and abstracts."
+        description: "See each font rendered in its own typeface at jonashaeg.com/theme. Used only on the CV page (headings and entry titles)."
       - name: font_sans
-        label: Sans font (nav, labels, UI)
+        label: Sans font (everything else)
         type: select
         options:
           values: [Hanken Grotesk, System, Inter, Source Sans 3]
         default: Hanken Grotesk
-        description: Used for navigation, buttons, and small UI labels.
+        description: Used for all site text — body, titles, navigation, and labels.
       - name: link_underline
         label: Link underline style
         type: select

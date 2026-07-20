@@ -107,7 +107,9 @@ const jsonLd = {
   <!-- Preload the above-the-fold default fonts (self-hosted, same-origin) -->
   {sansIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/hanken-400-latin.woff2`} />}
   {sansIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/hanken-500-latin.woff2`} />}
-  {serifIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/spectral-500-latin.woff2`} />}
+  {sansIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/hanken-600-latin.woff2`} />}
+  <!-- The serif is used only on the CV page — don't force-download it elsewhere -->
+  {serifIsDefault && page === 'cv' && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/spectral-500-latin.woff2`} />}
 
   <link rel="stylesheet" href={`${base}/styles/style.css`} />
   <link rel="stylesheet" href={`${base}/fonts/fonts.css`} />
