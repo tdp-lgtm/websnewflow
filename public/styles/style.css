@@ -816,7 +816,9 @@ h1, h2, h3,
   .site-title { font-size: var(--fs-xl); }
   .nav-toggle { display: inline-flex; }
 
-  nav {
+  /* Scope the hamburger panel to the header nav only — the quick-links nav
+     (.about-links) is also a <nav>, so a bare `nav` selector would break it. */
+  #primary-nav {
     display: none;
     position: absolute;
     top: 100%;
@@ -830,10 +832,10 @@ h1, h2, h3,
     box-shadow: 0 10px 24px rgba(33, 28, 22, 0.10);
     padding: 0.25rem 0 0.5rem;
   }
-  .nav-toggle[aria-expanded="true"] + nav { display: flex; }
+  .nav-toggle[aria-expanded="true"] + #primary-nav { display: flex; }
 
-  nav > a,
-  .nav-dropdown-trigger {
+  #primary-nav > a,
+  #primary-nav .nav-dropdown-trigger {
     width: 100%;
     text-align: left;
     font-size: var(--fs-base);
@@ -841,7 +843,7 @@ h1, h2, h3,
     color: var(--fg-1);
     padding: 0.7rem 1.25rem;
   }
-  nav > a.active { color: var(--accent); border-bottom: none; }
+  #primary-nav > a.active { color: var(--accent); border-bottom: none; }
 
   /* Dropdowns become an always-expanded, indented group (no nested popup) */
   .nav-dropdown { display: block; }
@@ -876,22 +878,28 @@ h1, h2, h3,
   h2 { font-size: var(--fs-xl); }
   .pub h3, .talk-item h3 { font-size: var(--fs-base); }
 
-  /* Portrait: stop floating, centre above text */
+  /* Portrait: stop floating, centre above text. The block is full width and
+     only the image is capped, so the quick links below can use the full
+     content width (no transform hack — that mispainted over text on iOS). */
   .about-portrait {
     float: none;
     width: 100%;
-    max-width: 240px;
-    margin: 0 auto 1.5rem;
+    margin: 0 0 1.5rem;
     display: block;
+    text-align: center;
+  }
+  .about-portrait img {
+    max-width: 240px;
+    margin: 0 auto;
   }
 
-  /* Quick links: escape the narrow portrait column so all fit on one line;
-     if a very narrow screen still forces a wrap, keep the rows evenly spaced */
+  /* Quick links: a plain centred, wrapping row across the content width */
   .about-links {
-    width: max-content;
-    max-width: calc(100vw - 3rem);
-    margin-left: 50%;
-    transform: translateX(-50%);
+    width: auto;
+    max-width: none;
+    margin: 0.85rem 0 0;
+    transform: none;
+    justify-content: center;
     gap: 0.2rem 1.1rem;
   }
   /* Comfortable tap targets for the small inline controls */
