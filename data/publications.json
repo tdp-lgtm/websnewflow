@@ -3,9 +3,12 @@
     {
       "title": "Taking the Fall: Punishment, Constrained Instrumentalism, and False Confessions",
       "type": "Article",
-      "year": "Forthcoming",
+      "year": "2026",
       "journal": "Australasian Journal of Philosophy",
+      "pages": "1-16",
       "abstract": "How can we justify the practice of punishing offenders? Constrained Instrumentalism has become an attractive alternative to traditional answers like Retributivism and Instrumentalism. This paper focuses on two versions of this view, the Forfeiture View and the Duty View, and argues that both face a False Confessions Problem: they cannot adequately explain why we should punish, or at least prefer to punish, only those guilty of a crime instead of anyone who voluntarily but falsely confesses to a crime. They fail to account for the powerful intuition that punishment should not be simply about pursuing valuable ends (like general deterrence) without violating rights but, fundamentally, should be about pursuing these ends by punishing the guilty. Finally, I suggest that Constrained Instrumentalists might avoid this objection by defending something like 'instrumental desert'",
+      "pdf": "https://philpapers.org/archive/HAETTF-2.pdf",
+      "doi": "https://doi.org/10.1080/00048402.2026.2707328",
       "published": true,
       "cv": true
     },
@@ -98,11 +101,41 @@
     }
   ],
   "wip": [
-    { "title": "[A paper on the ethics of advising] (with Romy Eskens)", "status": "Under review", "published": true, "cv": true },
-    { "title": "[A paper on victim-blaming]", "status": "In preparation", "published": true, "cv": true },
-    { "title": "[A paper on precautionary duties in an unjust world]", "status": "In preparation", "published": true, "cv": true },
-    { "title": "[A paper on criminogenic injustice and punishment]", "status": "In preparation", "published": true, "cv": true },
-    { "title": "[A paper on asylum, deception, and deportation]", "status": "In preparation", "published": true, "cv": true },
-    { "title": "[A paper on the value of being involved in setting things right]", "status": "In preparation", "published": true, "cv": true }
+    {
+      "title": "[A paper on the ethics of advising] (with Romy Eskens)",
+      "status": "Under review",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "[A paper on victim-blaming]",
+      "status": "In preparation",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "[A paper on precautionary duties in an unjust world]",
+      "status": "In preparation",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "[A paper on criminogenic injustice and punishment]",
+      "status": "In preparation",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "[A paper on asylum, deception, and deportation]",
+      "status": "In preparation",
+      "published": true,
+      "cv": true
+    },
+    {
+      "title": "[A paper on the value of being involved in setting things right]",
+      "status": "In preparation",
+      "published": true,
+      "cv": true
+    }
   ]
 }
