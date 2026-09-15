@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { isPublished, isOnCV, volStr, esc } from '../lib/content';
+import { isPublished, isOnCV, volStr, esc, flattenPresentations, presentationMark } from '../lib/content';
 import pubData from '../../data/publications.json';
 import talksData from '../../data/talks.json';
 import teachingData from '../../data/teaching.json';
@@ -69,14 +69,16 @@ const teachRoles = [
   ...Object.keys(teachGroups).filter(r => !roleOrder.includes(r)),
 ];
 
-// Talks for CV: filter published + on CV
+// Talks for CV: filter published + on CV, then flatten to date/place rows
 const cvTalks = talks.filter(t => isPublished(t) && isOnCV(t) && (t.presentations || []).filter(isPublished).length);
+const cvPresentations = flattenPresentations(cvTalks);
 
 // Section rendering helpers
 // `detail`/`sub` may contain pre-escaped markup (callers decide); plain text
 // must be esc()'d by the caller before being passed in. `year` is escaped here.
+// Returns '' when empty so the section is skipped rather than rendering a stub.
 function renderCVSection(items: { year?: string; detail: string; sub?: string; link?: string }[]) {
-  if (!items.length) return '<p class="empty">Nothing to show yet.</p>';
+  if (!items.length) return '';
   return items.map(item => `
     <div class="cv-item">
       <span class="cv-year">${esc(item.year || '')}</span>
@@ -105,6 +107,12 @@ const educationHtml = renderCVSection((cv.education || []).map((e: any) => {
 
 const eventsHtml = renderCVSection((cv.events || []).map((e: any) => ({
   year: e.year, detail: esc(e.title), sub: `${esc(e.institution)}${e.note ? ' · ' + esc(e.note) : ''}`,
+})));
+
+// Teaching qualifications & training (e.g. a teaching certificate in progress)
+const teachingQualsHtml = renderCVSection((cv.teaching_qualifications || []).map((q: any) => ({
+  year: q.year, detail: esc(q.title),
+  sub: [q.institution, q.note].filter(Boolean).map(esc).join(' · '),
 })));
 
 const serviceItems = [
@@ -144,7 +152,7 @@ const sectionsMap: Record<string, Section> = {
         </div>`;
       }).join('');
       return `<div class="cv-subsection-label">${esc(label)}</div>${rows}`;
-    }).join('') || '<p class="empty">Nothing to show yet.</p>',
+    }).join(''),
   },
   wip: {
     key: 'wip', label: 'Work in progress',
@@ -157,24 +165,19 @@ const sectionsMap: Record<string, Section> = {
     }).join(''),
   },
   presentations: {
-    // id must stay 'cv-talks' — style.css scopes the smaller talk-title size to it
-    key: 'presentations', id: 'cv-talks', label: 'Selected presentations',
+    key: 'presentations', label: 'Selected presentations',
     extra: `<span class="talks-legend"><sup>*</sup> invited &ensp; <sup>&#8224;</sup> peer-reviewed</span>`,
-    content: cvTalks.length === 0 ? '<p class="empty">Nothing to show yet.</p>' : `<ul class="pub-list">${cvTalks.map((talk: any) => {
-      const rows = (talk.presentations || []).filter(isPublished).map((p: any) => {
-        const tag = p.type === 'Invited' ? '<sup class="talk-tag">*</sup>'
-                  : p.type === 'Peer-Review' ? '<sup class="talk-tag">†</sup>' : '';
-        const date = p.month ? `${esc(p.month)} ${esc(p.year)}` : esc(String(p.year || ''));
-        const where = esc([p.venue, p.institution].filter(Boolean).join(', '));
-        const comment = p.comment ? ` <em class="talk-comment">${esc(p.comment)}</em>` : '';
-        return `<div class="talk-row"><div class="talk-yr">${date}</div><div class="talk-row-detail">${where}${tag}${comment}</div></div>`;
-      }).join('');
-      return `<li class="talk-item"><div class="talk-row"><div class="talk-yr"></div><h3>${esc(talk.title)}</h3></div><div class="talk-pres-list">${rows}</div></li>`;
-    }).join('')}</ul>`,
+    // Date and place only — no paper titles — mirroring the site's Talks page.
+    content: cvPresentations.map(r => {
+      const mark = presentationMark(r.type);
+      const tag = mark ? `<sup class="talk-tag">${mark}</sup>` : '';
+      const comment = r.comment ? ` <em class="talk-comment">${esc(r.comment)}</em>` : '';
+      return `<div class="cv-item"><span class="cv-year">${esc(r.date)}</span><span class="cv-detail cv-detail--regular">${esc(r.where)}${tag}${comment}</span></div>`;
+    }).join(''),
   },
   teaching: {
     key: 'teaching', label: 'Teaching',
-    content: teachRoles.length === 0 ? '<p class="empty">Nothing to show yet.</p>' : teachRoles.map(role => {
+    content: teachRoles.map(role => {
       const rows = teachGroups[role].map((e: any) => {
         const note = e.note ? ` <span class="cv-detail-sub" style="display:inline">${esc(e.note)}</span>` : '';
         return `<div class="cv-item"><span class="cv-year">${esc(e.year || '')}</span><span class="cv-detail">${esc(e.course)}${note}</span></div>`;
@@ -182,9 +185,10 @@ const sectionsMap: Record<string, Section> = {
       return `<div class="cv-subsection-label">${esc(role)}</div>${rows}`;
     }).join(''),
   },
+  teaching_qualifications: { key: 'teaching_qualifications', label: 'Teaching qualifications', content: teachingQualsHtml },
   awards: {
     key: 'awards', label: 'Honours, grants & awards',
-    content: (cv.awards || []).length === 0 ? '<p class="empty">Nothing to show yet.</p>' : (cv.awards || []).map((a: any) =>
+    content: (cv.awards || []).map((a: any) =>
       `<div class="cv-item"><span class="cv-year">${esc(a.year || '')}</span><span class="cv-detail">${esc(a.description)}${a.amount ? ` <span class="cv-award-amount">${esc(a.amount)}</span>` : ''}</span></div>`
     ).join(''),
   },
@@ -236,8 +240,8 @@ const orderedSections = sectionOrder
   {orderedSections.map(sec => {
     if (!sec) return null;
     // Skip sections with no content (empty wip, etc.)
-    if (sec.key === 'wip' && !sec.content) return null;
-    if (sec.key === 'references' && !sec.content) return null;
+    // Skip any section with nothing to show (empty list, unfilled CMS field)
+    if (!sec.content) return null;
     return (
       <div class="cv-section" data-cv-section={sec.key}>
         {sec.extra

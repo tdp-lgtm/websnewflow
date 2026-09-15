@@ -667,6 +667,31 @@ content:
                 label: Examiners
                 type: string
 
+          - name: teaching_qualifications
+            label: Teaching qualifications & training
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            description: Teaching certificates and pedagogical training — including ones in progress. Appears on the CV only when at least one entry exists.
+            fields:
+              - name: year
+                label: Year(s)
+                type: string
+                description: e.g. "2026" or "2026–27"
+              - name: title
+                label: Qualification / course
+                type: string
+                required: true
+              - name: institution
+                label: Institution
+                type: string
+              - name: note
+                label: Note (optional)
+                type: string
+                description: e.g. "In progress", "Expected completion 2027", credits, or a grade.
+
           - name: awards
             label: Honours, grants & awards
             type: object
@@ -816,6 +841,7 @@ content:
                     - wip
                     - presentations
                     - teaching
+                    - teaching_qualifications
                     - awards
                     - events
                     - service

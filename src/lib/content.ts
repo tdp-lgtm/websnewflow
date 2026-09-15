@@ -38,6 +38,53 @@ export function esc(value: unknown): string {
     .replace(/'/g, '&#39;');
 }
 
+export interface PresentationRow {
+  /** Display date: "May 2025", "2025", or a status word like "Scheduled". */
+  date: string;
+  /** "Venue, Institution" */
+  where: string;
+  type?: string;
+  comment?: string;
+}
+
+/**
+ * Flatten talks → one row per presentation (published only), ignoring the
+ * paper titles. Sorted newest-first; non-numeric years ("Scheduled",
+ * "Forthcoming") sort to the top. The sort is stable, so presentations within
+ * the same year keep their authored order.
+ */
+export function flattenPresentations(talks: any[]): PresentationRow[] {
+  const rows: (PresentationRow & { _k: number })[] = [];
+  for (const t of talks || []) {
+    for (const p of t.presentations || []) {
+      if (!isPublished(p)) continue;
+      const year = String(p.year ?? '').trim();
+      const numeric = /^\d{4}$/.test(year) ? Number(year) : Number.POSITIVE_INFINITY;
+      rows.push({
+        date: p.month ? `${p.month} ${year}` : year,
+        where: [p.venue, p.institution].filter(Boolean).join(', '),
+        type: p.type,
+        comment: p.comment,
+        _k: numeric,
+      });
+    }
+  }
+  rows.sort((a, b) => {
+    if (a._k === b._k) return 0;           // both same year, or both non-numeric
+    if (a._k === Infinity) return -1;      // scheduled/forthcoming first
+    if (b._k === Infinity) return 1;
+    return b._k - a._k;                    // then newest first
+  });
+  return rows.map(({ _k, ...r }) => r);
+}
+
+/** Footnote marker for a presentation type, matching the page legend. */
+export function presentationMark(type?: string): string {
+  if (type === 'Invited') return '*';
+  if (type === 'Peer-Review') return '†';
+  return '';
+}
+
 /**
  * De-duplicate and validate slug ids for dynamic routes. Drops empty/invalid
  * ids and keeps only the first occurrence of each, so a CMS typo (duplicate or

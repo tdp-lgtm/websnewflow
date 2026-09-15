@@ -1,9 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import { isPublished } from '../lib/content';
+import { isPublished, flattenPresentations, presentationMark } from '../lib/content';
 import talksData from '../../data/talks.json';
 
+// One row per presentation — place, date, and invited/peer-reviewed marker.
+// Titles are deliberately omitted; the layout mirrors the publications list.
 const talks = (talksData.items || (talksData as any)).filter(isPublished);
+const rows = flattenPresentations(talks);
 ---
 
 <Base title="Talks — Jonas Haeg" description="Talks and conference presentations by Jonas Haeg." page="talks">
@@ -11,33 +14,14 @@ const talks = (talksData.items || (talksData as any)).filter(isPublished);
   <p class="talks-legend"><sup>*</sup> invited &ensp; <sup>&dagger;</sup> peer-reviewed</p>
 
   <ul class="pub-list">
-    {talks.map((talk: any) => {
-      const pres = (talk.presentations || []).filter(isPublished);
+    {rows.map(r => {
+      const mark = presentationMark(r.type);
       return (
-        <li class="talk-item">
-          <div class="talk-row">
-            <div class="talk-yr"></div>
-            <h3>{talk.title}</h3>
-          </div>
-          <div class="talk-pres-list">
-            {pres.map((p: any) => {
-              const tag = p.type === 'Invited'
-                ? <sup class="talk-tag">*</sup>
-                : p.type === 'Peer-Review'
-                ? <sup class="talk-tag">&dagger;</sup>
-                : null;
-              const date = p.month ? `${p.month} ${p.year}` : String(p.year || '');
-              const where = [p.venue, p.institution].filter(Boolean).join(', ');
-              return (
-                <div class="talk-row">
-                  <div class="talk-yr">{date}</div>
-                  <div class="talk-row-detail">
-                    {where}{tag}
-                    {p.comment && <em class="talk-comment"> {p.comment}</em>}
-                  </div>
-                </div>
-              );
-            })}
+        <li class="pub">
+          <div class="yr">{r.date}</div>
+          <div class="talk-entry">
+            {r.where}{mark && <sup class="talk-tag">{mark}</sup>}
+            {r.comment && <em class="talk-comment"> {r.comment}</em>}
           </div>
         </li>
       );
