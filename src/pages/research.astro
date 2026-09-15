@@ -78,10 +78,10 @@ wip.forEach(p => {
                   {(p.abstract || p.pdf || p.doi || p.prize) && (
                     <div class="pub-links">
                       {p.abstract && (
-                        <button aria-expanded="false" aria-controls={absId} aria-label={`Toggle abstract: ${p.title}`} onclick={`_toggleAbstract('${absId}',this)`}>&#8801; Abstract</button>
+                        <button aria-expanded="false" aria-controls={absId} aria-label={`Toggle abstract: ${p.title}`} onclick={`_toggleAbstract('${absId}',this)`}>Abstract</button>
                       )}
-                      {p.pdf && <a href={p.pdf} target="_blank" rel="noopener" aria-label={`Download PDF: ${p.title} (opens in new tab)`}>&#8595; PDF</a>}
-                      {p.doi && <a href={p.doi} target="_blank" rel="noopener" aria-label={`Publisher page: ${p.title} (opens in new tab)`}>Publisher &#8599;</a>}
+                      {p.pdf && <a href={p.pdf} target="_blank" rel="noopener" aria-label={`Download PDF: ${p.title} (opens in new tab)`}>PDF</a>}
+                      {p.doi && <a href={p.doi} target="_blank" rel="noopener" aria-label={`Publisher page: ${p.title} (opens in new tab)`}>Publisher</a>}
                       {p.prize && <span class="award-inline">{p.prize}</span>}
                     </div>
                   )}
@@ -115,9 +115,9 @@ wip.forEach(p => {
                     {(p.abstract || p.pdf) && (
                       <div class="pub-links">
                         {p.abstract && (
-                          <button aria-expanded="false" aria-controls={absId} aria-label={`Toggle abstract: ${p.title}`} onclick={`_toggleAbstract('${absId}',this)`}>&#8801; Abstract</button>
+                          <button aria-expanded="false" aria-controls={absId} aria-label={`Toggle abstract: ${p.title}`} onclick={`_toggleAbstract('${absId}',this)`}>Abstract</button>
                         )}
-                        {p.pdf && <a href={p.pdf} target="_blank" rel="noopener" aria-label={`Download draft PDF: ${p.title} (opens in new tab)`}>&#8595; Draft PDF</a>}
+                        {p.pdf && <a href={p.pdf} target="_blank" rel="noopener" aria-label={`Download draft PDF: ${p.title} (opens in new tab)`}>Draft PDF</a>}
                       </div>
                     )}
                     {p.abstract && (

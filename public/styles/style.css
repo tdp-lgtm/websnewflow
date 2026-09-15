@@ -26,6 +26,7 @@
   --sans:  'Hanken Grotesk', system-ui, sans-serif;
 
   --max-w:  800px;
+  --measure: 68ch;   /* comfortable line length for running prose */
   --nav-h:  56px;
   --ease:   cubic-bezier(0.22, 1, 0.36, 1);
   --dur:    200ms;
@@ -354,6 +355,17 @@ h2 {
   gap: 0 1.1rem;
   margin-top: 0.35rem;
 }
+/* Middle-dot separators between action links, drawn outside each link's box
+   so the hover underline never extends under the dot */
+.pub-links > * { position: relative; }
+.pub-links > * + *::before {
+  content: "·";
+  position: absolute;
+  left: -0.7rem;
+  color: var(--fg-3);
+  font-style: normal;
+  font-weight: 400;
+}
 .pub-links a,
 .pub-links button {
   font-family: var(--sans);
@@ -445,12 +457,30 @@ h2 {
   white-space: nowrap;
 }
 
-/* Talks page rows: place/date only, styled like a publication title line */
+/* Talks page rows: event name as the entry line, place beneath it — the same
+   two-line shape as a publication (title / journal) */
 .talk-entry {
   font-size: var(--fs-lg);
   color: var(--fg-1);
   line-height: 1.4;
 }
+.talk-entry-place {
+  font-size: var(--fs-md);
+  color: var(--fg-2);
+  line-height: 1.5;
+  margin-top: 0.15rem;
+}
+
+/* Eyebrow with an inline legend/aside on the right (e.g. Talks + markers key) */
+.eyebrow-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.eyebrow-row .eyebrow { margin-bottom: 0; }
 
 .talk-pres-list { display: flex; flex-direction: column; gap: 0.15rem; }
 /* Indent venue text only — keep year column in place */
@@ -667,8 +697,6 @@ h2 {
 /* journal name: same size as title, bold and upright so it stands out */
 .cv-detail-inline { font-family: var(--serif); font-size: var(--fs-base); font-weight: 600; color: var(--fg-1); }
 .cv-detail-inline em { font-style: normal; }
-/* presentation rows on the CV: place/date only, regular weight */
-.cv-detail--regular { font-weight: 400; }
 /* vol/issue/pages: smaller, sans, muted */
 .cv-detail-vol { font-family: var(--sans); font-size: var(--fs-sm); font-weight: 400; color: var(--fg-2); }
 .cv-contact-addr { display: block; margin-top: 0.15rem; }
@@ -772,6 +800,15 @@ footer {
 .research-bio p {
   hyphens: auto;
   -webkit-hyphens: auto;
+}
+/* Cap running prose at a readable measure; lists and grids stay full width.
+   (The About page is left alone — its text wraps a floated portrait.) */
+.research-bio,
+.pub-abstract-inner,
+.workshop-description,
+.resource-intro,
+.page-description {
+  max-width: var(--measure);
 }
 /* Avoid single-word last lines on headings and short paragraphs. */
 h1, h2, h3,

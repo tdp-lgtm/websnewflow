@@ -168,12 +168,22 @@ const sectionsMap: Record<string, Section> = {
     key: 'presentations', label: 'Selected presentations',
     extra: `<span class="talks-legend"><sup>*</sup> invited &ensp; <sup>&#8224;</sup> peer-reviewed</span>`,
     // Date and place only — no paper titles — mirroring the site's Talks page.
-    content: cvPresentations.map(r => {
-      const mark = presentationMark(r.type);
-      const tag = mark ? `<sup class="talk-tag">${mark}</sup>` : '';
-      const comment = r.comment ? ` <em class="talk-comment">${esc(r.comment)}</em>` : '';
-      return `<div class="cv-item"><span class="cv-year">${esc(r.date)}</span><span class="cv-detail cv-detail--regular">${esc(r.where)}${tag}${comment}</span></div>`;
-    }).join(''),
+    // Event name is the entry line, place is the sub-line; a year is printed
+    // only when it changes from the row above, so the column reads as a timeline.
+    content: (() => {
+      let prevDate = '';
+      return cvPresentations.map(r => {
+        const mark = presentationMark(r.type);
+        const tag = mark ? `<sup class="talk-tag">${mark}</sup>` : '';
+        const event = esc(r.venue || r.institution);
+        const place = r.venue ? esc(r.institution) : '';
+        const comment = r.comment ? ` <em class="talk-comment">${esc(r.comment)}</em>` : '';
+        const sub = (place || comment) ? `<span class="cv-detail-sub">${place}${comment}</span>` : '';
+        const yearCell = r.date === prevDate ? '' : esc(r.date);
+        prevDate = r.date;
+        return `<div class="cv-item"><span class="cv-year">${yearCell}</span><span class="cv-detail">${event}${tag}${sub}</span></div>`;
+      }).join('');
+    })(),
   },
   teaching: {
     key: 'teaching', label: 'Teaching',
@@ -229,7 +239,7 @@ const orderedSections = sectionOrder
   <span class="eyebrow">Curriculum Vitae</span>
   <h2 style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:1rem">
     Jonas Haeg
-    <a class="cv-download" href={`${base}/assets/cv.pdf`} target="_blank" rel="noopener" aria-label="Download CV as PDF (opens in new tab)">&#8595; Download PDF</a>
+    <a class="cv-download" href={`${base}/assets/cv.pdf`} target="_blank" rel="noopener" aria-label="Download CV as PDF (opens in new tab)">Download PDF</a>
   </h2>
 
   <p id="cv-contact" class="cv-contact">

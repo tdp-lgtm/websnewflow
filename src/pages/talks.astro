@@ -3,25 +3,34 @@ import Base from '../layouts/Base.astro';
 import { isPublished, flattenPresentations, presentationMark } from '../lib/content';
 import talksData from '../../data/talks.json';
 
-// One row per presentation — place, date, and invited/peer-reviewed marker.
-// Titles are deliberately omitted; the layout mirrors the publications list.
+// One row per presentation, newest first, no paper titles. Each row mirrors a
+// publication entry: the event name is the primary line, the place sits
+// beneath it in the secondary style (like a journal line).
 const talks = (talksData.items || (talksData as any)).filter(isPublished);
 const rows = flattenPresentations(talks);
 ---
 
 <Base title="Talks — Jonas Haeg" description="Talks and conference presentations by Jonas Haeg." page="talks">
-  <span class="eyebrow">Talks</span>
-  <p class="talks-legend"><sup>*</sup> invited &ensp; <sup>&dagger;</sup> peer-reviewed</p>
+  <div class="eyebrow-row">
+    <span class="eyebrow">Talks</span>
+    <span class="talks-legend"><sup>*</sup> invited &ensp; <sup>&dagger;</sup> peer-reviewed</span>
+  </div>
 
   <ul class="pub-list">
     {rows.map(r => {
       const mark = presentationMark(r.type);
+      const event = r.venue || r.institution;
+      const place = r.venue ? r.institution : '';
       return (
         <li class="pub">
           <div class="yr">{r.date}</div>
-          <div class="talk-entry">
-            {r.where}{mark && <sup class="talk-tag">{mark}</sup>}
-            {r.comment && <em class="talk-comment"> {r.comment}</em>}
+          <div>
+            <div class="talk-entry">{event}{mark && <sup class="talk-tag">{mark}</sup>}</div>
+            {(place || r.comment) && (
+              <div class="talk-entry-place">
+                {place}{r.comment && <em class="talk-comment"> {r.comment}</em>}
+              </div>
+            )}
           </div>
         </li>
       );

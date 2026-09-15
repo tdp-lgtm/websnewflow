@@ -41,7 +41,11 @@ export function esc(value: unknown): string {
 export interface PresentationRow {
   /** Display date: "May 2025", "2025", or a status word like "Scheduled". */
   date: string;
-  /** "Venue, Institution" */
+  /** Event / venue name, e.g. "Joint Session of the Aristotelian Society…" */
+  venue: string;
+  /** Place / host, e.g. "University of Glasgow" */
+  institution: string;
+  /** "Venue, Institution" — convenience join of the two above */
   where: string;
   type?: string;
   comment?: string;
@@ -62,6 +66,8 @@ export function flattenPresentations(talks: any[]): PresentationRow[] {
       const numeric = /^\d{4}$/.test(year) ? Number(year) : Number.POSITIVE_INFINITY;
       rows.push({
         date: p.month ? `${p.month} ${year}` : year,
+        venue: String(p.venue || '').trim(),
+        institution: String(p.institution || '').trim(),
         where: [p.venue, p.institution].filter(Boolean).join(', '),
         type: p.type,
         comment: p.comment,
