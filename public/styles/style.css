@@ -690,6 +690,8 @@ h2 {
 .cv-area-label { color: var(--fg-2); font-size: var(--fs-2xs); letter-spacing: 0.04em; }
 .cv-detail { font-family: var(--serif); font-size: var(--fs-base); font-weight: 500; color: var(--fg-1); line-height: 1.4; }
 .cv-detail-sub { display: block; font-family: var(--sans); font-size: var(--fs-sm); font-weight: 400; color: var(--fg-2); margin-top: 3px; line-height: 1.5; }
+/* Same secondary style, but continuing on the entry's own line (e.g. "Event, Place") */
+.cv-detail-sub--inline { display: inline; margin-top: 0; }
 /* cv-pub-title: normal weight */
 .cv-pub-title { font-weight: 400; }
 /* journal name: same size as title, bold */

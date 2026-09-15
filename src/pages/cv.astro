@@ -176,12 +176,11 @@ const sectionsMap: Record<string, Section> = {
         const mark = presentationMark(r.type);
         const tag = mark ? `<sup class="talk-tag">${mark}</sup>` : '';
         const event = esc(r.venue || r.institution);
-        const place = r.venue ? esc(r.institution) : '';
+        const place = r.venue && r.institution ? `, <span class="cv-detail-sub cv-detail-sub--inline">${esc(r.institution)}</span>` : '';
         const comment = r.comment ? ` <em class="talk-comment">${esc(r.comment)}</em>` : '';
-        const sub = (place || comment) ? `<span class="cv-detail-sub">${place}${comment}</span>` : '';
         const yearCell = r.date === prevDate ? '' : esc(r.date);
         prevDate = r.date;
-        return `<div class="cv-item"><span class="cv-year">${yearCell}</span><span class="cv-detail">${event}${tag}${sub}</span></div>`;
+        return `<div class="cv-item"><span class="cv-year">${yearCell}</span><span class="cv-detail">${event}${tag}${place}${comment}</span></div>`;
       }).join('');
     })(),
   },
@@ -189,7 +188,7 @@ const sectionsMap: Record<string, Section> = {
     key: 'teaching', label: 'Teaching',
     content: teachRoles.map(role => {
       const rows = teachGroups[role].map((e: any) => {
-        const note = e.note ? ` <span class="cv-detail-sub" style="display:inline">${esc(e.note)}</span>` : '';
+        const note = e.note ? ` <span class="cv-detail-sub cv-detail-sub--inline">${esc(e.note)}</span>` : '';
         return `<div class="cv-item"><span class="cv-year">${esc(e.year || '')}</span><span class="cv-detail">${esc(e.course)}${note}</span></div>`;
       }).join('');
       return `<div class="cv-subsection-label">${esc(role)}</div>${rows}`;
