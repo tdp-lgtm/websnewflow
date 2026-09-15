@@ -26,7 +26,6 @@
   --sans:  'Hanken Grotesk', system-ui, sans-serif;
 
   --max-w:  800px;
-  --measure: 68ch;   /* comfortable line length for running prose */
   --nav-h:  56px;
   --ease:   cubic-bezier(0.22, 1, 0.36, 1);
   --dur:    200ms;
@@ -800,15 +799,6 @@ footer {
 .research-bio p {
   hyphens: auto;
   -webkit-hyphens: auto;
-}
-/* Cap running prose at a readable measure; lists and grids stay full width.
-   (The About page is left alone — its text wraps a floated portrait.) */
-.research-bio,
-.pub-abstract-inner,
-.workshop-description,
-.resource-intro,
-.page-description {
-  max-width: var(--measure);
 }
 /* Avoid single-word last lines on headings and short paragraphs. */
 h1, h2, h3,
