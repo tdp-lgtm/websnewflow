@@ -21,9 +21,8 @@ const metaDesc = p.subtitle
   : `${p.title} — a research project by Jonas Haeg.`;
 ---
 
-<Base title={`${p.title} — Jonas Haeg`} description={metaDesc} page="research" heading={p.title} ogType="article">
-  <span class="eyebrow">Research</span>
-  <h2>{p.title}</h2>
+<Base title={`${p.title} — Jonas Haeg`} description={metaDesc} page="research" heading={p.title} ogType="article" ownHeading>
+  <h1 class="page-title">{p.title}</h1>
 
   {p.subtitle && <p class="section-subtitle">{p.subtitle}</p>}
 

@@ -25,23 +25,21 @@ export async function getStaticPaths() {
 const { workshop: w } = Astro.props;
 
 const date = [w.month, w.year].filter(Boolean).join(' ');
-const metaParts = [
-  w.institution,
-  date,
+// "Place, date. Organised with X" — plain sentence punctuation.
+const meta = [
+  [w.institution, date].filter(Boolean).join(', '),
   w.coorganisers ? `Organised with ${w.coorganisers}` : '',
-].filter(Boolean);
-const meta = metaParts.join(' · ');
+].filter(Boolean).join('. ');
 
 const descHtml = w.description ? prepHtml(w.description) : '';
 
 const speakers = (w.programme || []).filter((e: any) => e.name);
 ---
 
-<Base title={`${w.title} — Jonas Haeg`} description={`${w.title}${meta ? ` · ${meta}` : ''} — workshop organised by Jonas Haeg.`} page="workshops" heading={w.title} ogType="article">
-  <span class="eyebrow">Workshop</span>
-  <h2>{w.title}</h2>
+<Base title={`${w.title} — Jonas Haeg`} description={`${w.title}${meta ? `, ${meta}` : ''}. A workshop organised by Jonas Haeg.`} page="workshops" heading={w.title} ogType="article" ownHeading>
+  <h1 class="page-title">{w.title}</h1>
 
-  <p class="section-subtitle">{meta}</p>
+  <p class="section-subtitle">{meta}.</p>
 
   {descHtml && (
     <div
@@ -73,7 +71,7 @@ const speakers = (w.programme || []).filter((e: any) => e.name);
               <h3 class="ws-speaker">
                 {pairs.map((p, pi) => (
                   <>
-                    {pi > 0 && <> &middot; </>}
+                    {pi > 0 && <> and </>}
                     {p.name}
                     {p.aff && <span class="ws-affiliation"> {p.aff}</span>}
                   </>

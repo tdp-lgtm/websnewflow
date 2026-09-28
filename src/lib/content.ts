@@ -84,11 +84,16 @@ export function flattenPresentations(talks: any[]): PresentationRow[] {
   return rows.map(({ _k, ...r }) => r);
 }
 
-/** Footnote marker for a presentation type, matching the page legend. */
-export function presentationMark(type?: string): string {
-  if (type === 'Invited') return '*';
-  if (type === 'Peer-Review') return '†';
+/** Plain-words label for a presentation type ('invited' / 'peer-reviewed'). */
+export function presentationLabel(type?: string): string {
+  if (type === 'Invited') return 'invited';
+  if (type === 'Peer-Review') return 'peer-reviewed';
   return '';
+}
+
+/** True for rows whose date isn't a year yet (e.g. "Scheduled"). */
+export function isUpcoming(date: string): boolean {
+  return !/\d{4}/.test(date || '');
 }
 
 /**

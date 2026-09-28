@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { isPublished, isOnCV, volStr, esc, flattenPresentations, presentationMark } from '../lib/content';
+import { isPublished, isOnCV, volStr, esc, flattenPresentations, presentationLabel } from '../lib/content';
 import pubData from '../../data/publications.json';
 import talksData from '../../data/talks.json';
 import teachingData from '../../data/teaching.json';
@@ -29,7 +29,8 @@ const contactParts = [
   siteHref ? `<a href="${esc(siteHref)}" target="_blank" rel="noopener">${esc(siteText)}</a>` : '',
   contact.email ? `<a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a>` : '',
 ].filter(Boolean);
-const contactHtml = contactParts.join('<span class="cv-contact-sep">·</span>');
+// One contact item per line (no middle-dot separators).
+const contactHtml = contactParts.map(c => `<span class="cv-contact-line">${c}</span>`).join('');
 const contactAddr = contact.address || '';
 
 // Publications grouped by type
@@ -102,17 +103,17 @@ const educationHtml = renderCVSection((cv.education || []).map((e: any) => {
     e.supervisors ? `${supLabel}: ${esc(e.supervisors)}` : '',
     e.examiners   ? `${exLabel}: ${esc(e.examiners)}` : '',
   ].filter(Boolean);
-  return { year: e.year, detail: `${esc(e.degree)}, ${esc(e.institution)}`, sub: parts.join(' · ') || '' };
+  return { year: e.year, detail: `${esc(e.degree)}, ${esc(e.institution)}`, sub: parts.join('; ') || '' };
 }));
 
 const eventsHtml = renderCVSection((cv.events || []).map((e: any) => ({
-  year: e.year, detail: esc(e.title), sub: `${esc(e.institution)}${e.note ? ' · ' + esc(e.note) : ''}`,
+  year: e.year, detail: esc(e.title), sub: `${esc(e.institution)}${e.note ? ', ' + esc(e.note) : ''}`,
 })));
 
 // Teaching qualifications & training (e.g. a teaching certificate in progress)
 const teachingQualsHtml = renderCVSection((cv.teaching_qualifications || []).map((q: any) => ({
   year: q.year, detail: esc(q.title),
-  sub: [q.institution, q.note].filter(Boolean).map(esc).join(' · '),
+  sub: [q.institution, q.note].filter(Boolean).map(esc).join(', '),
 })));
 
 const serviceItems = [
@@ -166,21 +167,20 @@ const sectionsMap: Record<string, Section> = {
   },
   presentations: {
     key: 'presentations', label: 'Selected presentations',
-    extra: `<span class="talks-legend"><sup>*</sup> invited &ensp; <sup>&#8224;</sup> peer-reviewed</span>`,
     // Date and place only — no paper titles — mirroring the site's Talks page.
     // Event name is the entry line, place is the sub-line; a year is printed
     // only when it changes from the row above, so the column reads as a timeline.
     content: (() => {
       let prevDate = '';
       return cvPresentations.map(r => {
-        const mark = presentationMark(r.type);
-        const tag = mark ? `<sup class="talk-tag">${mark}</sup>` : '';
+        const label = presentationLabel(r.type);
+        const tag = label ? ` <span class="talk-kind">(${label})</span>` : '';
         const event = esc(r.venue || r.institution);
         const place = r.venue && r.institution ? `, <span class="cv-detail-sub cv-detail-sub--inline">${esc(r.institution)}</span>` : '';
         const comment = r.comment ? ` <em class="talk-comment">${esc(r.comment)}</em>` : '';
         const yearCell = r.date === prevDate ? '' : esc(r.date);
         prevDate = r.date;
-        return `<div class="cv-item"><span class="cv-year">${yearCell}</span><span class="cv-detail">${event}${tag}${place}${comment}</span></div>`;
+        return `<div class="cv-item"><span class="cv-year">${yearCell}</span><span class="cv-detail">${event}${place}${tag}${comment}</span></div>`;
       }).join('');
     })(),
   },
@@ -234,12 +234,11 @@ const orderedSections = sectionOrder
   .map(k => sectionsMap[k]);
 ---
 
-<Base title="CV — Jonas Haeg" description="Curriculum vitae of Jonas Haeg — positions, education, publications, and presentations." page="cv" heading="Curriculum Vitae">
-  <span class="eyebrow">Curriculum Vitae</span>
-  <h2 style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:1rem">
-    Jonas Haeg
-    <a class="cv-download" href={`${base}/assets/cv.pdf`} target="_blank" rel="noopener" aria-label="Download CV as PDF (opens in new tab)">Download PDF</a>
-  </h2>
+<Base title="CV — Jonas Haeg" description="Curriculum vitae of Jonas Haeg — positions, education, publications, and presentations." page="cv" ownHeading>
+  <div class="cv-head">
+    <h1 class="page-title">Jonas Haeg</h1>
+    <a class="cv-download" href={`${base}/assets/cv.pdf`} target="_blank" rel="noopener" aria-label="CV as PDF (opens in new tab)">PDF version</a>
+  </div>
 
   <p id="cv-contact" class="cv-contact">
     <span set:html={contactHtml} />
@@ -256,11 +255,11 @@ const orderedSections = sectionOrder
         {sec.extra
           ? (
             <div class="cv-eyebrow-row">
-              <span class="eyebrow">{sec.label}</span>
+              <h2 class="section-label">{sec.label}</h2>
               <span set:html={sec.extra} />
             </div>
           )
-          : <span class="eyebrow">{sec.label}</span>
+          : <h2 class="section-label">{sec.label}</h2>
         }
         {sec.key === 'references'
           ? <div id={sec.id || `cv-${sec.key}`} class="cv-references-grid" set:html={sec.content} />

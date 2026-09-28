@@ -1,39 +1,51 @@
 ---
 import Base from '../layouts/Base.astro';
-import { isPublished, flattenPresentations, presentationMark } from '../lib/content';
+import { isPublished, flattenPresentations, presentationLabel, isUpcoming } from '../lib/content';
 import talksData from '../../data/talks.json';
 
-// One row per presentation, newest first, no paper titles. Each row mirrors a
-// publication entry: the event name is the primary line, the place sits
-// beneath it in the secondary style (like a journal line).
+// One row per presentation, newest first, no paper titles. The event name is
+// the entry line; the place sits beneath it (like a journal line). Upcoming
+// talks get their own group instead of a repeated "Scheduled" in the margin,
+// and each year is printed once, so the margin reads as a timeline.
 const talks = (talksData.items || (talksData as any)).filter(isPublished);
 const rows = flattenPresentations(talks);
+const groups = [
+  { label: 'Upcoming', rows: rows.filter(r => isUpcoming(r.date)), showYear: false },
+  { label: 'Past', rows: rows.filter(r => !isUpcoming(r.date)), showYear: true },
+].filter(g => g.rows.length);
 ---
 
-<Base title="Talks — Jonas Haeg" description="Talks and conference presentations by Jonas Haeg." page="talks">
-  <div class="eyebrow-row">
-    <span class="eyebrow">Talks</span>
-    <span class="talks-legend"><sup>*</sup> invited &ensp; <sup>&dagger;</sup> peer-reviewed</span>
-  </div>
+<Base title="Talks — Jonas Haeg" description="Talks and conference presentations by Jonas Haeg." page="talks" ownHeading>
+  <h1 class="page-title">Talks</h1>
 
-  <ul class="pub-list">
-    {rows.map(r => {
-      const mark = presentationMark(r.type);
-      const event = r.venue || r.institution;
-      const place = r.venue ? r.institution : '';
-      return (
-        <li class="pub">
-          <div class="yr">{r.date}</div>
-          <div>
-            <div class="talk-entry">{event}{mark && <sup class="talk-tag">{mark}</sup>}</div>
-            {(place || r.comment) && (
-              <div class="talk-entry-place">
-                {place}{r.comment && <em class="talk-comment"> {r.comment}</em>}
-              </div>
-            )}
-          </div>
-        </li>
-      );
-    })}
-  </ul>
+  {groups.map(g => {
+    let prev = '';
+    return (
+      <>
+        {groups.length > 1 && <h2 class="section-label">{g.label}</h2>}
+        <ul class="pub-list">
+          {g.rows.map(r => {
+            const label = presentationLabel(r.type);
+            const event = r.venue || r.institution;
+            const place = r.venue ? r.institution : '';
+            const year = g.showYear && r.date !== prev ? r.date : '';
+            prev = r.date;
+            return (
+              <li class="pub">
+                <div class="yr">{year}</div>
+                <div>
+                  <div class="talk-entry">{event}</div>
+                  {(place || label || r.comment) && (
+                    <div class="talk-entry-place">
+                      {place}{place && label && ', '}{label && <span class="talk-kind">{label}</span>}{r.comment && <em class="talk-comment"> {r.comment}</em>}
+                    </div>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </>
+    );
+  })}
 </Base>

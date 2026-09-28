@@ -10,8 +10,7 @@ import { isPublished, validSlugs } from '../lib/content';
 
 const themeCss = getThemeCss(themeData as Record<string, string>);
 const fontLinks = getThemeFontLinks(themeData as Record<string, string>);
-const sansIsDefault = ((themeData as any).font_sans || 'Hanken Grotesk') === 'Hanken Grotesk';
-const serifIsDefault = ((themeData as any).font_serif || 'Spectral') === 'Spectral';
+const sansIsDefault = ((themeData as any).font_sans || 'Fira Sans') === 'Fira Sans';
 
 interface Props {
   title: string;
@@ -20,11 +19,13 @@ interface Props {
   wideLayout?: boolean;
   /** Accessible page heading (rendered as a visually-hidden <h1>). */
   heading?: string;
+  /** The page renders its own visible <h1>, so skip the visually-hidden one. */
+  ownHeading?: boolean;
   /** Open Graph type: 'website' (default) or 'article' for detail pages. */
   ogType?: string;
 }
 
-const { title, description, page, wideLayout = false, heading, ogType = 'website' } = Astro.props;
+const { title, description, page, wideLayout = false, heading, ownHeading = false, ogType = 'website' } = Astro.props;
 const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -60,7 +61,9 @@ const ogImageURL = new URL(settings.og_image || '/assets/portrait.jpg', Astro.si
 const ogImageDefault = !settings.og_image || settings.og_image.includes('portrait');
 const siteURL = Astro.site?.href || canonicalURL;
 const h1Text = heading || title.replace(/\s*[—–-]\s*Jonas Haeg.*$/, '').trim() || settings.title;
-const year = new Date().getFullYear();
+// The site rebuilds on every content change, so the build date is the date it
+// was last updated.
+const updated = new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 
 // JSON-LD: a Person + WebSite graph built from site settings (sameAs from the
 // external quick links — ORCID, PhilPeople, etc.).
@@ -76,7 +79,7 @@ const jsonLd = {
 };
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" transition:animate="none">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -105,11 +108,8 @@ const jsonLd = {
   <link rel="sitemap" type="application/xml" href={`${base}/sitemap-index.xml`} />
 
   <!-- Preload the above-the-fold default fonts (self-hosted, same-origin) -->
-  {sansIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/hanken-400-latin.woff2`} />}
-  {sansIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/hanken-500-latin.woff2`} />}
-  {sansIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/hanken-600-latin.woff2`} />}
-  <!-- The serif is used only on the CV page — don't force-download it elsewhere -->
-  {serifIsDefault && page === 'cv' && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/spectral-500-latin.woff2`} />}
+  {sansIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/fira-400-latin.woff2`} />}
+  {sansIsDefault && <link rel="preload" as="font" type="font/woff2" crossorigin href={`${base}/fonts/fira-500-latin.woff2`} />}
 
   <link rel="stylesheet" href={`${base}/styles/style.css`} />
   <link rel="stylesheet" href={`${base}/fonts/fonts.css`} />
@@ -132,21 +132,21 @@ const jsonLd = {
 
   <header>
     <div class="header-inner">
-      <a href={base || '/'} class="site-title">{settings.title}<b>.</b></a>
+      <a href={base || '/'} class="site-title">{settings.title}</a>
       <Nav items={navItems} currentPath={currentPath} />
     </div>
   </header>
 
   <main id="main" tabindex="-1">
     <div class={wideLayout ? 'container' : 'narrow'}>
-      <h1 class="sr-only">{h1Text}</h1>
+      {!ownHeading && <h1 class="sr-only">{h1Text}</h1>}
       <slot />
     </div>
   </main>
 
   <footer>
     <div class="foot-inner">
-      <div class="foot-fine">{settings.footer_text} &copy; {year}</div>
+      <div class="foot-fine">Last updated {updated}</div>
     </div>
   </footer>
 

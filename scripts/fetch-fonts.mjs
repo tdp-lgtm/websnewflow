@@ -1,5 +1,5 @@
 /**
- * One-off: self-host the three default Google fonts. Fetches the Google CSS,
+ * One-off: self-host the default Google font. Fetches the Google CSS,
  * keeps only the latin + latin-ext subsets, downloads those woff2 files into
  * public/fonts/, and writes public/fonts/fonts.css with rewritten URLs.
  *
@@ -15,8 +15,7 @@ const OUT = new URL('../public/fonts', import.meta.url).pathname;
 mkdirSync(OUT, { recursive: true });
 
 const FAMILIES = [
-  { name: 'Spectral', slug: 'spectral', url: 'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap' },
-  { name: 'Hanken Grotesk', slug: 'hanken', url: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap' },
+  { name: 'Fira Sans', slug: 'fira', url: 'https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap' },
 ];
 
 function curl(url, binary = false) {
