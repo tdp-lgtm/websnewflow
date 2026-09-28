@@ -84,10 +84,10 @@ export function flattenPresentations(talks: any[]): PresentationRow[] {
   return rows.map(({ _k, ...r }) => r);
 }
 
-/** Plain-words label for a presentation type ('invited' / 'peer-reviewed'). */
-export function presentationLabel(type?: string): string {
-  if (type === 'Invited') return 'invited';
-  if (type === 'Peer-Review') return 'peer-reviewed';
+/** Footnote marker for a presentation type, matching the page legend. */
+export function presentationMark(type?: string): string {
+  if (type === 'Invited') return '*';
+  if (type === 'Peer-Review') return '†';
   return '';
 }
 

@@ -424,8 +424,28 @@ h2 {
 }
 
 /* ---- Talks ---- */
-/* "invited" / "peer-reviewed", spelled out after the place */
-.talk-kind { color: var(--fg-3); }
+/* Invited (*) / peer-reviewed (†) markers and their key */
+.talk-tag {
+  color: var(--fg-3);
+  font-size: 0.7em;
+  margin-left: 0.05em;
+}
+.talks-legend {
+  font-family: var(--sans);
+  font-size: var(--fs-sm);
+  color: var(--fg-3);
+  white-space: nowrap;
+}
+/* Page heading with the legend on the right (Talks) */
+.page-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-bottom: 1.5rem;
+}
+.page-title-row .page-title { margin-bottom: 0; }
 
 /* Talks page rows: event name as the entry line, place beneath it — the same
    two-line shape as a publication (title / journal) */
