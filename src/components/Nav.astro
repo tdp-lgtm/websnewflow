@@ -41,10 +41,6 @@ function isDropdownActive(item: NavItem): boolean {
 }
 ---
 
-<button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
-  <span class="nav-toggle-bars" aria-hidden="true"></span>
-</button>
-
 <nav id="primary-nav" aria-label="Primary">
   {items.map((item, i) => {
     if (item.subitems && item.subitems.length > 0) {
@@ -78,25 +74,6 @@ function isDropdownActive(item: NavItem): boolean {
 
 <script>
   function initNav() {
-    // Mobile hamburger: toggles the slide-down menu panel
-    const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
-    const nav = document.getElementById('primary-nav');
-    function setMenu(open: boolean) {
-      if (!toggle) return;
-      toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    }
-    if (toggle) {
-      toggle.onclick = (e) => {
-        e.stopPropagation();
-        setMenu(toggle.getAttribute('aria-expanded') !== 'true');
-      };
-    }
-    // Tapping any link inside the panel closes it
-    if (nav) nav.onclick = (e) => {
-      if ((e.target as Element).closest('a')) setMenu(false);
-    };
-
     const triggers = document.querySelectorAll<HTMLButtonElement>('.nav-dropdown-trigger');
 
     function closeAll(except?: Element | null) {
@@ -108,30 +85,8 @@ function isDropdownActive(item: NavItem): boolean {
       });
     }
 
-    // On mobile the submenu is rendered always-expanded inside the hamburger
-    // panel, so the trigger controls nothing — make it an inert group label.
-    // On desktop it's a real disclosure button. Re-evaluated on viewport change.
-    const isMobile = window.matchMedia('(max-width: 580px)').matches;
-
     triggers.forEach(trigger => {
-      const menuId = trigger.getAttribute('aria-controls');
-
-      if (isMobile) {
-        trigger.removeAttribute('aria-haspopup');
-        trigger.removeAttribute('aria-controls');
-        trigger.removeAttribute('aria-expanded');
-        trigger.setAttribute('tabindex', '-1');
-        trigger.onclick = null;
-        trigger.onkeydown = null;
-        return;
-      }
-
-      // Desktop disclosure behavior
-      trigger.setAttribute('aria-haspopup', 'true');
-      trigger.setAttribute('aria-expanded', 'false');
-      if (menuId) trigger.setAttribute('aria-controls', menuId);
-      trigger.removeAttribute('tabindex');
-
+      // Disclosure button (same on phones: the menu drops down under the row)
       // Use onclick property to avoid duplicate listeners across soft navigations
       trigger.onclick = (e) => {
         e.stopPropagation();
@@ -188,20 +143,12 @@ function isDropdownActive(item: NavItem): boolean {
     });
   }
 
-  function closeMobileMenu() {
-    document.querySelectorAll('[data-nav-toggle][aria-expanded="true"]').forEach(t => {
-      t.setAttribute('aria-expanded', 'false');
-      t.setAttribute('aria-label', 'Open menu');
-    });
-  }
-
   // Close on outside click and on Escape anywhere — set once, persists across navigations
   document.addEventListener('click', () => {
     document.querySelectorAll('[data-dropdown-root].open').forEach(d => {
       d.classList.remove('open');
       d.querySelector('.nav-dropdown-trigger')?.setAttribute('aria-expanded', 'false');
     });
-    closeMobileMenu();
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -209,15 +156,9 @@ function isDropdownActive(item: NavItem): boolean {
         d.classList.remove('open');
         d.querySelector('.nav-dropdown-trigger')?.setAttribute('aria-expanded', 'false');
       });
-      closeMobileMenu();
     }
   });
 
   initNav();
   document.addEventListener('astro:page-load', initNav);
-  // Re-evaluate trigger semantics when crossing the mobile/desktop breakpoint
-  window.matchMedia('(max-width: 580px)').addEventListener('change', () => {
-    closeMobileMenu();
-    initNav();
-  });
 </script>

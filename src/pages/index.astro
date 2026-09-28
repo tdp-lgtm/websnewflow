@@ -15,7 +15,8 @@ const portraitSrc = base + (frontPage.portrait || '/assets/portrait.jpg');
   heading={settings.title}
   page="about"
 >
-  <link slot="head" rel="preload" as="image" href={portraitSrc} fetchpriority="high" />
+  <!-- The portrait is hidden on phones, so only preload it on wider screens -->
+  <link slot="head" rel="preload" as="image" href={portraitSrc} fetchpriority="high" media="(min-width: 581px)" />
   <div class="about-body">
     <div class="about-portrait">
       <img src={portraitSrc} alt={`Portrait of ${settings.title}`} width="600" height="600" fetchpriority="high" decoding="async" />
