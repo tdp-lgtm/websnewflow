@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import { isPublished, validSlugs } from '../../lib/content';
+import projectsData from '../../../data/projects.json';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const projects = validSlugs((((projectsData as any).items || []) as any[]).filter(isPublished))
+  .filter(p => p.id !== 'projects');
+---
+
+<Base title="Projects — Jonas Haeg" description="Research projects by Jonas Haeg." page="research" ownHeading>
+  <h1 class="page-title">Projects</h1>
+
+  {projects.length === 0 && <p style="color:var(--fg-2)">No projects yet.</p>}
+
+  <ul class="pub-list">
+    {projects.map((p: any) => (
+      <li class="project-item">
+        <h3><a href={`${base}/research/${p.id}`}>{p.title}</a></h3>
+        {p.subtitle && <p class="venue">{p.subtitle}</p>}
+      </li>
+    ))}
+  </ul>
+</Base>

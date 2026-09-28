@@ -100,9 +100,9 @@ content:
         label: Link underline style
         type: select
         options:
-          values: [always, hover, none]
-        default: always
-        description: "always = always underlined (default); hover = underline on hover only; none = never. Preview at jonashaeg.com/theme."
+          values: [hover, always, none]
+        default: hover
+        description: "hover = blue, underlined on hover only (default); always = always underlined; none = never. Preview at jonashaeg.com/theme."
       - name: heading_weight
         label: Heading weight
         type: select
@@ -283,7 +283,7 @@ content:
                 pattern:
                   regex: '^[a-z0-9-]+$'
                   message: 'Lowercase letters, numbers, and hyphens only — no spaces or capitals.'
-                description: 'Becomes the page address, e.g. "punishment" → /research/punishment. Must be unique.'
+                description: 'Becomes the page address, e.g. "punishment" → /research/punishment. Must be unique, and not "projects".'
               - name: title
                 label: Title
                 type: string
@@ -292,7 +292,7 @@ content:
                 label: Published (show on site)
                 type: boolean
                 default: true
-                description: Untick to hide. Published projects appear automatically in the Research dropdown menu.
+                description: Untick to hide. Published projects are listed on the Projects page (Research → Projects in the menu).
               - name: subtitle
                 label: Subtitle / dates (optional)
                 type: string

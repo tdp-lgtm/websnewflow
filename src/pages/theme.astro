@@ -67,12 +67,12 @@ const currentScheme = theme.color_scheme || 'Plain';
   <div class="cv-section">
     <h2 class="section-label">Link underline style</h2>
     <p class="tp-specimen">
-      <span class="tp-specimen-name">always{(theme.link_underline || 'always') === 'always' ? ' (current)' : ''}</span>
-      Links like <a href="#" style="text-decoration-line:underline">this one</a> are always underlined (the site default).
+      <span class="tp-specimen-name">hover{(theme.link_underline || 'hover') === 'hover' ? ' (current)' : ''}</span>
+      Links like <a href="#">this one</a> are blue and underlined only when you hover them (the site default).
     </p>
     <p class="tp-specimen">
-      <span class="tp-specimen-name">hover{theme.link_underline === 'hover' ? ' (current)' : ''}</span>
-      Links like <a href="#" style="text-decoration-line:none">this one</a> are underlined only when you hover them.
+      <span class="tp-specimen-name">always{theme.link_underline === 'always' ? ' (current)' : ''}</span>
+      Links like <a href="#" style="text-decoration-line:underline">this one</a> are always underlined.
     </p>
     <p class="tp-specimen">
       <span class="tp-specimen-name">none{theme.link_underline === 'none' ? ' (current)' : ''}</span>

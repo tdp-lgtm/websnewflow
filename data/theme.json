@@ -7,6 +7,6 @@
   "color_rule": "#E2E2E2",
   "color_accent": "#1F4E99",
   "font_sans": "Fira Sans",
-  "link_underline": "always",
+  "link_underline": "hover",
   "heading_weight": "400"
 }

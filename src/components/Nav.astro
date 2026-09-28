@@ -62,7 +62,7 @@ function isDropdownActive(item: NavItem): boolean {
           >{item.label}</button>
           <ul class="nav-dropdown-menu" id={menuId}>
             {item.subitems.map(s => (
-              <li><a href={makeHref(s.href)} data-astro-prefetch>{s.label}</a></li>
+              <li><a href={makeHref(s.href)} data-astro-prefetch aria-current={isActive(s.href) ? 'page' : undefined}>{s.label}</a></li>
             ))}
           </ul>
         </div>

@@ -67,8 +67,8 @@ export function getThemeCss(theme: Record<string, string>): string {
   const accent = scheme?.accent ?? (theme.color_accent || BASELINE.accent);
 
   const hwOverride = theme.heading_weight && theme.heading_weight !== '400';
-  // Links are always underlined by default (style.css); 'hover'/'none' override.
-  const underlineOverride = theme.link_underline === 'hover' || theme.link_underline === 'none';
+  // Links underline on hover by default (style.css); 'always'/'none' override.
+  const underlineOverride = theme.link_underline === 'always' || theme.link_underline === 'none';
   const tokensMatchBaseline =
     paper === BASELINE.paper && ink === BASELINE.ink && fg2 === BASELINE.fg2 &&
     fg3 === BASELINE.fg3 && rule === BASELINE.rule && accent === BASELINE.accent &&
@@ -94,8 +94,8 @@ export function getThemeCss(theme: Record<string, string>): string {
     '}',
   ];
 
-  if (theme.link_underline === 'hover') {
-    lines.push('a { text-decoration-line: none; } a:hover { text-decoration-line: underline; }');
+  if (theme.link_underline === 'always') {
+    lines.push('main a { text-decoration-line: underline; }');
   } else if (theme.link_underline === 'none') {
     lines.push('a { text-decoration: none !important; }');
   }

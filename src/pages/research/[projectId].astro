@@ -6,7 +6,11 @@ import projectsData from '../../../data/projects.json';
 
 export async function getStaticPaths() {
   const items = (((projectsData as any).items || []) as any[]).filter(isPublished);
-  return validSlugs(items).map(p => ({
+  // "projects" is taken by the Projects listing page (research/projects.astro).
+  return validSlugs(items).filter(p => {
+    if (p.id === 'projects') console.warn('[build] project id "projects" is reserved for the Projects page; rename it.');
+    return p.id !== 'projects';
+  }).map(p => ({
     params: { projectId: p.id },
     props: { project: p },
   }));

@@ -91,15 +91,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Plain, always-underlined links (the CMS can switch to hover-only or none) */
+/* Plain blue links, underlined only on hover (the CMS can switch to
+   always-underlined or never) */
 a {
   color: var(--accent);
-  text-decoration-line: underline;
+  text-decoration-line: none;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
   text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
 }
-a:hover { text-decoration-color: currentColor; }
+a:hover { text-decoration-line: underline; text-decoration-color: currentColor; }
 
 /* ---- Header ---- */
 header {
@@ -774,40 +775,47 @@ h1, h2, h3,
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    background: var(--paper-2);
+    background: var(--paper);
     border-bottom: 1px solid var(--rule);
-    box-shadow: 0 10px 24px rgba(33, 28, 22, 0.10);
-    padding: 0.25rem 0 0.5rem;
+    padding: 0 0 0.5rem;
   }
   .nav-toggle[aria-expanded="true"] + #primary-nav { display: flex; }
 
+  /* One tidy column: every top-level entry is a block, separated by a rule,
+     lined up with the site title. Groups (Research, Teaching) show their name
+     as a small grey caption with their pages listed beneath it. */
   #primary-nav > a,
-  #primary-nav .nav-dropdown-trigger {
+  #primary-nav > .nav-dropdown {
+    border-top: 1px solid var(--rule);
+  }
+  #primary-nav > a,
+  #primary-nav .nav-dropdown-menu li a {
+    display: block;
     width: 100%;
     text-align: left;
     font-size: var(--fs-base);
     font-weight: 400;
+    line-height: 1.3;
     color: var(--fg-1);
-    padding: 0.7rem 1.25rem;
+    padding: 0.7rem 1rem;
+    text-decoration-line: none;
   }
-  #primary-nav > a.active { text-decoration-line: underline; }
-  /* Group names (Research, Teaching) are headings in the panel, not links */
-  #primary-nav .nav-dropdown-trigger {
-    color: var(--fg-3);
-    font-size: var(--fs-sm);
-    padding-bottom: 0.2rem;
-  }
+  #primary-nav > a.active,
+  #primary-nav .nav-dropdown-menu li a[aria-current="page"] { font-weight: 500; text-decoration-line: none; }
 
-  /* Dropdowns become an always-expanded, indented group (no nested popup) */
-  .nav-dropdown { display: block; }
-  .nav-dropdown-trigger {
+  .nav-dropdown { display: block; padding: 0.35rem 0 0.1rem; }
+  #primary-nav .nav-dropdown-trigger {
+    display: block;
+    width: 100%;
+    text-align: left;
     color: var(--fg-3);
     font-family: var(--sans);
     font-size: var(--fs-sm);
     font-weight: 400;
+    line-height: 1.3;
     text-decoration-line: none !important;
     cursor: default;
-    padding-bottom: 0.2rem;
+    padding: 0.45rem 1rem 0;
   }
   .nav-dropdown-trigger::after { display: none; }
   .nav-dropdown-menu {
@@ -820,11 +828,8 @@ h1, h2, h3,
     padding: 0;
     margin: 0;
   }
-  .nav-dropdown-menu li a {
-    padding: 0.55rem 1.25rem;
-    font-size: var(--fs-base);
-    color: var(--fg-1);
-  }
+  #primary-nav .nav-dropdown-menu li a { padding: 0.5rem 1rem; }
+  #primary-nav .nav-dropdown-menu li a:hover { background: none; }
 
   /* Typography */
   .page-title { font-size: 1.5rem; }
@@ -877,4 +882,14 @@ h1, h2, h3,
   /* Teaching courses: full-width, not crammed under year */
   #teaching .talk-row { grid-template-columns: 1fr; gap: 0.15rem; }
   #cv-teaching .cv-item { grid-template-columns: 1fr; gap: 0.15rem; }
+}
+
+/* ---- Projects listing (Research → Projects) ---- */
+.project-item { padding: 0.55rem 0; }
+.project-item h3 {
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  line-height: 1.35;
+  margin: 0 0 0.2rem;
+  text-wrap: balance;
 }
