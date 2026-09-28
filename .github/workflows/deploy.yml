@@ -29,7 +29,9 @@ jobs:
 
       # Make assets available to Astro's public dir so they're served at /assets/*
       # Pages CMS writes images to the root assets/ folder; this bridges them for the build.
-      - run: mkdir -p public && cp -r assets public/assets
+      # Copy the folder's *contents* ("assets/."): if public/assets already exists,
+      # "cp -r assets public/assets" would nest it as public/assets/assets/.
+      - run: mkdir -p public/assets && cp -r assets/. public/assets/
 
       # Resize/recompress CMS-uploaded images so mobile isn't served 600 KB photos
       - run: node scripts/optimize-images.mjs
