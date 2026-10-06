@@ -6,9 +6,10 @@
       "cv": true,
       "presentations": [
         {
-          "venue": "Degrees of Responsibility in Metaphysics, Ethics, and the Law, Symposium at the American Philosophical Association, Eastern Division",
+          "venue": "Degrees of Responsibility in Metaphysics, Ethics, and the Law, Symposium",
           "type": "Invited",
           "year": "Scheduled",
+          "institution": "American Philosophical Association, Eastern Division",
           "published": true
         }
       ]
