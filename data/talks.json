@@ -2,115 +2,313 @@
   "items": [
     {
       "title": "Harms We Cause Together",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Degrees of Responsibility in Metaphysics, Ethics, and the Law, Symposium at the American Philosophical Association, Eastern Division", "type": "Invited", "year": "Scheduled" }
+        {
+          "venue": "Degrees of Responsibility in Metaphysics, Ethics, and the Law, Symposium at the American Philosophical Association, Eastern Division",
+          "type": "Invited",
+          "year": "Scheduled",
+          "published": true
+        }
       ]
     },
     {
       "title": "Taking Risks in an Unjust World",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Centre for Aesthetic, Moral and Political Philosophy", "type": "Invited", "year": "Scheduled", "institution": "Leeds University" }
-      ]
-    },
-    {
-      "title": "Reparative Achievements",
-      "presentations": [
-        { "venue": "Philosophy, Ethics, and Killing Workshop", "type": "Peer-Review", "year": "Scheduled", "institution": "Peak District" }
+        {
+          "venue": "Centre for Aesthetic, Moral and Political Philosophy",
+          "type": "Invited",
+          "year": "Scheduled",
+          "institution": "Leeds University",
+          "published": true
+        }
       ]
     },
     {
       "title": "Too Much Information: The Problem with Oversharing (with Romy Eskens)",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Swedish Congress of Philosophy", "type": "Peer-Review", "year": "Scheduled", "institution": "Stockholm University" }
+        {
+          "venue": "Philosophy, Ethics, and Killing Workshop",
+          "type": "Invited",
+          "year": "2026",
+          "published": true
+        },
+        {
+          "venue": "Swedish Congress of Philosophy",
+          "type": "Peer-Review",
+          "year": "Scheduled",
+          "institution": "Stockholm University",
+          "published": true
+        }
       ]
     },
     {
       "title": "What's Wrong with Victim-Blaming?",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Joint Session of the Aristotelian Society and the Mind Association", "type": "Peer-Review", "year": "2025", "institution": "University of Glasgow" },
-        { "venue": "Philosophy, Ethics, and Killing Workshop", "type": "Peer-Review", "year": "2025", "institution": "Peak District" },
-        { "venue": "Workshop on Degradation and Dehumanization", "type": "Invited", "year": "2025", "institution": "Utrecht University" }
+        {
+          "venue": "Joint Session of the Aristotelian Society and the Mind Association",
+          "type": "Peer-Review",
+          "year": "2025",
+          "institution": "University of Glasgow",
+          "published": true
+        },
+        {
+          "venue": "Philosophy, Ethics, and Killing Workshop",
+          "type": "Peer-Review",
+          "year": "2025",
+          "institution": "Peak District",
+          "published": true
+        },
+        {
+          "venue": "Workshop on Degradation and Dehumanization",
+          "type": "Invited",
+          "year": "2025",
+          "institution": "Utrecht University",
+          "published": true
+        }
       ]
     },
     {
       "title": "Outrageous Advice (with Romy Eskens)",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Society for Applied Philosophy Annual Conference", "type": "Peer-Review", "year": "2025", "institution": "Gdansk" },
-        { "venue": "Dutch Research School of Philosophy Annual Conference", "type": "Peer-Review", "year": "2024", "institution": "Eindhoven University of Technology" },
-        { "venue": "Philosophy & Public Affairs Colloquium", "type": "Invited", "year": "2024", "institution": "University of Amsterdam" },
-        { "venue": "Moral, Legal, and Political Research Seminar", "type": "Invited", "year": "2024", "institution": "King's College London" }
+        {
+          "venue": "Society for Applied Philosophy Annual Conference",
+          "type": "Peer-Review",
+          "year": "2025",
+          "institution": "Gdansk",
+          "published": true
+        },
+        {
+          "venue": "Dutch Research School of Philosophy Annual Conference",
+          "type": "Peer-Review",
+          "year": "2024",
+          "institution": "Eindhoven University of Technology",
+          "published": true
+        },
+        {
+          "venue": "Philosophy & Public Affairs Colloquium",
+          "type": "Invited",
+          "year": "2024",
+          "institution": "University of Amsterdam",
+          "published": true
+        },
+        {
+          "venue": "Moral, Legal, and Political Research Seminar",
+          "type": "Invited",
+          "year": "2024",
+          "institution": "King's College London",
+          "published": true
+        }
       ]
     },
     {
       "title": "Risks, Rights, and Proportionality",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Higher Seminar in Practical Philosophy", "type": "Invited", "year": "2022", "institution": "Stockholm University" }
+        {
+          "venue": "Higher Seminar in Practical Philosophy",
+          "type": "Invited",
+          "year": "2022",
+          "institution": "Stockholm University",
+          "published": true
+        }
       ]
     },
     {
       "title": "The Grounds and Limits of the Necessity Condition",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "PhD Seminar in Practical Philosophy", "type": "Invited", "year": "2022", "institution": "Stockholm University" }
+        {
+          "venue": "PhD Seminar in Practical Philosophy",
+          "type": "Invited",
+          "year": "2022",
+          "institution": "Stockholm University",
+          "published": true
+        }
       ]
     },
     {
       "title": "Dangerous Parties and Undirected Duties",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Philosophy, Ethics, and Killing Workshop", "type": "Invited", "year": "2022", "institution": "Peak District" }
+        {
+          "venue": "Philosophy, Ethics, and Killing Workshop",
+          "type": "Invited",
+          "year": "2022",
+          "institution": "Peak District",
+          "published": true
+        }
       ]
     },
     {
       "title": "What Do We Owe to Aggressors?",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Politics, Law and Philosophy Graduate Forum", "type": "Peer-Review", "year": "2022", "comment": "commentators: Cecile Fabre and Penny Oderberg" }
+        {
+          "venue": "Politics, Law and Philosophy Graduate Forum",
+          "type": "Peer-Review",
+          "year": "2022",
+          "comment": "commentators: Cecile Fabre and Penny Oderberg",
+          "published": true
+        }
       ]
     },
     {
       "title": "A Duty to Accommodate Wrongdoers?",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "CEPPA Graduate Conference", "type": "Peer-Review", "year": "2022", "institution": "University of St. Andrews", "comment": "commentator: T. Pummer" }
+        {
+          "venue": "CEPPA Graduate Conference",
+          "type": "Peer-Review",
+          "year": "2022",
+          "institution": "University of St. Andrews",
+          "comment": "commentator: T. Pummer",
+          "published": true
+        }
       ]
     },
     {
       "title": "Defensive Entrapment and Manipulation",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "London Graduate Workshop on Moral and Political Philosophy", "type": "Peer-Review", "year": "2022", "institution": "Senate House" },
-        { "venue": "Zagreb Applied Ethics Conference", "type": "Peer-Review", "year": "2021", "institution": "Institute of Philosophy, Zagreb" }
+        {
+          "venue": "London Graduate Workshop on Moral and Political Philosophy",
+          "type": "Peer-Review",
+          "year": "2022",
+          "institution": "Senate House",
+          "published": true
+        },
+        {
+          "venue": "Zagreb Applied Ethics Conference",
+          "type": "Peer-Review",
+          "year": "2021",
+          "institution": "Institute of Philosophy, Zagreb",
+          "published": true
+        }
       ]
     },
     {
       "title": "Law Enforcement and Proportionality",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Brave New World Graduate Conference", "type": "Peer-Review", "year": "2021", "institution": "University of Manchester" }
+        {
+          "venue": "Brave New World Graduate Conference",
+          "type": "Peer-Review",
+          "year": "2021",
+          "institution": "University of Manchester",
+          "published": true
+        }
       ]
     },
     {
       "title": "Punishment and The Problem of False Confessions",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Advanced Research Seminar", "type": "Invited", "year": "2021", "institution": "King's College London" }
+        {
+          "venue": "Advanced Research Seminar",
+          "type": "Invited",
+          "year": "2021",
+          "institution": "King's College London",
+          "published": true
+        }
       ]
     },
     {
       "title": "Entrapment, Manipulation and Morally Tainted Punishment",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Rocky Mountain Ethics Congress", "type": "Peer-Review", "year": "2021", "institution": "Boulder, Colorado", "comment": "commentator: C. Kianpour" },
-        { "venue": "Oxford Graduate Conference in Political Theory", "type": "Peer-Review", "year": "2020", "institution": "University of Oxford" }
+        {
+          "venue": "Rocky Mountain Ethics Congress",
+          "type": "Peer-Review",
+          "year": "2021",
+          "institution": "Boulder, Colorado",
+          "comment": "commentator: C. Kianpour",
+          "published": true
+        },
+        {
+          "venue": "Oxford Graduate Conference in Political Theory",
+          "type": "Peer-Review",
+          "year": "2020",
+          "institution": "University of Oxford",
+          "published": true
+        }
       ]
     },
     {
       "title": "Provocation and Self-Defence",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Graduate Reading Retreat", "type": "Peer-Review", "year": "2021", "institution": "Stockholm Centre for the Ethics of War and Peace", "comment": "commentator: K.K. Ferzan" },
-        { "venue": "Reading Ethics and Political Philosophy Conference", "type": "Peer-Review", "year": "2019", "institution": "University of Reading" },
-        { "venue": "Advanced Research Seminar", "type": "Invited", "year": "2019", "institution": "King's College London" },
-        { "venue": "Stockholm Philosophy Graduate Conference", "type": "Peer-Review", "year": "2019", "institution": "Stockholm University", "comment": "commentator: L. Hecht" },
-        { "venue": "London-Berkeley Philosophy Graduate Conference", "type": "Peer-Review", "year": "2019", "institution": "UC Berkeley", "comment": "commentator: E. Podhorcer" }
+        {
+          "venue": "Graduate Reading Retreat",
+          "type": "Peer-Review",
+          "year": "2021",
+          "institution": "Stockholm Centre for the Ethics of War and Peace",
+          "comment": "commentator: K.K. Ferzan",
+          "published": true
+        },
+        {
+          "venue": "Reading Ethics and Political Philosophy Conference",
+          "type": "Peer-Review",
+          "year": "2019",
+          "institution": "University of Reading",
+          "published": true
+        },
+        {
+          "venue": "Advanced Research Seminar",
+          "type": "Invited",
+          "year": "2019",
+          "institution": "King's College London",
+          "published": true
+        },
+        {
+          "venue": "Stockholm Philosophy Graduate Conference",
+          "type": "Peer-Review",
+          "year": "2019",
+          "institution": "Stockholm University",
+          "comment": "commentator: L. Hecht",
+          "published": true
+        },
+        {
+          "venue": "London-Berkeley Philosophy Graduate Conference",
+          "type": "Peer-Review",
+          "year": "2019",
+          "institution": "UC Berkeley",
+          "comment": "commentator: E. Podhorcer",
+          "published": true
+        }
       ]
     },
     {
       "title": "Liability to Defensive Harm and The Standing Constraint",
+      "published": true,
+      "cv": true,
       "presentations": [
-        { "venue": "Warwick Graduate Conference in Political and Legal Theory", "type": "Peer-Review", "year": "2018", "institution": "University of Warwick" }
+        {
+          "venue": "Warwick Graduate Conference in Political and Legal Theory",
+          "type": "Peer-Review",
+          "year": "2018",
+          "institution": "University of Warwick",
+          "published": true
+        }
       ]
     }
   ]
